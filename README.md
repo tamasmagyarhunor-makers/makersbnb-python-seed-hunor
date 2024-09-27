@@ -6,6 +6,8 @@ Flask and Pytest).
 Someone in your team should fork this seed repo to their GitHub account.
 Everyone in the team should then clone this fork to their local machine to work on it.
 
+> NOTE: If you encounter a `ModuleNotFound` error, deactivate and then reactivate your virtual env. If that doesn't help, please reach out to your coach.
+
 ## Setup
 
 ```shell
