@@ -1,4 +1,5 @@
-import pytest, sys, random, py, pytest, os
+import pytest, sys, random, pytest, os
+from pathlib import Path
 from xprocess import ProcessStarter
 from lib.database_connection import DatabaseConnection
 from app import app
@@ -17,7 +18,7 @@ def db_connection():
 @pytest.fixture
 def test_web_address(xprocess):
     python_executable = sys.executable
-    app_file = py.path.local(__file__).dirpath("../app.py")
+    app_file = Path(__file__).resolve().parent.parent / 'app.py'
     port = str(random.randint(4000, 4999))
     class Starter(ProcessStarter):
         env = {"PORT": port, "APP_ENV": "test", **os.environ}
