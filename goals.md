@@ -6,7 +6,8 @@
 | I can write design recipees for Model and Repository classes and their functions, including parameters, return types and side effects | [  ] |
 | I can write tests for Model and Repository classes  | [  ] |
 | I can implement(test drive) Model and Repository classes, including writing SQL ``SELECT/INSERT`` queries  | [  ] |
-| I can design and create databases, write schemas, seed files | [  ] |
+| I can design and create databases, write schemas and seed files | [  ] |
+| I can use version control (git) efficiently to make changes, add, commit and push them to Github | [  ] |
 | I have a good debugging process, read error messages, follow up on stack trace and use print statements | [  ] |
 
 ### Web week
@@ -21,16 +22,16 @@
 ### Agile
 | Goal          | Status     |
 | ------------- | ---------- |
-| I can scope and plan a sprint with my team | [  ] |
-| I can take part in Agile events such as standups, retros, scoping/planning sessions | [  ] |
+| I can scope, plan a sprint with my team and have valuable contributions (eg. ideation, creating trello board, board tickets etc) | [  ] |
+| I can take part in Agile ceremonies such as standups, retros, scoping/planning sessions | [  ] |
 | I can use project management tools (eg. Trello) to add/pickup and track tickets  | [  ] |
 
 ### Misc
 | Goal          | Status     |
 | ------------- | ---------- |
-| I pair program efficiently  | [  ] |
+| I pair program efficiently with the driver/navigator and/or ping-pong pairing technique(s) | [  ] |
 | I can create diagrams to break down complex systems or plan my tasks | [  ] |
-| I can make GIT branches and open pull requests | [  ] |
+| I can work with GIT branches and open pull requests | [  ] |
 | I can review pull requests, ask questions, make suggestions and give feedback | [  ] |
 
 ### New tech - stretch goals
@@ -38,5 +39,5 @@
 | ------------- | ---------- |
 | I can work with Flask-WTF(orms) to create secure and validated forms | [  ] |
 | I can work with Flask-Login to implement signup/login to my application | [  ] |
-| I can work with Flask-Bcrypt to hash stored passwords in the database  | [  ] |
-| I can work with Bootstrap to build nice looking html templates| [  ] |
+| I can work with Flask-Bcrypt to only store hashed passwords in the database  | [  ] |
+| I can work with Bootstrap to build nice looking html templates/webapps | [  ] |
