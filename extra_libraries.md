@@ -2,6 +2,8 @@
 
 This document provides a concise overview and links to the official documentation for Flask-Login, Flask-WTF, Flask-Bcrypt, and Bootstrap, commonly used in Flask web development.
 
+_Remember to run pip freeze > requirements.txt if you add any of the following to your project: ```flask-login```, ```flask-bcrypt``` or ```flask-wtf```._
+
 ## Flask-Login
 
 * **Description:** Flask-Login provides user session management for Flask. It handles user login, logout, and session persistence.
