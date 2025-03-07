@@ -2,7 +2,7 @@
 
 This document provides a concise overview and links to the official documentation for Flask-Login, Flask-WTF, Flask-Bcrypt, and Bootstrap, commonly used in Flask web development.
 
-_Remember to run pip freeze > requirements.txt if you add any of the following to your project: ```flask-login```, ```flask-bcrypt``` or ```flask-wtf```._
+_Remember to run pip freeze > requirements.txt if you add any of the following to your project: ```flask-login```, ```flask-bcrypt``` or ```flask-wtf```, to update the list of dependencies._
 
 ## Flask-Login
 
@@ -117,6 +117,9 @@ _Remember to run pip freeze > requirements.txt if you add any of the following t
 * **Bootstrap Login Form (MUI-like):**
 
     Here's an example of a Bootstrap login form that aims to mimic the clean, minimalist style of Material UI (MUI).
+
+    <img src="example_bootstrap_login_form.png" alt="Login form with bootstrap" style="width: 65%;">
+
 
     ```html
     <!DOCTYPE html>
