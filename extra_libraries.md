@@ -109,55 +109,144 @@ _Remember to run pip freeze > requirements.txt if you add any of the following t
 * **Example Implementation:**
 
 ```python
+# models.py
+import datetime
+from peewee import *
+from playhouse.postgres_ext import PostgresqlExtDatabase
+
+# Custom model database that will use the existing connection
+class CustomPostgresDatabase(PostgresqlExtDatabase):
+    def __init__(self, db_wrapper, *args, **kwargs):
+        self.db_wrapper = db_wrapper
+        # Initialize with None values, we'll use the existing connection
+        super().__init__(None, *args, **kwargs)
+    
+    def _connect(self, *args, **kwargs):
+        # Return the existing connection
+        return self.db_wrapper.connection
+    
+    def execute_sql(self, sql, params=None, commit=True):
+        # Use the connection from the wrapper
+        return self.db_wrapper.execute(sql, params)
+
+# This will be set later when we have access to the database connection
+db = None
+
+# Define the base model
+class BaseModel(Model):
+    class Meta:
+        database = db  # This will be set after db initialization
+
+# Define the Pokemon model
+class Pokemon(BaseModel):
+    id = AutoField(primary_key=True)
+    name = CharField(max_length=100, unique=True)
+    type = CharField(max_length=50)
+    created_at = DateTimeField(default=datetime.datetime.now)
+
+    def __str__(self):
+        return f"Pokemon({self.id}, {self.name}, ({self.type})"
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
+    @classmethod
+    def create_tables(cls):
+        # Create tables if they don't exist
+        db.create_tables([cls], safe=True)
+    
+    @classmethod
+    def find_by_id(cls, pokemon_id):
+        try:
+            return cls.get_by_id(pokemon_id)
+        except cls.DoesNotExist:
+            return None
+    
+    @classmethod
+    def find_by_name(cls, name):
+        try:
+            return cls.get(cls.name == name)
+        except cls.DoesNotExist:
+            return None
+    
+    @classmethod
+    def find_by_type(cls, type):
+        return list(cls.select().where(cls.type == type))
+    
+    @classmethod
+    def get_all(cls):
+        return list(cls.select())
+
+
 # app.py
 from flask import Flask, jsonify, request
-from peewee import PostgresqlDatabase, Model, CharField, IntegerField, DoesNotExist
-import psycopg2
+from database_connection import get_flask_database_connection
+from models import CustomPostgresDatabase, db, BaseModel, Pokemon
 
 app = Flask(__name__)
 
-# Database configuration
-db_name = 'mydatabase'
-db_user = 'myuser'
-db_password = 'mypassword'
-db_host = 'localhost'
-db_port = 5432
+@app.before_request
+def before_request():
+    # Get the database connection
+    connection = get_flask_database_connection(app)
+    
+    # Initialize the Peewee database with our connection
+    global db
+    if db is None:
+        db = CustomPostgresDatabase(connection)
+        
+        # Set the database for the BaseModel
+        BaseModel._meta.database = db
+        
+        # Create tables if they don't exist
+        Pokemon.create_tables()
 
-db = PostgresqlDatabase(db_name, user=db_user, password=db_password, host=db_host, port=db_port)
+# Routes
+@app.route('/pokemon', methods=['GET'])
+def get_all_pokemon():
+    pokemon_list = Pokemon.get_all()
+    return jsonify([
+        {"id": p.id, "name": p.name, "type": p.type} 
+        for p in pokemon_list
+    ])
 
-class BaseModel(Model):
-    class Meta:
-        database = db
+@app.route('/pokemon/<int:pokemon_id>', methods=['GET'])
+def get_pokemon(pokemon_id):
+    pokemon = Pokemon.find_by_id(pokemon_id)
+    if not pokemon:
+        return jsonify({"error": f"Pokemon with ID {pokemon_id} not found"}), 404
+    return jsonify({
+        "id": pokemon.id,
+        "name": pokemon.name,
+        "type": pokemon.type
+    })
 
-class Item(BaseModel):
-    name = CharField()
-    quantity = IntegerField()
-
-# Create tables (if they don't exist)
-db.connect()
-db.create_tables([Item])
-db.close()
-
-
-@app.route('/items', methods=['POST'])
-def create_item():
+@app.route('/pokemon', methods=['POST'])
+def create_pokemon():
     data = request.get_json()
+    
+    if not data or 'name' not in data or 'type' not in data:
+        return jsonify({"error": "Name and type are required"}), 400
+    
     try:
-        item = Item.create(name=data['name'], quantity=data['quantity'])
-        return jsonify({'id': item.id, 'name': item.name, 'quantity': item.quantity}), 201
-    except KeyError:
-        return jsonify({'error': 'Missing name or quantity'}), 400
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/items', methods=['GET'])
-def get_items():
-    items = Item.select().dicts()
-    return jsonify(list(items))
+        pokemon = Pokemon.create(
+            name=data['name'],
+            type=data['type']
+        )
+        return jsonify({
+            "id": pokemon.id,
+            "name": pokemon.name,
+            "type": pokemon.type
+        }), 201
+    except IntegrityError:
+        return jsonify({"error": f"Pokemon with name '{data['name']}' already exists"}), 400
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(
+        debug=True, 
+        port=int(os.environ.get('PORT', 5001))
+    )
 ```
 
 ## Bootstrap
