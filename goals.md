@@ -33,6 +33,7 @@
 | I can create diagrams to break down complex systems or plan my tasks | [  ] |
 | I can work with GIT branches and open pull requests | [  ] |
 | I can review pull requests, ask questions, make suggestions and give feedback | [  ] |
+| I can set up CI/CD with exoframe and github actions for my project | [ ] |
 
 ### New tech - stretch goals
 | Goal          | Status     |
