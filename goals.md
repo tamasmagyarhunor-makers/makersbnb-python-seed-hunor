@@ -40,4 +40,5 @@
 | I can work with Flask-WTF(orms) to create secure and validated forms | [  ] |
 | I can work with Flask-Login to implement signup/login to my application | [  ] |
 | I can work with Flask-Bcrypt to only store hashed passwords in the database  | [  ] |
+| I can work with PeeWee(ORM) to make db-interactions and development faster | [  ] |
 | I can work with Bootstrap to build nice looking html templates/webapps | [  ] |

@@ -2,7 +2,7 @@
 
 This document provides a concise overview and links to the official documentation for Flask-Login, Flask-WTF, Flask-Bcrypt, and Bootstrap, commonly used in Flask web development.
 
-_Remember to run pip freeze > requirements.txt if you add any of the following to your project: ```flask-login```, ```flask-bcrypt``` or ```flask-wtf```, to update the list of dependencies._
+_Remember to run pip freeze > requirements.txt if you add any of the following to your project: ```flask-wtf```, ```flask-login```, ```flask-bcrypt``` and/or```peewee``` to update the list of dependencies._
 
 ## Flask-Login
 
@@ -98,6 +98,67 @@ _Remember to run pip freeze > requirements.txt if you add any of the following t
     # if bcrypt.check_password_hash(hashed_password, password):
     #     print("Password matches")
     ```
+
+## PeeWee
+
+* **Description:** Peewee is a lightweight Python ORM (Object-Relational Mapper) that simplifies database interactions by mapping Python classes to database tables.
+
+* **Links:**
+    * [PeeWee Documentation](https://docs.peewee-orm.com/en/latest/)
+    * [Flask-Bcrypt PyPi](https://pypi.org/project/peewee/)
+* **Example Implementation:**
+
+```python
+# app.py
+from flask import Flask, jsonify, request
+from peewee import PostgresqlDatabase, Model, CharField, IntegerField, DoesNotExist
+import psycopg2
+
+app = Flask(__name__)
+
+# Database configuration
+db_name = 'mydatabase'
+db_user = 'myuser'
+db_password = 'mypassword'
+db_host = 'localhost'
+db_port = 5432
+
+db = PostgresqlDatabase(db_name, user=db_user, password=db_password, host=db_host, port=db_port)
+
+class BaseModel(Model):
+    class Meta:
+        database = db
+
+class Item(BaseModel):
+    name = CharField()
+    quantity = IntegerField()
+
+# Create tables (if they don't exist)
+db.connect()
+db.create_tables([Item])
+db.close()
+
+
+@app.route('/items', methods=['POST'])
+def create_item():
+    data = request.get_json()
+    try:
+        item = Item.create(name=data['name'], quantity=data['quantity'])
+        return jsonify({'id': item.id, 'name': item.name, 'quantity': item.quantity}), 201
+    except KeyError:
+        return jsonify({'error': 'Missing name or quantity'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/items', methods=['GET'])
+def get_items():
+    items = Item.select().dicts()
+    return jsonify(list(items))
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
 
 ## Bootstrap
 
