@@ -102,7 +102,7 @@ Spaces
 - Name
 - Description
 - Price per night
-- Owner ID (foreign key)
+- User ID (foreign key)
 
 Available Range
 - availrange ID
