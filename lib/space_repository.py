@@ -5,15 +5,23 @@ class SpaceRepository():
         self._connection = connection
 
     def all(self):
-        rows = self._connection.execute('SELECT * FROM spaces')
+        rows = self._connection.execute('SELECT \
+            spaces.id, \
+            spaces.name, \
+            spaces.description, \
+            spaces.price_per_night, \
+            spaces.host_id, \
+            users.email_address AS host_email \
+            FROM spaces \
+            JOIN users ON spaces.host_id = users.id')
         spaces = []
         for row in rows:
-            item = Space(row['id'],row['name'],row['description'],row['price_per_night'],row['host_id'])
+            item = Space(row['id'],row['name'],row['description'],row['price_per_night'],row['host_id'], row['host_email'])
             spaces.append(item)
 
         return spaces
 
-
+        
     def find_by_id(self,id):
         rows = self._connection.execute('SELECT * from spaces WHERE id = %s',[id])
         row = rows[0]

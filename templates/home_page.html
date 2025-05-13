@@ -54,7 +54,7 @@
                 <h2>{{space.name}}</h2> <!-- space name taken from database -->
                 <p>{{space.description}}</p> <!-- description taken from database -->
                 <p>£ {{space.price_per_night}} per night</p>
-                <p>Contact: maddy.miller@makers.com</p> <!-- contact taken from database -->
+                <p>Contact: {{space.host_email}}</p> <!-- contact taken from database -->
             </div>
         </div>
         {% endfor %}
