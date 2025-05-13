@@ -10,6 +10,27 @@
         <link rel="stylesheet" href="/static/style.css" >
     </head>
     <body>
-        <p>This is the homepage.</p>
+        <h1>Sign Up To MakersBnB</h1>
+        <form action="/users" method="post">
+            <p>
+                <label for="user_name">User name</label>
+                <input type="text" name="user_name" id="user_name">
+            </p>
+            <p>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </p>
+            <p>
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email">
+            </p>
+            <p>
+                <label for="phone">Phone</label>
+                <input type="text" name="phone" id="phone">
+            </p>
+            <p>
+            <input type="submit" value="Submit">
+            </p>
+        </form>
     </body>
 </html>
