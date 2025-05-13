@@ -24,3 +24,11 @@ class UserRepository:
 
     def delete(self,id):
         self._connection.execute('DELETE FROM users WHERE id = %s',[id])
+
+    def update(self,id,key,new_value):
+        
+        if key == 'password':
+            self._connection.execute("UPDATE users SET password = %s WHERE id = %s",[new_value,id])
+        if key == 'email_address':
+            self._connection.execute("UPDATE users SET email_address = %s WHERE id = %s",[new_value,id])
+
