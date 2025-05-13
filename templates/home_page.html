@@ -47,25 +47,17 @@
     <h1>MakersBnb</h1>
     
     <div class="property-list">
+        {% for space in spaces %}
         <div class="property">
             <img src="property1.jpg" alt="Property Image"> <!-- image taken from database? -->
             <div class="property-info">
-                {% for space in spaces%}
                 <h2>{{space.name}}</h2> <!-- space name taken from database -->
-                <p>2 bedrooms · 1 bathroom · City Center</p> <!-- description taken from database -->
-                <p>Contact: maddy.miller@makers.com, 07362946563</p> <!-- contact taken from database -->
-                {% endfor %}
+                <p>{{space.description}}</p> <!-- description taken from database -->
+                <p>£ {{space.price_per_night}} per night</p>
+                <p>Contact: maddy.miller@makers.com</p> <!-- contact taken from database -->
             </div>
         </div>
-        
-        <!-- <div class="property"> -->
-            <!-- <img src="property2.jpg" alt="Property Image"> make it loop rather than hardcode? -->
-            <!-- <div class="property-info">
-                <h2>Seaside Cottage</h2>
-                <p>3 bedrooms · 2 bathrooms · Near Beach</p>
-                <p>Contact: nic.makomva@makers.com, 07187253099</p>
-            </div>
-        </div> -->
+        {% endfor %}
     </div>
 
 </body>
