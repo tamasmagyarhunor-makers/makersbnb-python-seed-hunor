@@ -3,7 +3,7 @@ from flask import Flask, request, render_template
 from lib.database_connection import get_flask_database_connection
 
 # Create a new Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 # == Your Routes Here ==
 
@@ -14,6 +14,18 @@ app = Flask(__name__)
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
+
+@app.route('/home')
+def get_home():
+    return render_template('home.html')
+
+@app.route('/login')
+def get_login():
+    return render_template('login.html')
+
+@app.route('/signup')
+def get_signup():
+    return render_template('signup.html')
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
