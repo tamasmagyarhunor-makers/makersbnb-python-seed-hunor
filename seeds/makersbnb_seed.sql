@@ -36,6 +36,7 @@ constraint fk_host foreign key (host_id)
 -- Finally, we add any records that are needed for the tests to run
 
 INSERT INTO users (username, password, email_address) VALUES ('sashaparkes', 'mypassword1234', 'sashaparkes@email.com');
+INSERT INTO users (username, password, email_address) VALUES ('jamesdismore', 'mypassword54321', 'jamesdismore@email.com');
 
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Barn', 'Converted barn set in a rural location', 65, 1);
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Loft', 'City centre loft space with great access to amenities', 95, 1);
