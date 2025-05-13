@@ -39,9 +39,9 @@ INSERT INTO users (username, password, email_address) VALUES ('sashaparkes', 'my
 INSERT INTO users (username, password, email_address) VALUES ('jamesdismore', 'mypassword54321', 'jamesdismore@email.com');
 
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Barn', 'Converted barn set in a rural location', 65, 1);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Loft', 'City centre loft space with great access to amenities', 95, 1);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Hut', 'Rustic shepherds hut with its own hot tub', 55, 1);
+INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Loft', 'City centre loft space with great access to amenities', 95, 2);
+INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Hut', 'Rustic shepherds hut with its own hot tub', 55, 2);
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Cottage', 'Cosy cottage with riverside views', 120, 1);
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Penthouse', 'Top floor luxury penthouse with breathtaking views', 160, 1);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Beach Hut', 'Shoreline stay just footsteps from the seashore', 110, 1);
+INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Beach Hut', 'Shoreline stay just footsteps from the seashore', 110, 2);
 
