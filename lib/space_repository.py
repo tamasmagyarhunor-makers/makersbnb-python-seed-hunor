@@ -12,3 +12,29 @@ class SpaceRepository():
             spaces.append(item)
 
         return spaces
+
+
+    def find_by_id(self,id):
+        rows = self._connection.execute('SELECT * from spaces WHERE id = %s',[id])
+        row = rows[0]
+
+        return Space(row['id'],row['name'],row['description'],row['price_per_night'],row['host_id'])
+    
+    def create(self,name,description,price_per_night,host_id):
+        self._connection.execute('INSERT INTO spaces (name,description,price_per_night,host_id) VALUES (%s,%s,%s,%s)',[name,description,price_per_night,host_id])
+
+    def update(self,id,key,new_value):
+        if key == 'name':
+            self._connection.execute("UPDATE spaces SET name = %s WHERE id = %s",[new_value,id])
+        if key == 'description':
+            self._connection.execute("UPDATE spaces SET description = %s WHERE id = %s",[new_value,id])
+        if key == 'price_per_night':
+            self._connection.execute("UPDATE spaces SET price_per_night = %s WHERE id = %s",[new_value,id])
+        if key == 'host_id':
+            self._connection.execute("UPDATE spaces SET host_id = %s WHERE id = %s",[new_value,id])
+
+        else:
+            return 'Invalid Key'
+        
+    def delete(self,id):
+        self._connection.execute('DELETE FROM spaces WHERE id = %s',[id])
