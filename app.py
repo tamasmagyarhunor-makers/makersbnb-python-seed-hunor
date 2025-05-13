@@ -15,6 +15,7 @@ app = Flask(__name__, static_folder='static')
 def get_index():
     return render_template('index.html')
 
+<<<<<<< HEAD
 @app.route('/home')
 def get_home():
     return render_template('home.html')
@@ -26,6 +27,9 @@ def get_login():
 @app.route('/signup')
 def get_signup():
     return render_template('signup.html')
+=======
+
+>>>>>>> make-a-listing
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
