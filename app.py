@@ -5,6 +5,8 @@ from lib.database_connection import get_flask_database_connection
 # Create a new Flask app
 app = Flask(__name__)
 
+
+
 # == Your Routes Here ==
 
 # GET /index
@@ -14,6 +16,10 @@ app = Flask(__name__)
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
+
+@app.route('/home_page', methods=['GET'])
+def get_homepage():
+    return render_template('home_page.html')
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

@@ -1,0 +1,124 @@
+<!-- <!doctype html>
+<html lang=“en”>
+ <head>
+  <meta charset=“utf-8">
+  <meta name=“viewport” content=“width=device-width, initial-scale=1">
+  <title>MakersBnb</title>
+ </head>
+ <body>
+  <div class=“container py-4 px-3 mx-auto”>
+
+   <h3>MakersBnb</h3>
+   <div class=“col-lg-8 px-0”>
+    <p class=“fs-4">You’ve successfully loaded the Bootstrap + Webpack example! It’s loaded up with <a href=“https://getbootstrap.com/”>Bootstrap 5</a> and uses Webpack to compile and bundle our Sass and JavaScript. It also includes Autoprefixer.</p>
+    <p>If this button appears blue and the link appears purple, you’ve done it!</p>
+   </div>
+   <button type=“button” class=“btn btn-primary me-3” data-bs-toggle=“offcanvas” data-bs-target=“#offcanvasExample”>Toggle offcanvas</button>
+   <a id=“popoverButton” class=“text-success” href=“#” role=“button” data-bs-toggle=“popover” title=“Custom popover” data-bs-content=“This is a Bootstrap popover.“>Example popover</a>
+   <div class=“offcanvas offcanvas-end” tabindex=“-1" id=“offcanvasExample” aria-labelledby=“offcanvasExampleLabel”>
+    <div class=“offcanvas-header”>
+     <h5 class=“offcanvas-title” id=“offcanvasExampleLabel”>Offcanvas</h5>
+     <button type=“button” class=“btn-close text-reset” data-bs-dismiss=“offcanvas” aria-label=“Close”></button>
+    </div>
+    <div class=“offcanvas-body”>
+     <div>
+      Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+     </div>
+     <div class=“dropdown mt-3”>
+      <button class=“btn btn-secondary dropdown-toggle” type=“button” id=“dropdownMenuButton” data-bs-toggle=“dropdown”>
+       Dropdown button
+      </button>
+      <ul class=“dropdown-menu” aria-labelledby=“dropdownMenuButton”>
+       <li><a class=“dropdown-item” href=“#”>Action</a></li>
+       <li><a class=“dropdown-item” href=“#”>Another action</a></li>
+       <li><a class=“dropdown-item” href=“#”>Something else here</a></li>
+      </ul>
+     </div>
+    </div>
+   </div>
+   <hr class=“col-1 my-5 mx-0">
+   <h2>Guides</h2>
+   <p>Read more detailed instructions and documentation on using or contributing to Bootstrap.</p>
+   <ul class=“icon-list”>
+    <li><a href=“https://getbootstrap.com/docs/5.3/getting-started/introduction/”>Bootstrap quick start guide</a></li>
+    <li><a href=“https://getbootstrap.com/docs/5.3/getting-started/webpack/”>Bootstrap Webpack guide</a></li>
+    <li><a href=“https://getbootstrap.com/docs/5.3/getting-started/parcel/”>Bootstrap Parcel guide</a></li>
+    <li><a href=“https://getbootstrap.com/docs/5.3/getting-started/vite/”>Bootstrap Vite guide</a></li>
+    <li><a href=“https://getbootstrap.com/docs/5.3/getting-started/contribute/”>Contributing to Bootstrap</a></li>
+   </ul>
+   <hr class=“mt-5 mb-4”>
+   <p class=“text-muted”>Created and open sourced by the Bootstrap team. Licensed MIT.</p>
+  </div>
+ </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakersBnb</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        h1 {
+            text-align: center;
+        }
+        .property-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .property {
+            background-color: white;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .property img {
+            width: 150px;
+            height: 100px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        .property-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>MakersBnb</h1>
+    
+    <div class="property-list">
+        <div class="property">
+            <img src="property1.jpg" alt="Property Image"> <!-- image taken from database? -->
+            <div class="property-info">
+                <h2>Cozy Apartment</h2> <!-- space name taken from database -->
+                <p>2 bedrooms · 1 bathroom · City Center</p> <!-- description taken from database -->
+                <p>Contact: maddy.miller@makers.com, 07362946563</p> <!-- contact taken from database -->
+            </div>
+        </div>
+        
+        <div class="property">
+            <img src="property2.jpg" alt="Property Image"> <!-- make it loop rather than hardcode? -->
+            <div class="property-info">
+                <h2>Seaside Cottage</h2>
+                <p>3 bedrooms · 2 bathrooms · Near Beach</p>
+                <p>Contact: nic.makomva@makers.com, 07187253099</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
