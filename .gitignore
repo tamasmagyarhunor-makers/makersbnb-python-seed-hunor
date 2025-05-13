@@ -4,3 +4,4 @@ __pycache__
 .pytest_cache
 screenshot.png
 **/.DS_Store
+makersbnb_venv/

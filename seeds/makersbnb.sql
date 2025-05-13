@@ -6,7 +6,7 @@
 ------------------------ users ------------------------
 
 -- Delete (drop) all our tables
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 DROP SEQUENCE IF EXISTS users_id_seq;
 
 -- Recreate them
@@ -28,7 +28,7 @@ INSERT INTO users (email_address, password) VALUES
 ------------------------ spaces ------------------------
 
 -- Delete (drop) all our tables
-DROP TABLE IF EXISTS spaces;
+DROP TABLE IF EXISTS spaces CASCADE;
 DROP SEQUENCE IF EXISTS spaces_id_seq;
 
 -- Recreate them
@@ -38,7 +38,7 @@ CREATE TABLE spaces (
     name VARCHAR(255),
     description VARCHAR(255),
     price_per_night VARCHAR(255),
-    user_id INT
+    user_id INT,
         CONSTRAINT fk_users FOREIGN KEY(user_id) REFERENCES users(user_id)
         ON DELETE CASCADE
 );
@@ -54,7 +54,7 @@ INSERT INTO spaces (name, description, price_per_night, user_id) VALUES
 ------------------------ availabileRanges ------------------------
 
 -- Delete (drop) all our tables
-DROP TABLE IF EXISTS availabileRanges;
+DROP TABLE IF EXISTS availabileRanges CASCADE;
 DROP SEQUENCE IF EXISTS availabileRanges_id_seq;
 
 -- Recreate them
@@ -63,7 +63,7 @@ CREATE TABLE availabileRanges (
     availability_id SERIAL PRIMARY KEY,
     start_range DATE,
     end_range DATE,
-    space_id INT
+    space_id INT,
         CONSTRAINT fk_spaces FOREIGN KEY(space_id) REFERENCES spaces(space_id)
         ON DELETE CASCADE
 );
@@ -79,7 +79,7 @@ INSERT INTO availabileRanges (start_range, end_range, space_id) VALUES
 ------------------------ bookings ------------------------
 
 -- Delete (drop) all our tables
-DROP TABLE IF EXISTS bookings;
+DROP TABLE IF EXISTS bookings CASCADE;
 DROP SEQUENCE IF EXISTS bookings_id_seq;
 
 -- Recreate them
@@ -88,17 +88,16 @@ CREATE TABLE bookings (
     booking_id SERIAL PRIMARY KEY,
     start_range DATE,
     end_range DATE,
-    space_id INT
+    space_id INT,
         CONSTRAINT fk_spaces FOREIGN KEY(space_id) REFERENCES spaces(space_id)
         ON DELETE CASCADE,
-    user_id INT
+    user_id INT,
         CONSTRAINT fk_users FOREIGN KEY(user_id) REFERENCES users(user_id)
         ON DELETE CASCADE,
     is_confirmed BOOLEAN
 );
 
 -- Add any records that are needed for the tests to run
-INSERT INTO bookings (start_range, end_range, space_id, user_id, is_confirmed) VALUES
 INSERT INTO bookings (start_range, end_range, space_id, user_id, is_confirmed) VALUES
 ('2025-06-02', '2025-06-05', 1, 2, FALSE),
 ('2025-06-06', '2025-06-09', 2, 3, FALSE),
