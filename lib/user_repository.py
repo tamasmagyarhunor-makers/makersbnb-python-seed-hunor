@@ -18,3 +18,6 @@ class UserRepository:
         row = rows[0]
 
         return User(row['id'],row['username'],row['password'],row['email_address'])
+    
+    def create(self,username,password,email_address):
+        self._connection.execute('INSERT INTO users (username,password,email_address) VALUES (%s,%s,%s)',[username,password,email_address])
