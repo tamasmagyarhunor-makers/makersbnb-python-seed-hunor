@@ -21,3 +21,6 @@ class UserRepository:
     
     def create(self,username,password,email_address):
         self._connection.execute('INSERT INTO users (username,password,email_address) VALUES (%s,%s,%s)',[username,password,email_address])
+
+    def delete(self,id):
+        self._connection.execute('DELETE FROM users WHERE id = %s',[id])

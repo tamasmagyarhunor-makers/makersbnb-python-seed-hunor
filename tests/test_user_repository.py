@@ -23,3 +23,12 @@ def test_create_user(db_connection):
 
     assert repository.find_by_id(3) == User(3,'johndoe','johnspassword','johndoe@email.com')
 
+def test_delete_user(db_connection):
+    db_connection.seed('seeds/makersbnb_seed.sql')
+    repository = UserRepository(db_connection)
+
+    repository.delete(1)
+
+    assert repository.all() == [
+        User(2,'jamesdismore', 'mypassword54321', 'jamesdismore@email.com')
+    ]
