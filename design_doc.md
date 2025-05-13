@@ -92,9 +92,30 @@ Booking Repository*
 ### DB Tables
 
 Users
-Spaces (userid)
-Available Days (spaceid)
-Booked Days (spaceid)
+- User ID
+- Username
+- Password
+- Email
+
+Spaces
+- Space ID
+- Name
+- Description
+- Price per night
+- User ID (foreign key)
+
+Available Range
+- availrange ID
+- start of range
+- end of range
+- space ID (foreign key)
+
+Bookings
+- Booking ID
+- start of range
+- end of range
+- user ID (foreign key)
+- space ID (foreign key)
 
 
 
