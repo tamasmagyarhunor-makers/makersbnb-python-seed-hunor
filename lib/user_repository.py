@@ -32,3 +32,6 @@ class UserRepository:
         if key == 'email_address':
             self._connection.execute("UPDATE users SET email_address = %s WHERE id = %s",[new_value,id])
 
+        else:
+            return 'Invalid Key'
+
