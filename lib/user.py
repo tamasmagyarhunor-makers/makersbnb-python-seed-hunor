@@ -1,9 +1,9 @@
 class User:
-    def __init__(self, id, name, email, password, phone_number):
+    def __init__(self, id, name, email, password_hash, phone_number):
         self.id = id
         self.name = name
         self.email = email
-        self.password = password
+        self.password_hash = password_hash
         self.phone_number = phone_number
 
     def __eq__(self, other):
