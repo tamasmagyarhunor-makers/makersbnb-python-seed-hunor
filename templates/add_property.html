@@ -37,43 +37,39 @@
 
     <h1>MakersBnb</h1>
 
-    <h2>Add a Property</h2>
+    <h2>Add a space</h2>
     
-    <form>
-<table>
-    <tr>
-    <td align="right">Property Name:</td>
-    <td align="left"><input type="text" name="property_name" size=40/></td>
-    </tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr>
-    <td align="right">Description:</td>
-    <td align="left"><input type="text" name="description" size=75 /></td>
-    </tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr>
-    <td align="right">Price per night (£xx):</td>
-    <td align="left"><input type="text" name="price_per_night" size=10 /></td>
-    </tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr>
-    <td align="right">Link to imagery:</td>
-    <td align="left"><input type="text" name="image" size="50" /></td>
-    </tr>
-</table>
-
-<p>
-        <!-- `type` is submit here, to indicate it is a button -->
-        <!-- `value` is used as the button's text -->
-        <input type="submit" value="Submit">
-    </p>
-
-</form>
+    <form action="/home_page" method="post">
+        {% if errors %}
+            <p class="t-errors">
+                There were errors with your submission: {{ errors }}
+            </p>
+        {% endif %}
+    
+        <div>
+            <label for="space_name">space Name:</label><br>
+            <input type="text" name="name" id="name" size="40">
+        </div>
+    
+        <div>
+            <label for="description">Description:</label><br>
+            <input type="text" name="description" id="description" size="75">
+        </div>
+    
+        <div>
+            <label for="price_per_night">Price per night (£xx):</label><br>
+            <input type="text" name="price_per_night" id="price_per_night" size="10">
+        </div>
+    
+        <div>
+            <label for="image">Link to imagery:</label><br>
+            <input type="text" name="image" id="image" size="50">
+        </div>
+    
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+    
 </body>
 </html>

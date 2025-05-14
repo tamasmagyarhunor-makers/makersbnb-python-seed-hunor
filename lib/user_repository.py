@@ -16,7 +16,7 @@ class UserRepository:
 
         return users
     
-    def find_by_id(self,id):
+    def find_by_id(self, id):
         rows = self._connection.execute('SELECT * from users WHERE id = %s',[id])
         row = rows[0]
 
@@ -25,13 +25,14 @@ class UserRepository:
                     row['password'],
                     row['email_address'])
     
-    def create(self,username,password,email_address):
-        self._connection.execute('INSERT INTO users (username,password,email_address) VALUES (%s,%s,%s)',[username,password,email_address])
+    def create(self, username, password, email_address):
+        self._connection.execute('INSERT INTO users (username,password,email_address) VALUES (%s,%s,%s)',
+                                [username, password, email_address])
 
-    def delete(self,id):
+    def delete(self, id):
         self._connection.execute('DELETE FROM users WHERE id = %s',[id])
 
-    def update(self,id,key,new_value):
+    def update(self, id, key, new_value):
         
         if key == 'password':
             self._connection.execute("UPDATE users SET password = %s WHERE id = %s",[new_value,id])

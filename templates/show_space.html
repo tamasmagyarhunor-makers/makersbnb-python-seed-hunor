@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MakersBnb</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>Current Space</h1>
+    <p>Name: {{space.name}}</p>
+    <p>Description: {{space.description}}</p>
+    <p>Price per night: {{space.price_per_night}}</p>
+
+    <!-- To have a delete button with a post request, we need a form -->
+    <!-- Note, we use `POST /books/<id>/delete because browsers can't send DELETE methods! -->
+
+
+    <!-- This is a link to another page. -->
+    <!-- The browser will send `GET /books/new` when the user clicks this -->
+    <a href="/home_page">Back to all spaces</a>
+  </body>
+</html>

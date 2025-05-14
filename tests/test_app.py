@@ -55,3 +55,23 @@ def test_get_host_email(page, test_web_address, db_connection):
         'Contact: sashaparkes@email.com',
         'Contact: sashaparkes@email.com',
         'Contact: jamesdismore@email.com'])
+
+"""
+User can create new spaces and they are added to the database
+"""
+
+def test_create_new_space_post_method(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    
+    
+    page.goto(f"http://{test_web_address}/home_page")
+    h2_tags = page.locator("h2")
+    expect(h2_tags).to_have_text([
+        "The Barn",
+        "The Loft",
+        "The Hut",
+        "The Cottage",
+        "The Penthouse",
+        "The Beach Hut",
+        "The Big Brother House"
+    ])
