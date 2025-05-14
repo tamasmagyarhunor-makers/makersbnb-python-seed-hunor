@@ -30,7 +30,7 @@ def test_create_user(page, test_web_address, db_connection):
     page.fill("input[name=password]", "abcdef")
     page.fill("input[name=email]", "trudie@example.com")
     page.fill("input[name=phone]", "018118181")
-    page.click("input[type=submit]")
+    page.click("button[type=submit]")
 
     repository = UserRepository(db_connection)
     result = repository.all()
@@ -39,6 +39,9 @@ def test_create_user(page, test_web_address, db_connection):
         User(2, 'Hannah', 'hannah@example.com', '07987654321'),
         User(3, 'Trudie', 'trudie@example.com', '018118181')
     ]
+
+    title_element = page.locator(".mb-4")
+    expect(title_element).to_have_text("Log in to Makers BnB")
 
 
 
@@ -79,3 +82,18 @@ def test_new_spaces_form(page, test_web_address):
     # submit_button = page.locator("submit")
     # assert submit_button.is_visible()
 
+
+def test_login_page_exists(page, test_web_address):
+    page.goto(f"http://{test_web_address}/login")
+    form = page.locator("form[action='/login']")
+    assert form.is_visible()
+
+    submit_button = page.locator("button[type='submit']")
+    assert submit_button.is_visible()
+
+    password_entry = page.locator("input[type='password']")
+    assert password_entry.is_visible()
+
+    email_entry = page.locator("input[type='email']")
+    assert email_entry.is_visible()
+    
