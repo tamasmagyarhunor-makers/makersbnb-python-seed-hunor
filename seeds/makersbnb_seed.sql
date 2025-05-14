@@ -41,8 +41,8 @@ CREATE SEQUENCE IF NOT EXISTS availability_ranges_id_seq;
 CREATE TABLE  availability_ranges (
 
 id SERIAL PRIMARY KEY, 
-start_date DATE, 
-end_date DATE, 
+start_date VARCHAR(255), 
+end_date VARCHAR(255), 
 space_id INTEGER, 
 
 constraint fk_space foreign key (space_id)
@@ -56,8 +56,8 @@ CREATE SEQUENCE IF NOT EXISTS bookings_id_seq;
 CREATE TABLE  bookings (
 
 id SERIAL PRIMARY KEY, 
-start_date DATE, 
-end_date DATE, 
+start_date VARCHAR(255), 
+end_date VARCHAR(255), 
 space_id INTEGER,
 user_id INTEGER, 
 
