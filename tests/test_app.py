@@ -199,7 +199,7 @@ def test_successful_signin(db_connection, page, test_web_address):
     page.fill("input[name='password']", "mypassword1234")
     page.click("input[type='submit']")
     h1_tag = page.locator("h1")
-    expect(h1_tag).to_have_text("Your Makersbnb Account")
+    expect(h1_tag).to_have_text("Your MakersBnb Account")
 
 """
 When user inputs email and password that don't match what is on
@@ -228,18 +228,10 @@ def test_login_empty_fail_message(db_connection, page, test_web_address):
     error_msg = page.locator("#error_message")
     expect(error_msg).to_have_text("Please fill in all the fields")
 
-# """
-# When a user clicks log out,
-# they are returned to the login page
-# """
-# def test_logout_button_works(page, test_web_address):
-#     page.goto(f"http://{test_web_address}/userhome")
-#     page.click("button.logout")
-#     expect(page).to_have_url(f"http://{test_web_address}/login")
-
 """
 When a user clicks logged out,
-they are logged out and session is cleared
+they are logged out , returned to login page
+and session is cleared
 """
 def test_logout_clears_session(page, test_web_address, db_connection):
     db_connection.seed("seeds/makersbnb_seed.sql")
@@ -250,3 +242,14 @@ def test_logout_clears_session(page, test_web_address, db_connection):
     page.click("button.logout")
     page.goto(f"http://{test_web_address}/userhome")
     expect(page).to_have_url(f"http://{test_web_address}/login")
+
+"""
+If logged in, clicking your account should
+direct to user_home
+"""
+
+
+"""
+if not logged in, clicking your account
+should direct to login
+"""
