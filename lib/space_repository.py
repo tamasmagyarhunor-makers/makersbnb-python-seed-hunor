@@ -6,18 +6,19 @@ class SpaceRepository():
 
     def all(self):
         rows = self._connection.execute('SELECT \
-            spaces.id, \
-            spaces.name, \
-            spaces.description, \
-            spaces.price_per_night, \
-            spaces.host_id, \
+            spaces.*, users.id AS user_id, \
             users.email_address AS host_email \
             FROM spaces \
             JOIN users ON spaces.host_id = users.id')
         spaces = []
         for row in rows:
-            item = Space(row['id'],row['name'],row['description'],row['price_per_night'],row['host_id'], row['host_email'])
-            spaces.append(item)
+            space = Space(row['id'],
+                        row['name'],
+                        row['description'],
+                        row['price_per_night'],
+                        row['host_id'])
+            space.host_email = row['host_email']
+            spaces.append(space)
 
         return spaces
 
