@@ -8,7 +8,7 @@ class UserRepository:
         rows = self._connection.execute('SELECT * from users')
         users = []
         for row in rows:
-            item = User(row['id'],row['username'],row['password'],row['email_address'])
+            item = User(row['id'],row['name'],row['password'],row['email_address'])
             users.append(item)
 
         return users
@@ -17,10 +17,10 @@ class UserRepository:
         rows = self._connection.execute('SELECT * from users WHERE id = %s',[id])
         row = rows[0]
 
-        return User(row['id'],row['username'],row['password'],row['email_address'])
+        return User(row['id'],row['name'],row['password'],row['email_address'])
     
-    def create(self,username,password,email_address):
-        self._connection.execute('INSERT INTO users (username,password,email_address) VALUES (%s,%s,%s)',[username,password,email_address])
+    def create(self,name,password,email_address):
+        self._connection.execute('INSERT INTO users (name,password,email_address) VALUES (%s,%s,%s)',[name,password,email_address])
 
     def delete(self,id):
         self._connection.execute('DELETE FROM users WHERE id = %s',[id])
