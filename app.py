@@ -43,12 +43,16 @@ def sign_up():
         email = request.form.get("email_address") # getting the info from the forms
         name = request.form.get("name")
         password = request.form.get("password")
+        user = User()
 
         if not email or not name or not password:
             error = "Please fill in all the fields"
             return render_template("sign_up.html", error=error)
         
-        
+        # all_users = repository.all()
+        # if any(email == user.email_address for user in all_users):
+        #     error = "A user with this email address already exists"
+        #     return render_template("sign_up.html", error=error)
 
         repository.create(name, password, email)
         return redirect(url_for('sign_up_successful')) # redirecting to route below

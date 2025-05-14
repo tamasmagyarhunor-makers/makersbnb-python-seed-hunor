@@ -113,7 +113,6 @@ the page then moves onto the sign up confirmation
 """
 def test_sign_up_button(db_connection, page, test_web_address):
     db_connection.seed("seeds/makersbnb_seed.sql")
-    repository = UserRepository(db_connection)
     page.goto(f"http://{test_web_address}/sign_up")
     page.fill("input[name='email_address']", "maddy.miller@makers.com")
     page.fill("input[name='name']", "Maddy Miller")
@@ -128,7 +127,6 @@ the next page
 """
 def test_sign_up_fail_no_next_page(db_connection, page, test_web_address):
     db_connection.seed("seeds/makersbnb_seed.sql")
-    repository = UserRepository(db_connection)
     page.goto(f"http://{test_web_address}/sign_up")
     page.fill("input[name='email_address']", "")
     page.fill("input[name='name']", "")
@@ -144,7 +142,6 @@ have clicked the button
 """
 def test_sign_up_fail_message(db_connection, page, test_web_address):
     db_connection.seed("seeds/makersbnb_seed.sql")
-    repository = UserRepository(db_connection)
     page.goto(f"http://{test_web_address}/sign_up")
     page.fill("input[name='email_address']", "")
     page.fill("input[name='name']", "")
@@ -160,3 +157,12 @@ an account already exists with this email, and say if they
 want to log in, to go to log in page. Check database
 does not add the new information.
 """
+def test_sign_up_existing_user(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/sign_up")
+    page.fill("input[name='email_address']", "sashaparkes@email.com")
+    page.fill("input[name='name']", "Sasha Emily Parkes")
+    page.fill("input[name='password']", "mypasswordisthis999")
+    page.click("input[type='submit']")
+    p_tag = page.locator("p")
+    expect(p_tag).to_have_text("A user with this email address already exists")
