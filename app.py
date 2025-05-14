@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, session
 from lib.database_connection import get_flask_database_connection
 from lib.listing_repository import ListingRepository 
 from lib.listing import Listing
@@ -92,6 +92,7 @@ def show_listing_with_calendar(listing_id):
 
 @app.route('/book', methods=['POST'])
 def book_listing():
+    user_id = session['user_id']
     listing_id = int(request.form['listing_id'])
     date_range = request.form['date_range']
     try:
@@ -102,7 +103,7 @@ def book_listing():
         flash("Invalid date format.")
         return redirect(f"/listing/{listing_id}")
     repo = ListingRepository(get_flask_database_connection(app))
-    if not repo.create_booking(listing_id, start_date, end_date):
+    if not repo.create_booking(listing_id, start_date, end_date, user_id):
         flash("Those dates are already booked.")
     else:
         flash("Booking successful!")
@@ -137,7 +138,43 @@ def signup():
     
     
 
+def get_user_repository():
+    connection = get_flask_database_connection(app)
+    return UserRepository(connection)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Get the repository and try to find the user by email
+        user_repository = get_user_repository()
+        user = user_repository.find_by_email(email)
+
+        if user is None:
+            flash("User not found", "danger")
+            return redirect(url_for('login'))
+
+        # Check if the password matches the stored hash
+        if bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
+            # Password is correct, log the user in
+            session['user_id'] = user.id
+            session['username'] = user.name
+            return redirect(url_for('get_all_listings'))  # Redirect to the listings page
+
+        else:
+            flash("Incorrect password", "danger")
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()  # Clear the session
+    flash("You have been logged out.", "info")
+    return redirect(url_for('login'))
 
 
 

@@ -68,7 +68,7 @@ class ListingRepository:
                 current += timedelta(days=1)
         return booked_dates
     
-    def create_booking(self, listing_id, start_date, end_date):
+    def create_booking(self, listing_id, start_date, end_date, user_id):
         rows = self._connection.execute("""
             SELECT 1 FROM bookings
             WHERE listing_id = %s AND (
@@ -77,11 +77,21 @@ class ListingRepository:
                 (start_date >= %s AND end_date <= %s)
             )
         """, [listing_id, start_date, start_date, end_date, end_date, start_date, end_date])
-        # If rows is not empty, it means there is a booking conflict
+    
+    # If rows is not empty, it means there is a booking conflict
         if rows:
             return False
+
         self._connection.execute("""
-            INSERT INTO bookings (listing_id, start_date, end_date)
-            VALUES (%s, %s, %s)
-        """, [listing_id, start_date, end_date])
+            INSERT INTO bookings (listing_id, start_date, end_date, user_id)
+            VALUES (%s, %s, %s, %s)
+        """, [listing_id, start_date, end_date, user_id])
+    
+        return True
+    
+    def create_booking_request(self, listing_id, start_date, end_date, user_id):
+        self._connection.execute("""
+            INSERT INTO requests (listing_id, requester_id, start_date, end_date)
+            VALUES (%s, %s, %s, %s)
+        """, [listing_id, start_date, end_date, user_id])
         return True
