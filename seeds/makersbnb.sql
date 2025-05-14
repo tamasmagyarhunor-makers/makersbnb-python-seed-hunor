@@ -37,7 +37,7 @@ CREATE TABLE spaces (
     space_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     description VARCHAR(255),
-    price_per_night VARCHAR(255),
+    price_per_night INT,
     user_id INT,
         CONSTRAINT fk_users FOREIGN KEY(user_id) REFERENCES users(user_id)
         ON DELETE CASCADE
@@ -45,11 +45,11 @@ CREATE TABLE spaces (
 
 -- Add any records that are needed for the tests to run
 INSERT INTO spaces (name, description, price_per_night, user_id) VALUES
-('Cozy Cabin', 'Rustic cabin in the forest.', '100', 1),
-('Urban Loft', 'Sleek apartment in downtown.', '150', 2),
-('Beach Bungalow', 'Sunny spot by the sea.', '200', 3),
-('Mountain Retreat', 'Quiet escape in the hills.', '180', 4),
-('Modern Studio', 'Compact yet luxurious.', '120', 5);
+('Cozy Cabin', 'Rustic cabin in the forest.', 100, 1),
+('Urban Loft', 'Sleek apartment in downtown.', 150, 2),
+('Beach Bungalow', 'Sunny spot by the sea.', 200, 3),
+('Mountain Retreat', 'Quiet escape in the hills.', 180, 4),
+('Modern Studio', 'Compact yet luxurious.', 120, 5);
 
 ------------------------ availabileRanges ------------------------
 
