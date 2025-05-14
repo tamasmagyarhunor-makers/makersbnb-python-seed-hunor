@@ -44,3 +44,9 @@ def test_update_user(db_connection):
         User(2,'jamesdismore', 'mypassword54321', 'jamesdismore@email.com'),
         User(1,'sashaparkes', 'superpassword1234', 'sashaparkes@email.com')
     ]
+
+# def test_email_in_database(db_connection):
+#     db_connection.seed('seeds/makersbnb_seed.sql')
+#     repository = UserRepository(db_connection)
+#     assert repository.email_in_database("sashaparkes@email.com") == True
+#     assert repository.email_in_database("nonexistent@email.com") == False
