@@ -1,5 +1,6 @@
 from lib.space import Space
 from lib.availability_range import AvailabilityRange
+from lib.booking import Booking
 
 class SpaceRepository():
     def __init__(self,connection):
@@ -59,3 +60,15 @@ class SpaceRepository():
             for day in avail_days:
                 available_days_string.append(day)
         return available_days_string
+    
+    def booked_days_by_id(self,id):
+        booked_days_string = []
+
+        booked_rows = self._connection.execute('SELECT * from bookings WHERE space_id = %s',[id])
+
+        for row in booked_rows:
+            booked_range = Booking(row['id'],row['start_date'],row['end_date'],row['space_id'],row['user_id'])
+            booked_days = booked_range.booked_days()
+            for day in booked_days:
+                booked_days_string.append(day)
+        return booked_days_string

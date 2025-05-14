@@ -58,3 +58,10 @@ def test_get_available_days_by_id(db_connection):
 
     assert repository.available_days_by_id(3) == ['2025-01-01','2025-01-02','2025-01-03','2025-01-04',
                                                     '2025-01-05','2025-01-06','2025-01-07']
+    
+def test_get_booked_days_by_id(db_connection):
+    repository = SpaceRepository(db_connection)
+
+    assert repository.booked_days_by_id(3) == ['2025-01-01','2025-01-02','2025-01-04',
+                                                    '2025-01-05','2025-01-06']
+    
