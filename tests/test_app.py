@@ -60,7 +60,7 @@ def test_get_spaces(page, test_web_address, db_connection):
     # commented out because I can't be bothered to deal with it being h6 tags
 
 """
-Sign up link works
+Sign up page renders
 """
 def test_get_sign_up_page(page, test_web_address, db_connection):
     page.goto(f"http://{test_web_address}/sign_up")
@@ -71,6 +71,10 @@ def test_get_sign_up_page(page, test_web_address, db_connection):
 When user clicks sign up button on home, they are 
 redirected to sign up page
 """
+def test_signup_button_works(page, test_web_address, db_connection):
+    page.goto(f"http://{test_web_address}/home_page")
+    page.click("button.signup")
+    expect(page).to_have_url(f"http://{test_web_address}/sign_up")
 
 
 """
@@ -166,3 +170,25 @@ def test_sign_up_existing_user(db_connection, page, test_web_address):
     page.click("input[type='submit']")
     p_tag = page.locator("p")
     expect(p_tag).to_have_text("A user with this email address already exists")
+
+"""
+login page renders
+"""
+def test_get_login_page(page, test_web_address, db_connection):
+    page.goto(f"http://{test_web_address}/login")
+    h2_tags = page.locator("h2")
+    expect(h2_tags).to_have_text("User Login")
+
+"""
+When user clicks login button on home, they are 
+redirected to login page
+"""
+def test_login_button_works(page, test_web_address, db_connection):
+    page.goto(f"http://{test_web_address}/home_page")
+    page.click("button.login")
+    expect(page).to_have_url(f"http://{test_web_address}/login")
+
+"""
+When user inputs email and password that match what is on
+database, 
+"""

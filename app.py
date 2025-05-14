@@ -13,9 +13,6 @@ app = Flask(__name__)
 
 # == Your Routes Here ==
 
-# GET /index
-# Returns the homepage
-# Try it:
 #   ; open http://localhost:5001/index
 @app.route('/index', methods=['GET'])
 def get_index():
@@ -32,7 +29,7 @@ def get_spaces():
 
     return render_template("home_page.html", spaces=spaces)
 
-
+# routes for showing sign up page AND submitting sign up form
 @app.route('/sign_up', methods=['GET', 'POST']) # can do getting page and posting to it in one
 def sign_up():
 
@@ -58,12 +55,17 @@ def sign_up():
     
     return render_template("sign_up.html")
 
+# route for showing sign up confirmation page
 @app.route('/sign_up_confirmation', methods=['GET'])
 def sign_up_successful():
-
-    connection = get_flask_database_connection(app)
     return render_template("sign_up_confirmation.html")
 
+# route for showing log in page
+@app.route('/login', methods=['GET'])
+def get_login():
+    return render_template("login.html")
+
+#_____________________________________
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
 # if started in test mode.
