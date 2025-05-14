@@ -1,5 +1,6 @@
 from lib.space_repository import SpaceRepository
 from lib.space import Space
+import datetime
 
 """
 Test get all SPACES
@@ -17,19 +18,20 @@ Test get all SPACES
 # """
 # Test add in a user
 # """
-# def test_create_user(db_connection):
-#     db_connection.seed("seeds/makersbnb_database.sql")
-
-#     repository = UserRepository(db_connection)
-#     user = User(None, "Tim", "tim@example.com", "0118118118118")
-#     repository.create(user)
-#     result = repository.all()
-#     assert repository.all() == [
-#         User(1, 'Bridget', 'bridget@example.com', '07402498078'),
-#         User(2, 'Hannah', 'hannah@example.com', '07987654321'),
-#         User(3, 'Tim', 'tim@example.com', '0118118118118')
-#     ]
-
+def test_create_space(db_connection):
+    db_connection.seed("seeds/makersbnb_database.sql")
+    repository = SpaceRepository(db_connection)
+    space = Space(None, "Butterfly", "Colourful room", 18, '2025-10-02', '2025-10-15', 2)
+    repository.create(space)
+    result = repository.all()
+    print(type(result[0].available_from_date))
+    print(type(space.available_from_date))
+    assert result == [
+        Space(1, 'Bee Hive', 'A peaceful hexagonal room', 85, datetime.date(2025,7,1), datetime.date(2025-7-12), 2),
+        Space(2, 'Ant farm', 'Bite-sized luxury pod', 77, '2025-11-06', '2025-11-20', 1),
+        Space(3, 'Ladybug Residence', 'Luxury spots available nightly', 99, '2025-08-12', '2025-08-31', 1),
+        Space(4, 'Butterfly', "Colourful room", 18, '2025-10-02', '2025-10-15', 2)
+    ]
 # """
 # Test finding a user by id
 # """

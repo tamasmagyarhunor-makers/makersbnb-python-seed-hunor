@@ -11,11 +11,12 @@ class SpaceRepository:
         ]
 
 
-        
 
-    # def create(self, user):
-    #     rows = self._connection.execute('INSERT INTO users ( user_name, email, phone ) VALUES ( %s, %s, %s )', [ user.user_name, user.email, user.phone ] )
-    #     return None
+
+    def create(self, space):
+        rows = self._connection.execute('INSERT INTO spaces (space_name, spaces_description, price_per_night, available_from_date, available_to_date, user_id ) VALUES ( %s, %s, %s, %s, %s, %s )', 
+                                        [space.space_name, space.spaces_description, space.price_per_night, space.available_from_date, space.available_to_date, space.user_id])
+        return None
     
     # def find(self, id):
     #     rows = self._connection.execute('SELECT * FROM users WHERE id = %s', [ id ])
