@@ -43,7 +43,7 @@ def sign_up():
         email = request.form.get("email_address") # getting the info from the forms
         name = request.form.get("name")
         password = request.form.get("password")
-        user = User()
+        # user = User()
 
         if not email or not name or not password:
             error = "Please fill in all the fields"
