@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, redirect, render_template
 from lib.database_connection import get_flask_database_connection
 from lib.user import User
 from lib.user_repository import UserRepository
@@ -29,10 +29,16 @@ def post_users():
 
     user = User(None, user_name, email, phone)
     repository.create(user)
+    return redirect('/login')
 
 @app.route('/spaces/new', methods=['GET'])
 def get_list_a_space():
     return render_template('list_a_space.html')
+
+@app.route('/login', methods=['GET'])
+def get_login_page():
+    return render_template('login.html')
+
 
 
 # These lines start the server if you run this file directly
