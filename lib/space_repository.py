@@ -19,8 +19,8 @@ class SpaceRepository:
             [space.name, space.description, space.price_per_night, space.user_id])
         return None
 
-    # def find(self, space_id):
-    #     rows = self._connection.execute(
-    #         'SELECT * from spaces WHERE space_id = %s', [space_id])
-    #     row = rows[0]
-    #     return Space(row["space_id"], row["name"], row["description"], row["price_per_night"], row["user_id"])
+    def find(self, space_id):
+        rows = self._connection.execute(
+            'SELECT * from spaces WHERE space_id = %s', [space_id])
+        row = rows[0]
+        return Space(row["space_id"], row["name"], row["description"], row["price_per_night"], row["user_id"])
