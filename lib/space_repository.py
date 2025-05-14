@@ -10,6 +10,9 @@ class SpaceRepository:
             Space(row['id'],row['space_name'],row['spaces_description'],row['price_per_night'],row['available_from_date'],row['available_to_date'],row['user_id']) for row in rows
         ]
 
+
+        
+
     # def create(self, user):
     #     rows = self._connection.execute('INSERT INTO users ( user_name, email, phone ) VALUES ( %s, %s, %s )', [ user.user_name, user.email, user.phone ] )
     #     return None
