@@ -1,7 +1,7 @@
 import os
+from flask import Flask, request, render_template, redirect
 from lib.space import Space
 from lib.space_repository import SpaceRepository
-from flask import Flask, request, render_template, redirect
 from lib.database_connection import get_flask_database_connection
 
 # Create a new Flask app
@@ -59,7 +59,7 @@ def create_new_space():
     if not new_space.is_valid():
         return render_template('add_property.html', space=new_space, errors=new_space.generate_errors()), 400
     
-    new_space = space_repo.create(new_space)
+    space_repo.create(new_space)
     
     return redirect(f'/home_page/{new_space.id}')
 
