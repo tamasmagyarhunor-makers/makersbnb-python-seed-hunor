@@ -54,7 +54,7 @@
                 <h2>{{space.name}}</h2> <!-- space name taken from database -->
                 <p>{{space.description}}</p> <!-- description taken from database -->
                 <p>£{{space.price_per_night}} per night</p>
-                <h6>Contact: {{space.host_email}}</h6> <!-- contact taken from database || to check passing pytest, change  tags to <h6> -->
+                <p>Contact: {{space.host_email}}</p> <!-- contact taken from database || to check passing pytest, change  tags to <h6> -->
             </div>
         </div>
         {% endfor %}
