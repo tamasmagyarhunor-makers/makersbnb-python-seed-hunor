@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash
 
 # Create a new Flask app
 app = Flask(__name__)
-app.secret_key = "jmns_secretkey"
+app.secret_key = os.urandom(24)
 
 
 
@@ -100,6 +100,17 @@ def userhome():
 def logout():
     session.clear()
     return redirect((url_for("login")))
+
+@app.route("/debug_session")
+def debug_session():
+    return f"Current session data: {session}"
+
+@app.route("/debug_user/<email>")
+def debug_user(email):
+    connection = get_flask_database_connection(app)
+    repository = UserRepository(connection)
+    user = repository.find_by_email(email)
+    return f"User found: {user}"
 
 
 #_____________________________________

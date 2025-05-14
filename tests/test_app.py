@@ -205,7 +205,7 @@ def test_successful_signin(db_connection, page, test_web_address):
 When user inputs email and password that don't match what is on
 database, error appears
 """
-def test_successful_signin(db_connection, page, test_web_address):
+def test_bad_signin(db_connection, page, test_web_address):
     db_connection.seed("seeds/makersbnb_seed.sql")
     page.goto(f"http://{test_web_address}/login")
     page.fill("input[name='email_address']", "testbad@email.com")
