@@ -3,6 +3,8 @@ from flask import Flask, request, render_template, redirect, url_for
 from lib.database_connection import get_flask_database_connection
 from lib.listing_repository import ListingRepository 
 from lib.listing import Listing
+from werkzeug.utils import secure_filename
+
 
 # Create a new Flask app
 app = Flask(__name__, static_folder='static')
@@ -40,7 +42,7 @@ def get_all_listings():
 def find_listing_by_id(listing_id):
     connection = get_flask_database_connection(app)
     repository = ListingRepository(connection)
-    listing = repository.find_by_id(listing_id)  # You need to define this method
+    listing = repository.find_by_id(listing_id) 
     return render_template('listing.html', listing=listing)
 
 @app.route('/new-listing')
@@ -54,14 +56,21 @@ def create_listing():
         price = request.form['price']
         image = request.files['image']
         user_id = 1
-        print(image)
+        if image:
+            filename = secure_filename(image.filename)
+            upload_path = os.path.join(app.static_folder, 'uploads', filename)
+            image.save(upload_path)
+        else:
+            filename = None
         connection = get_flask_database_connection(app)
         repository = ListingRepository(connection)
-        listing = Listing(id=None, name=name, description=description, price=price, user_id=user_id)
+        listing = Listing(id=None, name=name, description=description, price=price, image=filename, user_id=user_id)
         repository.create_listing(listing)
         return redirect(url_for('get_all_listings'))
 
-
+@app.route('/requests', methods=['GET'])
+def get_requests():
+    return render_template('requests.html')
 
 
 

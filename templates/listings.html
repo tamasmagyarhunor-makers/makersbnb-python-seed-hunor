@@ -179,7 +179,7 @@
     <div class="listings-container">
         {% for listing in listings %}
         <a href="/find/{{ listing.id }}" class="listing-card">
-        <img src="{{ listing.image_url }}" alt="{{ listing.name }}" />
+        <img src="{{ url_for('static', filename='uploads/' + listing.image) }}" alt="{{ listing.name }}" />
         <div class="info">
             <h4>{{ listing.name }}</h4>
             <p>{{ listing.description }}</p>

@@ -149,7 +149,7 @@
     </div>
 
     <div class="listing-details">
-        <img src="{{ listing.image_url }}" alt="{{ listing.name }}" class="listing-image" />
+        <img src="{{ url_for('static', filename='uploads/' + listing.image) }}" alt="{{ listing.name }}" class="listing-image" />
         <div class="listing-info">
             <h1>{{ listing.name }}</h1>
             <div class="price">£{{ listing.price }} / night</div>

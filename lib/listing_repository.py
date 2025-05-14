@@ -9,29 +9,36 @@ class ListingRepository:
         rows = self._connection.execute('SELECT * FROM listings')
         listings = []
         for row in rows:
-            item = Listing(row['id'], row['name'], row['description'], row['price'], row['user_id'])
+            item = Listing(
+                row['id'], row['name'], row['description'],
+                row['price'], row['image'], row['user_id']
+            )
             listings.append(item)
         return listings
-    
+
     def create_listing(self, listing):
         self._connection.execute(
-            'INSERT INTO listings (name, description, price, user_id) VALUES(%s, %s, %s, %s)',
-            [listing.name, listing.description, listing.price, listing.user_id]
-            )
+            '''
+            INSERT INTO listings (name, description, price, image, user_id)
+            VALUES (%s, %s, %s, %s, %s)
+            ''',
+            [listing.name, listing.description, listing.price, listing.image, listing.user_id]
+        )
         return None
-    
+
     def find_by_user_id(self, user_id):
         rows = self._connection.execute(
             'SELECT * FROM listings WHERE user_id = %s', [user_id]
-            )
+        )
         listings = []
         for row in rows:
             item = Listing(
-                row['id'], row['name'], row['description'], row['price'], row['user_id']
-                )
+                row['id'], row['name'], row['description'],
+                row['price'], row['image'], row['user_id']
+            )
             listings.append(item)
         return listings
-    
+
     def find_by_id(self, listing_id):
         rows = self._connection.execute(
             'SELECT * FROM listings WHERE id = %s', [listing_id]
@@ -39,6 +46,9 @@ class ListingRepository:
 
         for row in rows:
             return Listing(
-                row['id'], row['name'], row['description'], row['price'], row['user_id']
-        )
+                row['id'], row['name'], row['description'],
+                row['price'], row['image'], row['user_id']
+            )
         return None
+    
+    
