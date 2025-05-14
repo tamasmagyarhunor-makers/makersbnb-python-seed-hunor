@@ -17,6 +17,7 @@ app = Flask(__name__)
 def get_index():
     return render_template('index.html')
 
+
 @app.route('/users', methods=['POST'])
 def post_users():
     connection = get_flask_database_connection(app)
@@ -28,6 +29,11 @@ def post_users():
 
     user = User(None, user_name, email, phone)
     repository.create(user)
+
+@app.route('/spaces/new', methods=['GET'])
+def get_list_a_space():
+    return render_template('list_a_space.html')
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
