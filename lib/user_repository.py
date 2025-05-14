@@ -4,6 +4,7 @@ class UserRepository:
     def __init__(self,connection):
         self._connection = connection
 
+
     def all(self):
         rows = self._connection.execute('SELECT * from users')
         users = []
@@ -13,17 +14,28 @@ class UserRepository:
 
         return users
     
+
     def find_by_id(self,id):
         rows = self._connection.execute('SELECT * from users WHERE id = %s',[id])
         row = rows[0]
 
         return User(row['id'],row['name'],row['password'],row['email_address'])
     
+
+    def find_by_email(self, email_address):
+        rows = self._connection.execute('SELECT * from users WHERE email_address = %s',[email_address])
+        row = rows[0]
+
+        return User(row['id'],row['name'],row['password'],row['email_address'])
+    
+
     def create(self,name,password,email_address):
         self._connection.execute('INSERT INTO users (name,password,email_address) VALUES (%s,%s,%s)',[name,password,email_address])
 
+
     def delete(self,id):
         self._connection.execute('DELETE FROM users WHERE id = %s',[id])
+
 
     def update(self,id,key,new_value):
         

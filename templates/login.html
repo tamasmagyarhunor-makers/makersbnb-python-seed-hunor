@@ -39,7 +39,10 @@
 
         <h2>User Login</h2>
         
-        <form>
+        <form action="/login" method="POST">
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
             <table>
                 <tr>
                     <td align="right">

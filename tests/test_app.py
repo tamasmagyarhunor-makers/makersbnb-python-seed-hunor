@@ -190,5 +190,36 @@ def test_login_button_works(page, test_web_address, db_connection):
 
 """
 When user inputs email and password that match what is on
-database, 
+database, redirection to user home
 """
+def test_successful_signin(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email_address']", "sashaparkes@email.com")
+    page.fill("input[name='password']", "mypassword1234")
+    page.click("input[type='submit']")
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("Your Makersbnb Account")
+
+# """
+# When a user clicks log out,
+# they are returned to the login page
+# """
+# def test_logout_button_works(page, test_web_address):
+#     page.goto(f"http://{test_web_address}/userhome")
+#     page.click("button.logout")
+#     expect(page).to_have_url(f"http://{test_web_address}/login")
+
+"""
+When a user clicks logged out,
+they are logged out and session is cleared
+"""
+def test_logout_clears_session(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email_address']", "sashaparkes@email.com")
+    page.fill("input[name='password']", "mypassword1234")
+    page.click("input[type='submit']")
+    page.click("button.logout")
+    page.goto(f"http://{test_web_address}/userhome")
+    expect(page).to_have_url(f"http://{test_web_address}/login")
