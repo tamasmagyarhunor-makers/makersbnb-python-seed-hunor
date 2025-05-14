@@ -201,6 +201,33 @@ def test_successful_signin(db_connection, page, test_web_address):
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("Your Makersbnb Account")
 
+"""
+When user inputs email and password that don't match what is on
+database, error appears
+"""
+def test_successful_signin(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email_address']", "testbad@email.com")
+    page.fill("input[name='password']", "badpass")
+    page.click("input[type='submit']")
+    error_msg = page.locator("#error_message")
+    expect(error_msg).to_have_text("Invalid email or password")
+
+"""
+If a user has left any fields blank, error message
+prompting them to not leave any fields blank once they
+have clicked the button
+"""
+def test_login_empty_fail_message(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email_address']", "")
+    page.fill("input[name='password']", "")
+    page.click("input[type='submit']")
+    error_msg = page.locator("#error_message")
+    expect(error_msg).to_have_text("Please fill in all the fields")
+
 # """
 # When a user clicks log out,
 # they are returned to the login page

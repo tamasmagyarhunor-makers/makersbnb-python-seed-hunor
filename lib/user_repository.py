@@ -24,6 +24,9 @@ class UserRepository:
 
     def find_by_email(self, email_address):
         rows = self._connection.execute('SELECT * from users WHERE email_address = %s',[email_address])
+        
+        if not rows:
+            return None
         row = rows[0]
 
         return User(row['id'],row['name'],row['password'],row['email_address'])

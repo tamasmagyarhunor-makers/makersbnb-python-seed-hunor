@@ -41,7 +41,7 @@
         
         <form action="/login" method="POST">
             {% if error %}
-                <p style="color: red;">{{ error }}</p>
+                <p id="error_message" style="color: red;">{{ error }}</p>
             {% endif %}
             <table>
                 <tr>

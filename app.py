@@ -79,6 +79,9 @@ def login():
         if user and user.password == password:
             session["user_id"] = user.id
             return redirect(url_for("userhome"))
+        elif not email or not password:
+            error = "Please fill in all the fields"
+            return render_template("login.html", error=error)
         else:
             error = "Invalid email or password"
             return render_template("login.html", error=error)
