@@ -28,4 +28,4 @@ INSERT INTO users (user_name, email, phone) VALUES ('Hannah', 'hannah@example.co
 
 INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (1, 1, '20250601', 'Requested');
 INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20250701', 'Booked');
-INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (3, 2, '20250801', 'Rejected');
+INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20250801', 'Rejected');
