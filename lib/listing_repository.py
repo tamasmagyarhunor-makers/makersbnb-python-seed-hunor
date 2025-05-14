@@ -1,4 +1,6 @@
 from lib.listing import Listing
+from datetime import datetime, timedelta
+
 
 class ListingRepository:
 
@@ -51,4 +53,35 @@ class ListingRepository:
             )
         return None
     
+    def get_booked_dates(self, listing_id):
+        rows = self._connection.execute(
+            'SELECT start_date, end_date FROM bookings WHERE listing_id = %s',
+            [listing_id]
+        )
+        booked_dates = []
+        for row in rows:
+            start_date = row['start_date']  # already a datetime.date object
+            end_date = row['end_date']
+            current = start_date
+            while current <= end_date:
+                booked_dates.append(current.strftime('%Y-%m-%d'))  # convert to string here
+                current += timedelta(days=1)
+        return booked_dates
     
+    def create_booking(self, listing_id, start_date, end_date):
+        rows = self._connection.execute("""
+            SELECT 1 FROM bookings
+            WHERE listing_id = %s AND (
+                (start_date <= %s AND end_date >= %s) OR
+                (start_date <= %s AND end_date >= %s) OR
+                (start_date >= %s AND end_date <= %s)
+            )
+        """, [listing_id, start_date, start_date, end_date, end_date, start_date, end_date])
+        # If rows is not empty, it means there is a booking conflict
+        if rows:
+            return False
+        self._connection.execute("""
+            INSERT INTO bookings (listing_id, start_date, end_date)
+            VALUES (%s, %s, %s)
+        """, [listing_id, start_date, end_date])
+        return True
