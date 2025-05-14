@@ -31,3 +31,14 @@ class ListingRepository:
                 )
             listings.append(item)
         return listings
+    
+    def find_by_id(self, listing_id):
+        rows = self._connection.execute(
+            'SELECT * FROM listings WHERE id = %s', [listing_id]
+        )
+
+        for row in rows:
+            return Listing(
+                row['id'], row['name'], row['description'], row['price'], row['user_id']
+        )
+        return None
