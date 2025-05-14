@@ -16,4 +16,10 @@ class BookingRepository:
         return results
     
     def add_booking(self,start_date,end_date,space_id,user_id):
+        spacerepo = SpaceRepository(self._connection)
+        check = spacerepo.booking_check(space_id,start_date,end_date)
+
+        if check != 'safe':
+            return check
+
         self._connection.execute('INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES (%s,%s,%s,%s)',[start_date,end_date,space_id,user_id])
