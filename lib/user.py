@@ -10,4 +10,4 @@ class User:
         return self.__dict__ == other.__dict__
     
     def __repr__(self):
-        return f"User({self.id}, {self.name}, {self.email}, {self.password}, {self.phone_number})"
+        return f"User({self.id}, {self.name}, {self.email}, {self.password_hash}, {self.phone_number})"

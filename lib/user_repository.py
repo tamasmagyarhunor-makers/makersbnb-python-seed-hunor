@@ -16,13 +16,18 @@ class UserRepository:
     def create(self, user):
         if not email_is_valid(user.email):
             raise ValueError('Invalid email address')
+        # Hash the password
         binary_password = user.password_hash.encode('utf-8')
         password_hash = bcrypt.hashpw(binary_password, bcrypt.gensalt()).decode('utf-8')
-        self._connection.execute(
-        'INSERT INTO user_table (name, email, password_hash, phone_number) VALUES (%s, %s, %s, %s)',
-        [user.name.title(), user.email.lower(), password_hash, user.phone_number]
-    )
-
+        query = """
+            INSERT INTO user_table (name, email, password_hash, phone_number)
+            VALUES (%s, %s, %s, %s)
+        """
+        params = [user.name.title(), user.email.lower(), password_hash, user.phone_number]
+        try:
+            self._connection.execute(query, params)
+        except Exception as e:
+            raise ValueError(f"An error occurred while creating your account: {str(e)}")
 
     def all (self):
         rows = self._connection.execute('SELECT * FROM user_table')

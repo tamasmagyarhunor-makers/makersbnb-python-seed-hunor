@@ -5,7 +5,11 @@ from lib.listing_repository import ListingRepository
 from lib.listing import Listing
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-
+from lib.email_validator import email_is_valid
+from lib.validator import password_is_valid
+from lib.user_repository import UserRepository
+from lib.user import User
+import bcrypt
 
 # Create a new Flask app
 app = Flask(__name__, static_folder='static')
@@ -99,10 +103,44 @@ def book_listing():
         return redirect(f"/listing/{listing_id}")
     repo = ListingRepository(get_flask_database_connection(app))
     if not repo.create_booking(listing_id, start_date, end_date):
-        flash(":x: Those dates are already booked.")
+        flash("Those dates are already booked.")
     else:
-        flash(":white_tick: Booking successful!")
+        flash("Booking successful!")
     return redirect(f"/listing/{listing_id}")
+
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    # Retrieve form data
+    name = request.form['name']
+    phone = request.form['phone']
+    email = request.form['email']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
+    if password != confirm_password:
+        flash("Passwords do not match", "error")
+        return redirect('/signup')
+    if not email_is_valid(email):
+        flash("Invalid email address", "error")
+        return redirect('/signup')
+    if not password_is_valid(password):
+        flash("Password does not meet the required criteria", "error")
+        return redirect('/signup')
+    password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    user = User(id=None, name=name, email=email, password_hash=password, phone_number=phone)
+
+    connection = get_flask_database_connection(app)
+    repo = UserRepository(connection)
+    repo.create(user)
+    flash("Account created successfully! Please log in.", "success")
+    return redirect('/login')  # Redirect to login page after successful registration
+    
+    
+
+
+
+
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
