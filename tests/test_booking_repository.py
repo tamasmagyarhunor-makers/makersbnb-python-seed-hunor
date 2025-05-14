@@ -27,12 +27,12 @@ def test_find_booking_by_id_not_found(db_connection):
 
     assert repository.find(99) == None
 
-def test_add_booking(db_connection):
+def test_create_booking(db_connection):
     db_connection.seed("seeds/makersbnb_database.sql")
 
     repository = BookingRepository(db_connection)
 
-    repository.add(Booking(None, 1, 1, date(2025,9,1), 'Booked'))
+    repository.create(Booking(None, 1, 1, date(2025,9,1), 'Booked'))
 
     assert repository.find(4) == Booking(4, 1, 1, date(2025,9,1), 'Booked')
 
@@ -61,3 +61,12 @@ def test_find_bookings_for_space_empty(db_connection):
     repository = BookingRepository(db_connection)
 
     assert repository.find_for_space(99) == [ ]
+
+def test_find_bookings_for_user(db_connection):
+    db_connection.seed("seeds/makersbnb_database.sql")
+
+    repository = BookingRepository(db_connection)
+
+    assert repository.find_for_user(1) == [
+        Booking(1, 1, 1, date(2025,6,1), 'Requested')
+    ]

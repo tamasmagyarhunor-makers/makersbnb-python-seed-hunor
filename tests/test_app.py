@@ -1,6 +1,9 @@
 from playwright.sync_api import Page, expect
 from lib.user import User
 from lib.user_repository import UserRepository
+from lib.booking import Booking
+from lib.booking_repository import BookingRepository
+from datetime import date
 
 # Tests for your routes go here
 
@@ -78,4 +81,65 @@ def test_new_spaces_form(page, test_web_address):
 
     # submit_button = page.locator("submit")
     # assert submit_button.is_visible()
+
+
+def test_request_a_space_no_existing_bookings(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_database.sql")
+
+    test_space_id = 3
+    test_space_name = "SpaceName"
+
+    page.goto(f"http://{test_web_address}/spaces/request/{test_space_id}")
+    page.fill("input[name=requested_date]", "2028-08-01")
+    page.click("input[type=submit]")
+
+    repository = BookingRepository(db_connection)
+    result = repository.find(test_space_id)
+    assert repository.find_for_space(test_space_id) == [
+        Booking(4, 1, test_space_id, date(2028,8,1),'Requested')
+    ]
+
+    # this should be the results page
+    space_name = page.locator("span.space_name")
+    expect(space_name).to_contain_text(test_space_name)
+    booking_date = page.locator("span.booking_date")
+    expect(booking_date).to_contain_text("01 August 2028")
+
+def test_request_a_space_with_existing_bookings(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_database.sql")
+
+    test_space_id = 2
+
+    page.goto(f"http://{test_web_address}/spaces/request/{test_space_id}")
+
+    booking_status_title = page.locator("h3.bookings_status_title")
+    assert booking_status_title.is_visible()
+
+    bookings = page.locator("p.booking_status")
+    repository = BookingRepository(db_connection)
+    db_bookings = repository.find_for_space(test_space_id)
+
+    for i in range(0, len(db_bookings), 1):
+        expect(bookings.nth(i)).to_have_text(f"Date: {str(db_bookings[i].booking_date)}, Status: {db_bookings[i].status}")
+
+def test_show_my_requests(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_database.sql")
+
+    test_user_id = 1
+
+    page.goto(f"http://{test_web_address}/requests")
+
+    bookings = page.locator("p.booking_status")
+    repository = BookingRepository(db_connection)
+    db_bookings = repository.find_for_user(test_user_id)
+
+    for i in range(0, len(db_bookings), 1):
+        expect(bookings.nth(i)).to_have_text(f"Date: {str(db_bookings[i].booking_date)}, Status: {db_bookings[i].status} View booking")
+
+# def test_show_booking_made(page, test_web_address):
+#     db_connection.seed("seeds/makersbnb_database.sql")
+
+#     test_booking_id = 1
+
+#     page.goto(f"http://{test_web_address}/requests?{test_booking_id}")
 

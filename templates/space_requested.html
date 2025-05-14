@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MakersBnB</title>
+
+        <!--
+            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
+            If you're wondering how the CSS file below is being loaded.
+        -->
+        <link rel="stylesheet" href="/static/style.css" >
+    </head>
+    <body>
+        <h1>Thank you!</h1>
+        <p>Thank you for requesting to book <span class="space_name">{{ space_name }}</span> for <span class="booking_date">{{ requested_date_str }}</span>, check back to see if your request is accepted!</p>
+        <p><a href="/listings">View more listings</a></p>
+    </body>
+</html>
