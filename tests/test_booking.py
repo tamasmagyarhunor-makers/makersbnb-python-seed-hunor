@@ -22,3 +22,7 @@ def test_bookings_are_equal():
     assert booking1 == booking2
     assert booking1 != booking3
 
+def test_booked_days():
+    availrange = Booking(1,'2025-01-01','2025-01-04',1,1)
+
+    assert availrange.booked_days() == ['2025-01-01','2025-01-02','2025-01-03','2025-01-04']
