@@ -30,11 +30,14 @@ class SpaceRepository():
         return Space(row['id'],row['name'],row['description'],row['price_per_night'],row['host_id'])
     
     def create(self, new_space):
-        self._connection.execute('INSERT INTO spaces (name,description,price_per_night,host_id) VALUES (%s,%s,%s,%s)',
+        rows = self._connection.execute('INSERT INTO spaces (name,description,price_per_night,host_id) VALUES (%s,%s,%s,%s) RETURNING id',
                                 [new_space.name,
                                 new_space.description,
                                 new_space.price_per_night,
                                 new_space.host_id])
+        row = rows[0]
+        new_space.id = row['id']
+        return new_space
 
     def update(self, id, key, new_value):
         if key == 'name':

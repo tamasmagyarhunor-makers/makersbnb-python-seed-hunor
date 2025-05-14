@@ -59,7 +59,7 @@ def create_new_space():
     if not new_space.is_valid():
         return render_template('add_property.html', space=new_space, errors=new_space.generate_errors()), 400
     
-    space_repo.create(new_space)
+    new_space = space_repo.create(new_space)
     
     return redirect(f'/home_page/{new_space.id}')
 

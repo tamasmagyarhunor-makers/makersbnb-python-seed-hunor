@@ -37,7 +37,7 @@
 
     <h1>MakersBnb</h1>
 
-    <h2>Add a space</h2>
+    <h2>Add a new property listing</h2>
     
     <form action="/home_page" method="post">
         {% if errors %}
@@ -47,23 +47,23 @@
         {% endif %}
     
         <div>
-            <label for="space_name">space Name:</label><br>
-            <input type="text" name="name" id="name" size="40">
+            <label for="space_name">Property Name:</label><br>
+            <input type="text" name="name" id="name">
         </div>
     
         <div>
             <label for="description">Description:</label><br>
-            <input type="text" name="description" id="description" size="75">
+            <input type="text" name="description" id="description">
         </div>
     
         <div>
             <label for="price_per_night">Price per night (£xx):</label><br>
-            <input type="text" name="price_per_night" id="price_per_night" size="10">
+            <input type="number" name="price_per_night" id="price_per_night">
         </div>
     
         <div>
             <label for="image">Link to imagery:</label><br>
-            <input type="text" name="image" id="image" size="50">
+            <input type="text" name="image" id="image">
         </div>
     
         <div>
