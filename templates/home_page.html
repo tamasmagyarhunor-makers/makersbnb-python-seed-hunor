@@ -2,63 +2,113 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MakersBnb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Font for vibes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f8f8f8;
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #333;
         }
-        h1 {
+
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .hero {
             text-align: center;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, #dfe9f3, #ffffff);
+            border-bottom: 1px solid #e3e3e3;
         }
-        .property-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 800px;
-            margin: auto;
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
-        .property {
-            background-color: white;
-            padding: 15px;
-            display: flex;
-            gap: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        .hero p {
+            color: #6c757d;
         }
-        .property img {
-            width: 150px;
-            height: 100px;
-            border-radius: 5px;
+
+        .card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            height: 200px;
             object-fit: cover;
         }
-        .property-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+
+        .btn-custom {
+            background-color: #6c63ff;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #574dcf;
+        }
+
+        .property-grid {
+            padding: 3rem 1rem;
+        }
+
+        .host_email {
+            font-size: 0.9rem;
+            color: #6c757d;
         }
     </style>
 </head>
 <body>
 
-    <h1>MakersBnb</h1>
-    
-    <div class="property-list">
+<nav class="navbar navbar-expand-lg navbar-light px-4">
+    <a class="navbar-brand fw-bold" href="#">MakersBnb</a>
+    <div class="ms-auto">
+        <a class="btn btn-custom" href="/home_page/add-space">+ Add Space</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Book Unique Spaces with Ease</h1>
+    <p>Discover hidden gems hosted by real people.</p>
+</section>
+
+<section class="container property-grid">
+    <div class="row g-4">
         {% for space in spaces %}
-        <div class="property">
-            <img src="property1.jpg" alt="Property Image"> <!-- image taken from database? -->
-            <div class="property-info">
-                <h2>{{space.name}}</h2> <!-- space name taken from database -->
-                <p>{{space.description}}</p> <!-- description taken from database -->
-                <p>£{{space.price_per_night}} per night</p>
-                <p class="host_email">Contact: {{space.host_email}}</p> <!-- contact taken from database -->
+        <div class="col-sm-6 col-lg-4">
+            <div class="card h-100">
+                <img src="" class="card-img-top" alt="Property Image">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ space.name }}</h5>
+                    <p class="card-text">{{ space.description }}</p>
+                    <p class="card-text fw-semibold">£{{ space.price_per_night }} per night</p>
+                    <p class="host_email">Contact: {{ space.host_email }}</p>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
+</section>
 
 </body>
 </html>

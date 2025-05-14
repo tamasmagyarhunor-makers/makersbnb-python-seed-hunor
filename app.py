@@ -1,4 +1,5 @@
 import os
+import requests
 from lib.space import Space
 from lib.space_repository import SpaceRepository
 from flask import Flask, request, render_template
@@ -30,8 +31,18 @@ def get_spaces():
     repository = SpaceRepository(connection)
 
     spaces = repository.all()
+    # image_url = get_random_image()
 
     return render_template("home_page.html", spaces=spaces)
+
+def get_random_image():
+    headers = {'Accept-Version': 'v1'}
+    res = requests.get("https://api.unsplash.com/photos/random", headers=headers)
+    data = res.json()
+    print(res.status_code)
+    print(res.json())
+
+    return data['urls']['small']
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
