@@ -47,8 +47,8 @@ from user table
 def test_get_host_email(page, test_web_address, db_connection):
     db_connection.seed("seeds/makersbnb_seed.sql")
     page.goto(f"http://{test_web_address}/home_page")
-    h6_tag = page.locator("h6")
-    expect(h6_tag).to_have_text([
+    host_email_tag = page.locator(".host_email")
+    expect(host_email_tag).to_have_text([
         'Contact: sashaparkes@email.com',
         'Contact: jamesdismore@email.com',
         'Contact: jamesdismore@email.com',
