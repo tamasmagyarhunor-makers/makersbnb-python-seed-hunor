@@ -60,8 +60,17 @@ def test_get_available_days_by_id(db_connection):
                                                     '2025-01-05','2025-01-06','2025-01-07']
     
 def test_get_booked_days_by_id(db_connection):
+    db_connection.seed('seeds/makersbnb_seed.sql')
     repository = SpaceRepository(db_connection)
 
     assert repository.booked_days_by_id(3) == ['2025-01-01','2025-01-02','2025-01-04',
                                                     '2025-01-05','2025-01-06']
-    
+
+def test_date_range_available_and_unbooked_by_space_id(db_connection):
+    db_connection.seed('seeds/makersbnb_seed.sql')
+    repository = SpaceRepository(db_connection)
+
+    assert repository.booking_check(1,'2025-01-01','2025-01-05') == 'safe'
+    assert repository.booking_check(1,'2025-01-01','2026-01-10') == 'not available'
+    assert repository.booking_check(1,'2025-09-30','2025-10-01') == 'already booked'
+
