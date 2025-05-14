@@ -21,3 +21,4 @@ def test_bookings_are_equal():
 
     assert booking1 == booking2
     assert booking1 != booking3
+
