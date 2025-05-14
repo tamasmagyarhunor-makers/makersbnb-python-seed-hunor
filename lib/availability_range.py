@@ -27,7 +27,7 @@ class AvailabilityRange:
             dayslist.append(current_datetime)
             current_datetime += datetime.timedelta(days=1)
             diff_days -= 1
-
+        print(dayslist)
         dayslist_string = []
 
         for day in dayslist:

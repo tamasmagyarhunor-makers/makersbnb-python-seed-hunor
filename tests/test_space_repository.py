@@ -51,3 +51,10 @@ def test_update_space(db_connection):
     assert repository.find_by_id(1) == Space(1,'The Barn','Converted barn set in a rural location', 90, 1)
 
     assert repository.update(1,'dffsf',60) == 'Invalid Key'
+
+def test_get_available_days_by_id(db_connection):
+    db_connection.seed('seeds/makersbnb_seed.sql')
+    repository = SpaceRepository(db_connection)
+
+    assert repository.available_days_by_id(3) == ['2025-01-01','2025-01-02','2025-01-03','2025-01-04',
+                                                    '2025-01-05','2025-01-06','2025-01-07']

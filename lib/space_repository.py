@@ -1,4 +1,5 @@
 from lib.space import Space
+from lib.availability_range import AvailabilityRange
 
 class SpaceRepository():
     def __init__(self,connection):
@@ -47,3 +48,14 @@ class SpaceRepository():
         
     def delete(self,id):
         self._connection.execute('DELETE FROM spaces WHERE id = %s',[id])
+
+    def available_days_by_id(self,id):
+        available_days_string = []
+        avail_rows = self._connection.execute('SELECT * from availability_ranges WHERE space_id = %s',[id])
+
+        for row in avail_rows:
+            avail_range = AvailabilityRange(row['id'],row['start_date'],row['end_date'],row['space_id'])
+            avail_days = avail_range.available_days()
+            for day in avail_days:
+                available_days_string.append(day)
+        return available_days_string
