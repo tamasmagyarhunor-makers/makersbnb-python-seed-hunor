@@ -49,9 +49,9 @@ def test_get_host_email(page, test_web_address, db_connection):
     page.goto(f"http://{test_web_address}/home_page")
     h6_tag = page.locator("h6")
     expect(h6_tag).to_have_text([
-        'sashaparkes@email.com',
-        'jamesdismore@email.com',
-        'jamesdismore@email.com',
-        'sashaparkes@email.com',
-        'sashaparkes@email.com',
-        'jamesdismore@email.com'])
+        'Contact: sashaparkes@email.com',
+        'Contact: jamesdismore@email.com',
+        'Contact: jamesdismore@email.com',
+        'Contact: sashaparkes@email.com',
+        'Contact: sashaparkes@email.com',
+        'Contact: jamesdismore@email.com'])

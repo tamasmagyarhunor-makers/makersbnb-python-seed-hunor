@@ -6,7 +6,7 @@ def test_space_constructs():
     assert space.id == 1
     assert space.name == 'The Manor'
     assert space.description == 'A Manor house'
-    assert space.price == 100
+    assert space.price_per_night == 100
     assert space.host_id == 1
 
 def test_space_formatting():
