@@ -65,7 +65,7 @@ Sign up page renders
 def test_get_sign_up_page(page, test_web_address, db_connection):
     page.goto(f"http://{test_web_address}/sign_up")
     h2_tags = page.locator("h2")
-    expect(h2_tags).to_have_text("User Sign Up")
+    expect(h2_tags).to_have_text("Sign Up")
 
 """
 When user clicks sign up button on home, they are 
@@ -137,7 +137,7 @@ def test_sign_up_fail_no_next_page(db_connection, page, test_web_address):
     page.fill("input[name='password']", "")
     page.click("input[type='submit']")
     h2_tag = page.locator("h2")
-    expect(h2_tag).to_have_text("User Sign Up")
+    expect(h2_tag).to_have_text("Sign Up")
 
 """
 If a user has left any fields blank, error message
@@ -177,7 +177,7 @@ login page renders
 def test_get_login_page(page, test_web_address, db_connection):
     page.goto(f"http://{test_web_address}/login")
     h2_tags = page.locator("h2")
-    expect(h2_tags).to_have_text("User Login")
+    expect(h2_tags).to_have_text("Login")
 
 """
 When user clicks login button on home, they are 
@@ -247,9 +247,24 @@ def test_logout_clears_session(page, test_web_address, db_connection):
 If logged in, clicking your account should
 direct to user_home
 """
-
+def test_account_button_to_home_logged_in(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email_address']", "sashaparkes@email.com")
+    page.fill("input[name='password']", "mypassword1234")
+    page.click("input[type='submit']")
+    page.click("#home_button")
+    page.click("#userhome_button")
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("Your MakersBnb Account")
 
 """
 if not logged in, clicking your account
 should direct to login
 """
+def test_account_button_to_home_logged_out(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/home_page")
+    page.click("#userhome_button")
+    h2_tag = page.locator("h2")
+    expect(h2_tag).to_have_text("Login")
