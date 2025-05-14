@@ -52,9 +52,6 @@ def test_get_list_a_space(page, test_web_address):
     # We assert that it has the text "This is the homepage."
     expect(h_tag).to_have_text("List a space")
 
-    
-
-
 def test_new_spaces_form(page, test_web_address):
     page.goto(f"http://{test_web_address}/spaces/new")
 
