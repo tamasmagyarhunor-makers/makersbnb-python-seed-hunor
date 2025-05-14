@@ -35,7 +35,4 @@ class UserRepository:
         else:
             return 'Invalid Key'
         
-    # def email_in_database(self, email_address):
-    #     result = self._connection.execute("SELECT COUNT(*) AS count FROM users WHERE email_address = %s", [email_address]).fetchone()
-    #     return result[0] > 0
 
