@@ -1,106 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
     <title>MakersBnb</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .buttons {
-            display: flex;
-            gap: 10px;
-        }
-        .buttons button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .login {
-            background-color: #F6526D;
-            color: white;
-        }
-        .signup {
-            background-color: #F6526D;
-            color: white;
-        }
-        .userhome {
-            background-color: #F6526D;
-            color: white;
-        }
-        h1 {
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f5f7fa;
+        color: #333;
+    }
+
+    .navbar {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .hero {
         text-align: center;
-        margin-bottom: 20px; /* Adds space below the title */
-        }
-        .property-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 800px;
-            margin: auto;
-            margin-top: 30px;
-        }
-        .property {
-            background-color: white;
-            padding: 15px;
-            display: flex;
-            gap: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .property img {
-            width: 150px;
-            height: 100px;
-            border-radius: 5px;
-            object-fit: cover;
-        }
-        .property-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        padding: 4rem 1rem;
+        background: linear-gradient(135deg, #dfe9f3, #ffffff);
+        border-bottom: 1px solid #e3e3e3;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        color: #6c757d;
+    }
+
+    .property-grid {
+        padding: 3rem 1rem;
+    }
+
+    .col-sm-6, .col-lg-4 {
+        display: flex;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+        will-change: transform, box-shadow;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    }
+
+    .card-img-top {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+      flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 1.5rem;
+    }
+
+    .card-title {
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #2e2e2e;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.2px;
+    }
+
+    .description-wrapper {
+        flex-grow: 1;
+        margin-bottom: 0.75rem;
+    }
+
+    .description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        line-height: 1.4em;
+        max-height: 4.2em;
+        transition: max-height 0.3s ease;
+    }
+
+    .description.expanded {
+        -webkit-line-clamp: unset;
+        max-height: none;
+    }
+
+    .read-more-btn {
+        background: none;
+        border: none;
+        color: #6c63ff;
+        font-weight: 600;
+        padding: 0;
+        cursor: pointer;
+        margin-top: 0.25rem;
+    }
+
+    .host_email {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .btn-custom {
+        background-color: #6c63ff;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        transition: background 0.3s ease;
+        align-self: flex-start;
+        margin-top: auto;
+    }
+
+    .btn-custom:hover {
+        background-color: #574dcf;
+    }
     </style>
 </head>
 <body>
 
-
-    <div class="header">
-        <h1>MakersBnb</h1>
-        <div class="buttons">
-            <button class="signup" onclick= "window.location.href='/sign_up'">Sign Up</button>
-            <button class="login" onclick= "window.location.href='/login'">Log In</button>
-            <button id="userhome_button" class="userhome" onclick= "window.location.href='/userhome'">Your Account</button>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-light px-4">
+    <a class="navbar-brand fw-bold" href="#">MakersBnb</a>
+    <div class="ms-auto">
+        <a class="btn btn-custom" href="/home_page/add-space">+ Add Space</a>
     </div>
+    </nav>
 
-    
-    <div class="property-list">
+    <section class="hero">
+    <h1>Book Unique Spaces with Ease</h1>
+    <p>Discover hidden gems hosted by real people.</p>
+    </section>
+
+    <section class="container property-grid">
+    <div class="row g-4">
         {% for space in spaces %}
-        <div class="property">
-            <img src="property1.jpg" alt="Property Image"> <!-- image taken from database? -->
-            <div class="property-info">
-                <h2>{{space.name}}</h2> <!-- space name taken from database -->
-                <p>{{space.description}}</p> <!-- description taken from database -->
-                <p>£{{space.price_per_night}} per night</p>
-                <p class="host_email" id="host_email">Contact: {{space.host_email}}</p> <!-- contact taken from database -->
+        <div class="col-sm-6 col-lg-4 d-flex">
+        <div class="card">
+            {% if space.image_url %}
+            <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" />
+            {% else %}
+            <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top property-img" loading="lazy" />
+            {% endif %}
+            <div class="card-body">
+            <h5 class="card-title">{{ space.name }}</h5>
+            <div class="description-wrapper">
+                <p class="card-text description" id="desc-{{ space.id }}">{{ space.description }}</p>
+            </div>
+            <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
+            <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
+            <a href="/spaces/{{ space.id }}" class="btn btn-custom">View Details</a>
+            </div>
             </div>
         </div>
         {% endfor %}
     </div>
+    </section>
 
 </body>
 </html>

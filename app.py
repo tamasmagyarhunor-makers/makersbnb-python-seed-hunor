@@ -25,9 +25,22 @@ def get_spaces():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
 
+    if "user_id" in session: #if the user is logged in
+        return redirect((url_for("get_logged_in_homepage"))) #redirect to home page for logged in users
+
     spaces = repository.all()
     return render_template("home_page.html", spaces=spaces)
 
+@app.route('/logged_in_homepage', methods=['GET'])
+def get_logged_in_homepage():
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    spaces = repository.all()
+
+    if "user_id" not in session: #if the user is not logged in
+        return redirect((url_for("login"))) #prompt them to login
+
+    return render_template('logged_in_homepage.html', spaces=spaces)
 
 # routes for showing sign up page AND submitting sign up form
 @app.route('/sign_up', methods=['GET', 'POST']) # can do getting page and posting to it in one

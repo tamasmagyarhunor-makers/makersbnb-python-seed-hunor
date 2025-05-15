@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Links for importing calendar module -->
+
+  <meta charset="UTF-8">
+  <title>{{ space.name }} | MakersBnb</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Links for importing calendar module -->
     <link rel="stylesheet" href="{{ url_for('static', filename='calendar_individual_style.css') }}">
     <script>
       // Make booked_days available to JS
@@ -17,53 +20,76 @@
     </script>
     <script defer src="{{ url_for('static', filename='calendar_for_single_properties.js') }}"></script>
     <!-- End of links for importing calendar module -->
-    <title>MakersBnb</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
-        h1 {
-            text-align: center;
-        }
-        .property-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 800px;
-            margin: auto;
-        }
-        .property {
-            background-color: white;
-            padding: 15px;
-            display: flex;
-            gap: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .property img {
-            width: 150px;
-            height: 100px;
-            border-radius: 5px;
-            object-fit: cover;
-        }
-        .property-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-    </style>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      padding: 2rem;
+    }
+
+    .property-card {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .property-img {
+      width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      color: #6c63ff;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      text-decoration: none;
+      font-weight: 600;
+      color: #6c63ff;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: #574dcf;
+    }
+  </style>
 </head>
 <body>
-    <h1>Current Space</h1>
-    <p>Name: {{space.name}}</p>
-    <p>Description: {{space.description}}</p>
-    <p>Price per night: {{space.price_per_night}}</p>
 
-    <!-- #region Calendar & Booking -->
-    <div class="calendar-container">
+  <div class="property-card">
+    {% if space.image_url %}
+      <img src="{{ space.image_url }}" alt="{{ space.name }} image" class="property-img">
+    {% else %}
+      <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="property-img">
+    {% endif %}
+
+    <h1>{{ space.name }}</h1>
+    <p>{{ space.description }}</p>
+    <p class="price">£{{ space.price_per_night }} per night</p>
+
+    <a href="/home_page" class="back-link">← Back to all property listings</a>
+  </div>
+
+ <!-- #region Calendar & Booking -->
+    <!-- <div class="calendar-container">
         <div class="calendar-nav">
             <button id="prevMonthBtn"><span>&#8656;</span></button>
             <div id="currentMonthYear"></div>
@@ -71,10 +97,10 @@
         </div>
         <div class="calendar-header">Book Your Stay</div>
         <div class="calendar"></div>
-    </div>
+    </div> -->
     <!-- #endregion -->
 
-    <!-- Book Selected button and dialog moved OUTSIDE the calendar-container -->
+    <!-- Book Selected button and dialog moved OUTSIDE the calendar-container
     <button id="openModalBtn" type="button">Book Selected</button>
 
     <dialog id="bookingDialog">
@@ -105,8 +131,7 @@
                 </button>
             </form>
         </div>
-    </dialog>
+    </dialog> -->
 
-    <a href="/home_page">Back to all spaces</a>
 </body>
 </html>

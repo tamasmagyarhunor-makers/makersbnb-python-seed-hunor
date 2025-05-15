@@ -4,10 +4,10 @@ from lib.user_repository import UserRepository
 from lib.user import User
 
 """
-When page is called, space names are displayed
+1. When page is called, space names are displayed
 """
 def test_get_spaces(page, test_web_address, db_connection):
-    db_connection.seed("seeds/makersbnb_seed.sql") #perhaps change later to spaces seed
+    db_connection.seed("seeds/makersbnb_seed.sql") 
     page.goto(f"http://{test_web_address}/home_page")
     h2_tags = page.locator("h2")
     expect(h2_tags).to_have_text([
@@ -20,7 +20,38 @@ def test_get_spaces(page, test_web_address, db_connection):
     ])
 
 """
-When Space info is being rendered, host email address is pulled
+2. When user is not logged in, sign in buttons
+appear on screen
+"""
+def test_logged_out_appearance(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql") 
+    page.goto(f"http://{test_web_address}/home_page")
+    buttons = page.locator("button")
+    expect(buttons).to_have_text([
+        "Sign Up",
+        "Log In",
+        "Your Account"
+    ])
+
+"""
+3. When user IS logged in, sign in buttons do not
+appear and are replaced with logout button
+"""
+def test_logged_in_appearance(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql") 
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email_address']", "sashaparkes@email.com")
+    page.fill("input[name='password']", "mypassword1234")
+    page.click("input[type='submit']")
+    page.click("#home_button")
+    buttons = page.locator("button")
+    expect(buttons).to_have_text([
+        "Your Account",
+        "Logout"
+    ])
+
+"""
+4. When Space info is being rendered, host email address is pulled
 from user table
 """
 
@@ -37,7 +68,7 @@ def test_get_host_email(page, test_web_address, db_connection):
         'Contact: jamesdismore@email.com'])
 
 """
-Sign up page renders
+5. Sign up page renders
 """
 def test_get_sign_up_page(page, test_web_address, db_connection):
     page.goto(f"http://{test_web_address}/sign_up")
@@ -45,7 +76,7 @@ def test_get_sign_up_page(page, test_web_address, db_connection):
     expect(h2_tags).to_have_text("Sign Up")
 
 """
-When user clicks sign up button on home, they are 
+6. When user clicks sign up button on home, they are 
 redirected to sign up page
 """
 def test_signup_button_works(page, test_web_address, db_connection):
@@ -55,6 +86,7 @@ def test_signup_button_works(page, test_web_address, db_connection):
 
 
 """
+7
 When User inputs information into sign up form and clicks
 submit, the information is added to the database
 """
@@ -73,6 +105,7 @@ def test_sign_up(db_connection, page, test_web_address):
     ]
 
 """
+8
 When User inputs information into sign up form and does
 not click submit, the information is not added to the database
 """
@@ -89,6 +122,7 @@ def test_sign_up_no_click(db_connection, page, test_web_address):
     ]
 
 """
+9
 When User clicks sign up button, after filled in information,
 the page then moves onto the sign up confirmation
 """
@@ -103,6 +137,7 @@ def test_sign_up_button(db_connection, page, test_web_address):
     expect(h2_tag).to_have_text("Sign Up Successful")
 
 """
+10
 If the user has not filled in stuff, it doesn't move to
 the next page
 """
@@ -117,6 +152,7 @@ def test_sign_up_fail_no_next_page(db_connection, page, test_web_address):
     expect(h2_tag).to_have_text("Sign Up")
 
 """
+11
 If a user has left any fields blank, error message
 prompting them to not leave any fields blank once they
 have clicked the button
@@ -132,6 +168,7 @@ def test_sign_up_fail_message(db_connection, page, test_web_address):
     expect(p_tag).to_have_text("Please fill in all the fields")
 
 """
+12
 If a User inputs an email address that is already in 
 the database, there is an error message telling them that
 an account already exists with this email, and say if they
@@ -149,6 +186,7 @@ def test_sign_up_existing_user(db_connection, page, test_web_address):
     expect(p_tag).to_have_text("A user with this email address already exists")
 
 """
+13
 login page renders
 """
 def test_get_login_page(page, test_web_address, db_connection):
@@ -157,6 +195,7 @@ def test_get_login_page(page, test_web_address, db_connection):
     expect(h2_tags).to_have_text("Login")
 
 """
+14
 When user clicks login button on home, they are 
 redirected to login page
 """
@@ -166,6 +205,7 @@ def test_login_button_works(page, test_web_address, db_connection):
     expect(page).to_have_url(f"http://{test_web_address}/login")
 
 """
+15
 When user inputs email and password that match what is on
 database, redirection to user home
 """
@@ -179,6 +219,7 @@ def test_successful_signin(db_connection, page, test_web_address):
     expect(h1_tag).to_have_text("Your MakersBnb Account")
 
 """
+16
 When user inputs email and password that don't match what is on
 database, error appears
 """
@@ -192,6 +233,7 @@ def test_bad_signin(db_connection, page, test_web_address):
     expect(error_msg).to_have_text("Invalid email or password")
 
 """
+17
 If a user has left any fields blank, error message
 prompting them to not leave any fields blank once they
 have clicked the button
@@ -206,6 +248,7 @@ def test_login_empty_fail_message(db_connection, page, test_web_address):
     expect(error_msg).to_have_text("Please fill in all the fields")
 
 """
+18
 When a user clicks logged out,
 they are logged out , returned to login page
 and session is cleared
@@ -221,6 +264,7 @@ def test_logout_clears_session(page, test_web_address, db_connection):
     expect(page).to_have_url(f"http://{test_web_address}/login")
 
 """
+19
 If logged in, clicking your account should
 direct to user_home
 """
@@ -236,6 +280,7 @@ def test_account_button_to_home_logged_in(page, test_web_address, db_connection)
     expect(h1_tag).to_have_text("Your MakersBnb Account")
 
 """
+20
 if not logged in, clicking your account
 should direct to login
 """
@@ -248,6 +293,7 @@ def test_account_button_to_home_logged_out(page, test_web_address, db_connection
     expect(h2_tag).to_have_text("Login")
 
 """
+21
 User can create new spaces and they are added to the database
 """
 
