@@ -95,7 +95,7 @@
     
     <div id="our_spaces">
         {% for space in spaces %}
-            {% if space.available_from <= selected_to and space.available_to >= selected_from % }
+            {% if space.available_from <= selected_to and space.available_to >= selected_from %}
             <div>
             <p><strong>Name:</strong> {{space.name}}</p>
             <p><strong>Description:</strong> {{space.description}}</p>
