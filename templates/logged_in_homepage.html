@@ -30,17 +30,14 @@
             cursor: pointer;
             font-size: 14px;
         }
-        .login {
-            background-color: #F6526D;
-            color: white;
-        }
-        .signup {
-            background-color: #F6526D;
-            color: white;
-        }
         .userhome {
             background-color: #F6526D;
             color: white;
+        }
+        .logout {
+            background-color: #F6526D;
+            color: white;
+
         }
         h1 {
         text-align: center;
@@ -81,9 +78,8 @@
     <div class="header">
         <h1>MakersBnb</h1>
         <div class="buttons">
-            <button class="signup" onclick= "window.location.href='/sign_up'">Sign Up</button>
-            <button class="login" onclick= "window.location.href='/login'">Log In</button>
             <button id="userhome_button" class="userhome" onclick= "window.location.href='/userhome'">Your Account</button>
+            <button class="logout" onclick= "window.location.href='/logout'">Logout</button>
         </div>
     </div>
 
