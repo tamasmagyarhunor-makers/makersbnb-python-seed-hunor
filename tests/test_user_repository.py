@@ -44,3 +44,9 @@ def test_update_user(db_connection):
         User(2,'jamesdismore', 'mypassword54321', 'jamesdismore@email.com'),
         User(1,'sashaparkes', 'superpassword1234', 'sashaparkes@email.com')
     ]
+
+# def test_find_by_email(db_connection):
+#     db_connection.seed('seeds/makersbnb_seed.sql')
+#     repository = UserRepository(db_connection)
+
+#     assert repository.find_by_email("sashaparkes@email.com") == User(1,'sashaparkes', 'mypassword1234', 'sashaparkes@email.com')
