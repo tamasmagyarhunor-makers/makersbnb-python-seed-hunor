@@ -4,3 +4,4 @@ __pycache__
 screenshot.png
 *venv*
 *.DS_Store*
+.env
