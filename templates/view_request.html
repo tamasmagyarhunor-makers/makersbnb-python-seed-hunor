@@ -12,8 +12,16 @@
     <body>
         <h1>View Request</h1>
         {% if page_mode == 'approver' %}
-            <p>From: {{ requesting_user.email }}</p>
-            <p>Date: {{ booking.booking_date }}</p>
+            <p>Booking request for {{ space.space_name }}</p>
+            <p>From: {{ requesting_user.user_name }}, {{ requesting_user.email }}</p>
+            <p>Requested date: {{ booking.booking_date }}</p>
+
+            {% if other_requests | length > 0 %}
+                <h3>Other requests for this space:</h3>
+                {% for request in other_requests %}
+                <p>{{ request['space_name'] }}: <span class="booking_status">Date: {{ request['booking_date'] }}, Requester: {{ request['requesting_user_name'] }}, Status: {{ request['status'] }}</span> <a href="/requests/{{ request['id'] }}">View booking</a></p>
+                {% endfor %}
+            {% endif %}
 
             <a href="/requests/{{ id }}/approve">Approve</a><br>
             <a href="/requests/{{ id }}/deny">Deny</a>

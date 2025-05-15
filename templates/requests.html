@@ -14,7 +14,7 @@
         <h2>Requests I've made</h2>
         {% if bookings_made | length > 0 %}
             {% for booking_made in bookings_made %}
-            <p>{{ booking_made['space_name'] }}: <span class="booking_status">Date: {{ booking_made['booking_date'] }}, Status: {{ booking_made['status'] }}</span> <a href="/requests/{{ booking_made['id'] }}">View booking</a></p>
+            <p>{{ booking_made['space_name'] }}: <span class="booking_status">Date: {{ booking_made['booking_date'] }}, Status: {{ booking_made['status'] }}</span> <a href="/spaces/request/{{ booking_made['space_id'] }}">View booking</a></p>
             {% endfor %}
         {% else %}
             <p>You have no bookings</p>
