@@ -60,7 +60,7 @@ def create_listing():
         description = request.form['description']
         price = request.form['price']
         image = request.files['image']
-        user_id = 1
+        user_id = session['user_id']
         if image:
             filename = secure_filename(image.filename)
             upload_path = os.path.join(app.static_folder, 'uploads', filename)

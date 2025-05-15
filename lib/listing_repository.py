@@ -95,3 +95,17 @@ class ListingRepository:
             VALUES (%s, %s, %s, %s)
         """, [listing_id, start_date, end_date, user_id])
         return True
+    
+    def update_listing(self, update):
+        self._connection.execute(
+            'UPDATE listings SET ' \
+            'name = %s, ' \
+            'description = %s, ' \
+            'price = %s ' \
+            'WHERE id = %s', [update.name, update.description, update.price, update.id]
+        )
+    
+    def delete_listing(self, id):
+        self._connection.execute(
+            'DELETE FROM listings WHERE id = %s', [id]
+        )
