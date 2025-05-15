@@ -39,6 +39,19 @@ def post_users():
 def get_list_a_space():
     return render_template('list_a_space.html')
 
+@app.route('/spaces', methods=['GET'])
+def get_spaces():
+    return render_template('spaces.html')
+
+@app.route('/spaces/new', methods =['POST'])
+def post_new_space():
+    if 'space_name' not in request.form or 'spaces_description' not in request.form:
+        return 'Please provide a name and description', 400
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    space = Space(None, request.form['space_name'], request.form['spaces_description'], request.form['price_per_night'], request.form['available_from_date'], request.form['available_to_date'], request.form['user_id'])
+    repository.create(space)
+    return '', 200
 
 @app.route('/spaces/request/<space_id>', methods=['GET'])
 def get_request_space(space_id):

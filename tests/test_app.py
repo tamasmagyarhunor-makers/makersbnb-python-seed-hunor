@@ -24,6 +24,7 @@ We can render the index page
 """
 We can create a new user and it gets reflected in the data
 """
+
 def test_create_user(page, test_web_address, db_connection):
     db_connection.seed("seeds/makersbnb_database.sql")
 
@@ -44,6 +45,9 @@ def test_create_user(page, test_web_address, db_connection):
     ]
 
 
+"""
+We can render the 'list a space' page
+"""
 
 def test_get_list_a_space(page, test_web_address):
     # We load a virtual browser and navigate to the /index page
@@ -53,10 +57,25 @@ def test_get_list_a_space(page, test_web_address):
     h_tag = page.locator("h1")
 
     # We assert that it has the text "This is the homepage."
-    expect(h_tag).to_have_text("List a space")
+    expect(h_tag).to_have_text("Showcase Your Space")
 
-    
+"""
+We can render the 'spaces' page
+"""
 
+def test_get_spaces(page, test_web_address):
+    # We load a virtual browser and navigate to the /index page
+    page.goto(f"http://{test_web_address}/spaces")
+
+    # We look at the <p> tag
+    h_tag = page.locator("h1")
+
+    # We assert that it has the text "This is the homepage."
+    expect(h_tag).to_have_text("Reserve Exquisite Accommodation")
+
+"""
+We can see the form with all the required fields on the 'list a space' page
+"""
 
 def test_new_spaces_form(page, test_web_address):
     page.goto(f"http://{test_web_address}/spaces/new")
@@ -64,16 +83,16 @@ def test_new_spaces_form(page, test_web_address):
     form = page.locator("form[action='/spaces/new']")
     assert form.is_visible()
 
-    name_label = page.locator("#name")
+    name_label = page.locator("#space_name")
     assert name_label.is_visible()
 
     price_label = page.locator("#price_per_night")
     assert price_label.is_visible()
 
-    available_from_label = page.locator("#available_from")
+    available_from_label = page.locator("#available_from_date")
     assert available_from_label.is_visible()
 
-    available_to_label = page.locator("#available_to")
+    available_to_label = page.locator("#available_to_date")
     assert available_to_label.is_visible()
 
     submit_button = page.locator("button[type='submit']")
@@ -142,3 +161,11 @@ def test_show_my_requests(page, test_web_address, db_connection):
 
 #     page.goto(f"http://{test_web_address}/requests?{test_booking_id}")
 
+def test_post_new_space(db_connection, web_client):
+    """
+    Create a new space
+    """
+    db_connection.seed("seeds/makersbnb_database.sql")
+    response = web_client.post('/spaces/new', data={'space_name': 'Butternut', 'spaces_description': 'Green room', 'price_per_night': 28, 'available_from_date': '2025-11-02', 'available_to_date': '2025-11-15', 'user_id': 2})
+    assert response.status_code == 200
+    assert response.data.decode('utf-8') == ''

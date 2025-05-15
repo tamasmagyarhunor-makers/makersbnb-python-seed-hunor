@@ -43,7 +43,6 @@ CREATE TABLE bookings (
 INSERT INTO users (user_name, email, phone) VALUES ('Bridget', 'bridget@example.com', '07402498078');
 INSERT INTO users (user_name, email, phone) VALUES ('Hannah', 'hannah@example.com', '07987654321');
 
-
 INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (1, 1, '20250705', 'Requested');
 INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20251110', 'Booked');
 INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20251112', 'Rejected');
