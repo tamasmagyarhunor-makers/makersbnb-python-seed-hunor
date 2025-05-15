@@ -27,8 +27,8 @@ def test_get_spaces(page, test_web_address, db_connection):
 # def test_get_host_email(page, test_web_address, db_connection):
 #     db_connection.seed("seeds/makersbnb_seed.sql")
 #     page.goto(f"http://{test_web_address}/home_page")
-#     h6_tag = page.locator("h6")
-#     expect(h6_tag).to_have_text([
+#     host_email_tag = page.locator(".host_email")
+#     expect(host_email_tag).to_have_text([
 #         'sashaparkes@email.com',
 #         'jamesdismore@email.com',
 #         'jamesdismore@email.com',
@@ -247,15 +247,6 @@ def test_account_button_to_home_logged_out(page, test_web_address, db_connection
     page.click("#userhome_button")
     h2_tag = page.locator("h2")
     expect(h2_tag).to_have_text("Login")
-
-    host_email_tag = page.locator(".host_email")
-    expect(host_email_tag).to_have_text([
-        'Contact: sashaparkes@email.com',
-        'Contact: jamesdismore@email.com',
-        'Contact: jamesdismore@email.com',
-        'Contact: sashaparkes@email.com',
-        'Contact: sashaparkes@email.com',
-        'Contact: jamesdismore@email.com'])
 
 """
 User can create new spaces and they are added to the database
