@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MakersBnB</title>
+
+        <!--
+            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
+            If you're wondering how the CSS file below is being loaded.
+        -->
+        <link rel="stylesheet" href="/static/style.css" >
+    </head>
+    <body>
+        <h1>View Request</h1>
+        {% if page_mode == 'approver' %}
+            <p>From: {{ requesting_user.email }}</p>
+            <p>Date: {{ booking.booking_date }}</p>
+
+            <a href="/requests/{{ id }}/approve">Approve</a><br>
+            <a href="/requests/{{ id }}/deny">Deny</a>
+
+        {% else %}
+
+            <p>Sorry, we can't show you this request. Are you logged in?</p>
+
+        {% endif %}
+
+    </body>
+</html>
