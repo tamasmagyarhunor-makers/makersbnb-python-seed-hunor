@@ -28,10 +28,10 @@ id SERIAL PRIMARY KEY,
 name VARCHAR(255), 
 description VARCHAR(255), 
 price_per_night INTEGER, 
-image_url VARCHAR(255),  image_url,
+image_url VARCHAR(255),
 host_id INTEGER, 
 
-constraint fk_host foreign key  image_url,(host_id)
+constraint fk_host foreign key (host_id)
 
     references users(id)
     on delete cascade

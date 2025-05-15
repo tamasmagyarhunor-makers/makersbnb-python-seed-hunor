@@ -19,6 +19,7 @@ class SpaceRepository():
                         row['name'],
                         row['description'],
                         row['price_per_night'],
+                        row['image_url'],
                         row['host_id'])
             space.host_email = row['host_email']
             spaces.append(space)
