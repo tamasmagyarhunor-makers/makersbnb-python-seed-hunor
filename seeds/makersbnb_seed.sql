@@ -4,11 +4,14 @@
 -- database state, and that tests don't interfere with each other.
 
 -- First, we must delete (drop) all our tables
+DROP TABLE IF EXISTS availability_ranges;
+DROP SEQUENCE IF EXISTS availability_ranges_id_seq;
+DROP TABLE IF EXISTS bookings;
+DROP SEQUENCE IF EXISTS bookings_id_seq;
 DROP TABLE IF EXISTS spaces;
 DROP SEQUENCE IF EXISTS spaces_id_seq;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS users_id_seq;
-
 -- Then, we recreate them
 
 -- Setting up the users table
@@ -33,6 +36,42 @@ constraint fk_host foreign key (host_id)
     on delete cascade
 );
 
+-- Setting up the availability_ranges table
+CREATE SEQUENCE IF NOT EXISTS availability_ranges_id_seq;
+CREATE TABLE  availability_ranges (
+
+id SERIAL PRIMARY KEY, 
+start_date VARCHAR(255), 
+end_date VARCHAR(255), 
+space_id INTEGER, 
+
+constraint fk_space foreign key (space_id)
+
+    references spaces(id)
+    on delete cascade
+);
+
+-- Setting up the availability_ranges table
+CREATE SEQUENCE IF NOT EXISTS bookings_id_seq;
+CREATE TABLE  bookings (
+
+id SERIAL PRIMARY KEY, 
+start_date VARCHAR(255), 
+end_date VARCHAR(255), 
+space_id INTEGER,
+user_id INTEGER, 
+
+constraint fk_space foreign key (space_id)
+
+    references spaces(id)
+    on delete cascade,
+
+constraint fk_user foreign key (user_id)
+
+    references users(id)
+    on delete cascade
+);
+
 -- Finally, we add any records that are needed for the tests to run
 
 INSERT INTO users (name, password, email_address) VALUES ('Sasha Parkes', 'mypassword1234', 'sashaparkes@email.com');
@@ -45,3 +84,11 @@ INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Co
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Penthouse', 'Top floor luxury penthouse with breathtaking views', 160, 1);
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Beach Hut', 'Shoreline stay just footsteps from the seashore', 110, 2);
 
+INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2026-01-01',1);
+INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2026-01-01',2);
+INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2025-01-07',3);
+
+INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-10-01','2025-10-02',1,2);
+INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-11-01','2025-11-05',2,1);
+INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-01-01','2025-01-02',3,1);
+INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-01-04','2025-01-06',3,1);
