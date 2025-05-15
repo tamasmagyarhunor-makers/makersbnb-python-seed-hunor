@@ -99,10 +99,10 @@ def test_get_spaces_by_available_and_unbooked(db_connection):
     repository = SpaceRepository(db_connection)
 
     assert repository.get_available_unbooked_spaces('2025-01-06','2025-01-07') == [
-        Space(1,'The Barn','Converted barn set in a rural location', 65, 'https://i.imgur.com/wzULRQT.jpeg', 1),
-        Space(2,'The Loft', 'City centre loft space with great access to amenities', 95, 'https://i.imgur.com/3MDJ9kR.jpeg', 2)
+        Space(1,'The Barn','Converted barn set in a rural location', 65, 'https://i.imgur.com/wzULRQT.jpeg', 1, 'wzULRQT'),
+        Space(2,'The Loft', 'City centre loft space with great access to amenities', 95, 'https://i.imgur.com/3MDJ9kR.jpeg', 2, '3MDJ9kR')
     ]
 
     assert repository.get_available_unbooked_spaces('2025-09-30','2025-10-02') == [
-        Space(2,'The Loft', 'City centre loft space with great access to amenities', 95, 'https://i.imgur.com/3MDJ9kR.jpeg', 2)
+        Space(2,'The Loft', 'City centre loft space with great access to amenities', 95, 'https://i.imgur.com/3MDJ9kR.jpeg', 2, '3MDJ9kR')
     ]
