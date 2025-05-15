@@ -54,7 +54,7 @@ def test_get_list_a_space(page, test_web_address):
     h_tag = page.locator("h1")
 
     # We assert that it has the text "This is the homepage."
-    expect(h_tag).to_have_text("List a space")
+    expect(h_tag).to_have_text("Showcase Your Space")
 
 """
 We can see the form with all the required fields on the 'list a space' page
