@@ -24,7 +24,8 @@ def test_get_by_id(db_connection):
 def test_create_space(db_connection):
     db_connection.seed('seeds/makersbnb_seed.sql')
     repository = SpaceRepository(db_connection)
-    repository.create('The Manor','A fancy manor house',100,2)
+    new_space = Space(None, 'The Manor','A fancy manor house', 100, 2)
+    repository.create(new_space)
 
     assert repository.find_by_id(7) == Space(7,'The Manor','A fancy manor house',100,2)
 
@@ -45,7 +46,6 @@ def test_delete_space(db_connection):
 def test_update_space(db_connection):
     db_connection.seed('seeds/makersbnb_seed.sql')
     repository = SpaceRepository(db_connection)
-
     repository.update(1,'price_per_night',90)
 
     assert repository.find_by_id(1) == Space(1,'The Barn','Converted barn set in a rural location', 90, 1)

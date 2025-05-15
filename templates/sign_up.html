@@ -2,32 +2,64 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakersBnb</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MakersBnb Sign Up</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                padding: 0;
+                background-color: #f8f8f8;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 20px;
+                background-color: white;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .sub-header {
+                text-align: center;
+                background-color: #f0f0f0;
+                padding: 10px;
+                font-size: 18px;
+                font-weight: bold;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .buttons {
+                display: flex;
+                gap: 10px;
+            }
+            .buttons button {
+                padding: 8px 15px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+            .home_page {
+            background-color: #F6526D;
+            color: white;
+            }
+            label {
+                font-family: Arial, sans-serif;
+                margin: 30px;
+                padding: 0;
+                background-color: #f8f8f8;
+            }
 
-        label {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
-
-        h1 {
+            h1 {
             text-align: center;
-        }
+            margin-bottom: 20px; /* Adds space below the title */
+            }
 
-        h2 {
-            text-align: center;
-        }
+            h2 {
+                text-align: center;
+            }
+
 
         .message {
             font-family: Arial, sans-serif;
@@ -36,41 +68,55 @@
             color: #ee4b2b;
         }
 
+        </style>
+    </head>
+    <body>
 
-    </style>
-</head>
-<body>
+        <div class="header">
+            <h1>MakersBnb</h1>
+            <div class="buttons">
+                <button class="home_page" onclick= "window.location.href='/home_page'">Home</button>
+            </div>
+        </div>
 
-    <h1>MakersBnb</h1>
+        <div class="sub-header">
+            <h2>Sign Up</h2>
+        </div>
+        
+        <form action="/sign_up" method="POST">
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
 
-    <h2>User Sign Up</h2>
-    
-    <form>
-<table>
-    <tr>
-    <td align="right">Email Address:</td>
-    <td align="left"><input type="text" name="email_address" /></td>
-    </tr>
-    <tr>
-    <td align="right">Username:</td>
-    <td align="left"><input type="text" name="username" /></td>
-    </tr>
-    <tr>
-    <td align="right">Password:</td>
-    <td align="left"><input type="text" name="password" /></td>
-    </tr>
-</table>
+            <table>
+                <tr>
+                    <td align="right">
+                        <label>Email Address:</label>
+                    </td>
+                    <td align="left"><input type="text" name="email_address" /></td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label>Name:</label>
+                    </td>
+                    <td align="left"><input type="text" name="name" /></td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label>Password:</label>
+                    </td>
+                    <td align="left"><input type="text" name="password" /></td>
+                </tr>
+            </table>
 
-<p>
-        <!-- `type` is submit here, to indicate it is a button -->
-        <!-- `value` is used as the button's text -->
-        <input type="submit" value="Sign Up">
-    </p>
+            
+                <!-- `type` is submit here, to indicate it is a button -->
+                <!-- `value` is used as the button's text -->
+            <input type="submit" value="Sign Up">
+            
 
-<p class="message">
-    {{message}}
-</p>
 
-</form>
-</body>
+        </form>
+    </body>
+
 </html>
