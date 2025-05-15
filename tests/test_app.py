@@ -1,27 +1,5 @@
+import re
 from playwright.sync_api import Page, expect
-
-# Tests for your routes go here
-
-"""
-We can render the index page
-"""
-def test_get_index(page, test_web_address):
-    # We load a virtual browser and navigate to the /index page
-    page.goto(f"http://{test_web_address}/index")
-
-    # We look at the <p> tag
-    p_tag = page.locator("p")
-
-    # We assert that it has the text "This is the homepage."
-    expect(p_tag).to_have_text("This is the homepage.")
-
-# """
-# We can render the home page
-# """
-# def test_get_homepage(page, test_web_address):
-#     page.goto(f"http://{test_web_address}/home_page")
-#     h3_tag = page.locator("h3")
-#     expect(h3_tag).to_have_text("Build Bootstrap with Webpack")
 
 """
 When page is called, space names are displayed
@@ -55,3 +33,21 @@ def test_get_host_email(page, test_web_address, db_connection):
         'Contact: sashaparkes@email.com',
         'Contact: sashaparkes@email.com',
         'Contact: jamesdismore@email.com'])
+
+"""
+User can create new spaces and they are added to the database
+"""
+
+def test_create_new_space_post_method(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql")
+    page.goto(f"http://{test_web_address}/home_page/add-space")
+    
+    page.fill("input[name='name']", "Test Space")
+    page.fill("textarea[name='description']", "This is a test space")
+    page.fill("input[name='price_per_night']", "100")
+    
+    page.click("input[type='submit']")
+    
+    expect(page).to_have_url(re.compile(r"home_page/\d+"))
+    
+    expect(page.locator("body")).to_contain_text("Test Space")
