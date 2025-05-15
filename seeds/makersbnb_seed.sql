@@ -114,3 +114,6 @@ INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-10-01'
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-11-01','2025-11-05',2,1);
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-01-01','2025-01-02',3,1);
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-01-04','2025-01-06',3,1);
+
+INSERT INTO booking_requests (start_date,end_date,space_id,user_id) VALUES ('2025-11-05','2025-11-06',1,2);
+INSERT INTO booking_requests (start_date,end_date,space_id,user_id) VALUES ('2025-01-10','2025-01-12',2,1);
