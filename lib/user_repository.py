@@ -9,7 +9,12 @@ class UserRepository:
         rows = self._connection.execute('SELECT * from users')
         users = []
         for row in rows:
-            item = User(row['id'],row['name'],row['password'],row['email_address'])
+
+            item = User(row['id'],
+                        row['name'],
+                        row['password'],
+                        row['email_address'])
+
             users.append(item)
 
         return users
@@ -36,11 +41,12 @@ class UserRepository:
         self._connection.execute('INSERT INTO users (name,password,email_address) VALUES (%s,%s,%s)',[name,password,email_address])
 
 
-    def delete(self,id):
+    def delete(self, id):
         self._connection.execute('DELETE FROM users WHERE id = %s',[id])
 
 
-    def update(self,id,key,new_value):
+    def update(self, id, key, new_value):
+
         
         if key == 'password':
             self._connection.execute("UPDATE users SET password = %s WHERE id = %s",[new_value,id])

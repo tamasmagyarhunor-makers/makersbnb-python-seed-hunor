@@ -77,6 +77,7 @@
 </head>
 <body>
 
+
     <div class="header">
         <h1>MakersBnb</h1>
         <div class="buttons">
@@ -85,6 +86,7 @@
             <button id="userhome_button" class="userhome" onclick= "window.location.href='/userhome'">Your Account</button>
         </div>
     </div>
+
     
     <div class="property-list">
         {% for space in spaces %}
@@ -93,8 +95,8 @@
             <div class="property-info">
                 <h2>{{space.name}}</h2> <!-- space name taken from database -->
                 <p>{{space.description}}</p> <!-- description taken from database -->
-                <p>£ {{space.price_per_night}} per night</p>
-                <p>Contact: {{space.host_email}}</p> <!-- contact taken from database -->
+                <p>£{{space.price_per_night}} per night</p>
+                <p class="host_email">Contact: {{space.host_email}}</p> <!-- contact taken from database -->
             </div>
         </div>
         {% endfor %}

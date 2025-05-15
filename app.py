@@ -1,9 +1,12 @@
 import os
+from flask import Flask, request, render_template, redirect
 from lib.space import Space
 from lib.space_repository import SpaceRepository
+
 from lib.user import User
 from lib.user_repository import UserRepository
 from flask import Flask, request, render_template, redirect, url_for, session
+
 from lib.database_connection import get_flask_database_connection
 from werkzeug.security import generate_password_hash # use for password hashing
 
@@ -24,6 +27,7 @@ def get_spaces():
 
     spaces = repository.all()
     return render_template("home_page.html", spaces=spaces)
+
 
 # routes for showing sign up page AND submitting sign up form
 @app.route('/sign_up', methods=['GET', 'POST']) # can do getting page and posting to it in one
@@ -105,6 +109,39 @@ def debug_session():
 
 
 #_____________________________________
+
+@app.route('/home_page/<int:id>', methods=['GET'])
+def get_space(id):
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    space = repository.find_by_id(id)
+    return render_template('show_space.html', space=space)
+
+@app.route('/home_page/add-space', methods=['GET'])
+def get_new_space():
+    return render_template('add_property.html')
+
+@app.route('/home_page', methods=['POST'])
+def create_new_space():
+    connection = get_flask_database_connection(app)
+    space_repo = SpaceRepository(connection)
+    
+    name = request.form['name']
+    description = request.form['description']
+    price = request.form['price_per_night']
+    host_id = 2 # TODO: Replace with session['user_id'] or something once login is implemented [fixme]
+    
+    new_space = Space(None, name, description, price, host_id)
+    
+    if not new_space.is_valid():
+        return render_template('add_property.html', space=new_space, errors=new_space.generate_errors()), 400
+    
+    space_repo.create(new_space)
+    
+    return redirect(f'/home_page/{new_space.id}')
+
+
+
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
 # if started in test mode.
