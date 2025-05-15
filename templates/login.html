@@ -22,18 +22,21 @@
   </div>
 </nav>
 <div class="container mt-5">
+  {% block content %}
     <h1 class="mb-4">Log in to Makers BnB</h1>
     <form method="POST" action="/login">
+        {{ form.hidden_tag() }}
         <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" name="email" class="form-control" required>
+            {{ form.user_name.label}}<br>
+            {{ form.user_name(size=32) }}
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
         </div>
-        <button type="submit" class="btn btn-primary">Log in</button>
+            {{ form.submit() }}
     </form>
+    {% endblock %}
 </div>
 </body>
 </html>
