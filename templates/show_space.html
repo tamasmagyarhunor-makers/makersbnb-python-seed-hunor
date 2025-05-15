@@ -1,21 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Links for importing calendar module -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='calendar_individual_style.css') }}">
+    <script>
+      // Make booked_days available to JS
+      let occupiedDates = {{ booked_days | tojson }};
+      if (occupiedDates.length > 0 && typeof occupiedDates[0] === "string") {
+        occupiedDates = occupiedDates.map(dateStr => ({
+          startDate: dateStr,
+          endDate: dateStr
+        }));
+      }
+    </script>
+    <script defer src="{{ url_for('static', filename='calendar_for_single_properties.js') }}"></script>
+    <!-- End of links for importing calendar module -->
     <title>MakersBnb</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        h1 {
+            text-align: center;
+        }
+        .property-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .property {
+            background-color: white;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .property img {
+            width: 150px;
+            height: 100px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        .property-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
     <h1>Current Space</h1>
     <p>Name: {{space.name}}</p>
     <p>Description: {{space.description}}</p>
     <p>Price per night: {{space.price_per_night}}</p>
 
-    <!-- To have a delete button with a post request, we need a form -->
-    <!-- Note, we use `POST /books/<id>/delete because browsers can't send DELETE methods! -->
+    <!-- #region Calendar & Booking -->
+    <div class="calendar-container">
+        <div class="calendar-nav">
+            <button id="prevMonthBtn"><span>&#8656;</span></button>
+            <div id="currentMonthYear"></div>
+            <button id="nextMonthBtn"><span>&#8658;</span></button>
+        </div>
+        <div class="calendar-header">Book Your Stay</div>
+        <div class="calendar"></div>
+    </div>
+    <!-- #endregion -->
 
+    <!-- Book Selected button and dialog moved OUTSIDE the calendar-container -->
+    <button id="openModalBtn" type="button">Book Selected</button>
 
-    <!-- This is a link to another page. -->
-    <!-- The browser will send `GET /books/new` when the user clicks this -->
+    <dialog id="bookingDialog">
+        <button class="close-btn" id="closeDialog">&times;</button>
+        <div class="modal-content">
+            <h2>Book your stay</h2>
+            <div class="date-price">
+                <div class="dates">Fri, Jan 24 - Sun, Jan 26, 2025</div>
+                <div class="price">$998.00</div>
+            </div>
+            <form class="booking-form">
+                <label for="name">Name<span>*</span></label>
+                <input type="text" id="name" required />
+
+                <label for="email">Email<span>*</span></label>
+                <input type="email" id="email" required />
+
+                <label for="phone">Phone number<span>*</span></label>
+                <input type="tel" id="phone" required />
+
+                <div class="price-summary">
+                    <div class="nights"><span>3</span> Nights</div>
+                    <div class="total">Total <span>998.00$</span></div>
+                </div>
+
+                <button class="submit-btn" type="submit">
+                    Send booking request
+                </button>
+            </form>
+        </div>
+    </dialog>
+
     <a href="/home_page">Back to all spaces</a>
-  </body>
+</body>
 </html>

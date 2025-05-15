@@ -264,4 +264,3 @@ def test_create_new_space_post_method(page, test_web_address, db_connection):
     expect(page).to_have_url(re.compile(r"home_page/\d+"))
     
     expect(page.locator("body")).to_contain_text("Test Space")
-

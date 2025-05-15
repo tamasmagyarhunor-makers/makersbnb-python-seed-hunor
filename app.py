@@ -107,15 +107,14 @@ def logout():
 def debug_session():
     return f"Current session data: {session}"
 
-
 #_____________________________________
 
-@app.route('/home_page/<int:id>', methods=['GET'])
-def get_space(id):
-    connection = get_flask_database_connection(app)
-    repository = SpaceRepository(connection)
-    space = repository.find_by_id(id)
-    return render_template('show_space.html', space=space)
+# @app.route('/home_page/<int:id>', methods=['GET'])
+# def get_space(id):
+#     connection = get_flask_database_connection(app)
+#     repository = SpaceRepository(connection)
+#     space = repository.find_by_id(id)
+#     return render_template('show_space.html', space=space)
 
 @app.route('/home_page/add-space', methods=['GET'])
 def get_new_space():
@@ -140,7 +139,21 @@ def create_new_space():
     
     return redirect(f'/home_page/{new_space.id}')
 
-
+# Route to return a single space, including booked days, and populate calendar
+@app.route('/<space_id>', methods=['GET'])
+def get_space(space_id):
+    connection = get_flask_database_connection(app)
+    space_repo = SpaceRepository(connection)
+    space = space_repo.find_by_id(space_id)
+    available_days = space_repo.available_days_by_id(space_id)
+    booked_days = space_repo.booked_days_by_id(space_id)  # list of strings
+    bookable_days = []
+    for day in available_days:
+        if day not in booked_days:
+            bookable_days.append(day)
+    # Convert booked_days to list of dicts for JS
+    booked_days_dicts = [{"startDate": d, "endDate": d} for d in bookable_days]
+    return render_template('show_space.html', space=space, booked_days=booked_days_dicts)
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
