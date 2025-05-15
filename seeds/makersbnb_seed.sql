@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS availability_ranges;
 DROP SEQUENCE IF EXISTS availability_ranges_id_seq;
 DROP TABLE IF EXISTS bookings;
 DROP SEQUENCE IF EXISTS bookings_id_seq;
+DROP TABLE IF EXISTS booking_requests;
+DROP SEQUENCE IF EXISTS booking_requests_id_seq;
 DROP TABLE IF EXISTS spaces;
 DROP SEQUENCE IF EXISTS spaces_id_seq;
 DROP TABLE IF EXISTS users;
@@ -55,6 +57,26 @@ constraint fk_space foreign key (space_id)
 -- Setting up the availability_ranges table
 CREATE SEQUENCE IF NOT EXISTS bookings_id_seq;
 CREATE TABLE  bookings (
+
+id SERIAL PRIMARY KEY, 
+start_date VARCHAR(255), 
+end_date VARCHAR(255), 
+space_id INTEGER,
+user_id INTEGER, 
+
+constraint fk_space foreign key (space_id)
+
+    references spaces(id)
+    on delete cascade,
+
+constraint fk_user foreign key (user_id)
+
+    references users(id)
+    on delete cascade
+);
+
+CREATE SEQUENCE IF NOT EXISTS booking_requests_id_seq;
+CREATE TABLE  booking_requests (
 
 id SERIAL PRIMARY KEY, 
 start_date VARCHAR(255), 
