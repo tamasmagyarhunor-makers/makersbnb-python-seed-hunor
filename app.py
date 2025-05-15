@@ -1,14 +1,18 @@
 import os
 from flask import Flask, request, redirect, render_template, flash
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, logout_user, login_required
 from lib.forms import LoginForm
 from lib.database_connection import get_flask_database_connection
 from lib.user import User
 from lib.user_repository import UserRepository
 from dotenv import load_dotenv
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
 
 # Create a new Flask app
 app = Flask(__name__)
+
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -27,7 +31,8 @@ def get_index():
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    user_repo = UserRepository(get_flask_database_connection(app))
+    return user_repo.find(user_id)
 
 
 @app.route('/users', methods=['POST'])
@@ -39,7 +44,7 @@ def post_users():
     email = request.form['email']
     phone = request.form['phone']
 
-    user = User(None, user_name, email, phone)
+    user = User(None, user_name, password, email, phone)
     repository.create(user)
     return redirect('/login')
 
@@ -53,14 +58,25 @@ def get_list_a_space():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    print(request.form)
+    form = LoginForm(request.form)
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.user_name.data).first()
-        login_user(user)
+        user_repo = UserRepository(get_flask_database_connection(app))
+        user = user_repo.find_by_email(request.form["user_name"])
+        if user.password == request.form["password"]:
+            login_user(user)
         # Change /index when we know the name of the list of spaces
-        return redirect('/index')
-    else:
-        return render_template('login.html', title='Log In', form=form)
+            return redirect('/index')
+    
+    return render_template('login.html', title='Log In', form=form)
+
+@app.route("/logout")
+@login_required
+def logout():
+    user_repo = UserRepository(get_flask_database_connection(app))
+    user = user_repo.find_by_email(request.form["user_name"])
+    logout_user()
+    return redirect('/login')
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

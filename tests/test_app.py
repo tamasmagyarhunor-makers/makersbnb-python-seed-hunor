@@ -21,7 +21,7 @@ We can render the index page
 """
 We can create a new user and it gets reflected in the data
 """
-def test_create_user(page, test_web_address, db_connection):
+def test_create_user_route(page, test_web_address, db_connection):
     db_connection.seed("seeds/makersbnb_database.sql")
 
     page.goto(f"http://{test_web_address}/index")
@@ -33,11 +33,11 @@ def test_create_user(page, test_web_address, db_connection):
     page.click("button[type=submit]")
 
     repository = UserRepository(db_connection)
-    result = repository.all()
+    # result = repository.all()
     assert repository.all() == [
-        User(1, 'Bridget', 'bridget@example.com', '07402498078'),
-        User(2, 'Hannah', 'hannah@example.com', '07987654321'),
-        User(3, 'Trudie', 'trudie@example.com', '018118181')
+        User(1, 'Bridget', 'qwerty', 'bridget@example.com', '07402498078'),
+        User(2, 'Hannah', '123456', 'hannah@example.com', '07987654321'),
+        User(3, 'Trudie', 'abcdef', 'trudie@example.com', '018118181')
     ]
 
     title_element = page.locator(".mb-4")
@@ -82,18 +82,23 @@ def test_new_spaces_form(page, test_web_address):
     # submit_button = page.locator("submit")
     # assert submit_button.is_visible()
 
-
-def test_login_page_exists(page, test_web_address):
-    page.goto(f"http://{test_web_address}/login")
-    form = page.locator("form[action='/login']")
-    assert form.is_visible()
-
-    submit_button = page.locator("button[type='submit']")
-    assert submit_button.is_visible()
-
-    password_entry = page.locator("input[type='password']")
-    assert password_entry.is_visible()
-
-    email_entry = page.locator("input[type='email']")
-    assert email_entry.is_visible()
+    
+    def test_login_page_exists(page, test_web_address):
+        page.goto(f"http://{test_web_address}/login")
+    
+        form = page.locator("form[action='/login']")
+        assert form.is_visible()
+    
+        title = page.locator("h1.mb-4")
+        assert title.is_visible()
+        assert title.text_content() == "Log in to Makers BnB"
+    
+        username_field = page.locator("div.mb-3", has_text="user_name")
+        assert username_field.is_visible()
+    
+        password_field = page.locator("div.mb-3", has_text="password")
+        assert password_field.is_visible()
+    
+        submit_button = page.locator("form[action='/login'] button[type='submit']")
+        assert submit_button.is_visible()
     
