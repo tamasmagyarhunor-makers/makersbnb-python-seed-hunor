@@ -31,13 +31,14 @@ class SpaceRepository():
         rows = self._connection.execute('SELECT * from spaces WHERE id = %s',[id])
         row = rows[0]
 
-        return Space(row['id'],row['name'],row['description'],row['price_per_night'],row['host_id'])
+        return Space(row['id'],row['name'],row['description'],row['price_per_night'], row['image_url'], row['host_id'])
     
     def create(self, new_space):
-        rows = self._connection.execute('INSERT INTO spaces (name,description,price_per_night,host_id) VALUES (%s,%s,%s,%s) RETURNING id',
+        rows = self._connection.execute('INSERT INTO spaces (name,description,price_per_night,image_url,host_id) VALUES (%s,%s,%s,%s,%s) RETURNING id',
                                 [new_space.name,
                                 new_space.description,
                                 new_space.price_per_night,
+                                new_space.image_url,
                                 new_space.host_id])
         row = rows[0]
         new_space.id = row['id']
@@ -50,6 +51,8 @@ class SpaceRepository():
             self._connection.execute("UPDATE spaces SET description = %s WHERE id = %s",[new_value,id])
         if key == 'price_per_night':
             self._connection.execute("UPDATE spaces SET price_per_night = %s WHERE id = %s",[new_value,id])
+        if key == 'image_url':
+            self._connection.execute("UPDATE spaces SET image_url = %s WHERE id = %s",[new_value,id])
         if key == 'host_id':
             self._connection.execute("UPDATE spaces SET host_id = %s WHERE id = %s",[new_value,id])
 
@@ -130,6 +133,7 @@ class SpaceRepository():
                         row['name'],
                         row['description'],
                         row['price_per_night'],
+                        row['image_url'],
                         row['host_id'])
             if self.booking_check(space.id,start_date,end_date) == 'safe':
                 available_spaces.append(space)
