@@ -15,7 +15,7 @@ class BookingRequestRepository:
         
         return results
 
-    def add_booking(self,start_date,end_date,space_id,user_id):
+    def add_booking_request(self,start_date,end_date,space_id,user_id):
         spacerepo = SpaceRepository(self._connection)
         check = spacerepo.booking_check(space_id,start_date,end_date)
 
