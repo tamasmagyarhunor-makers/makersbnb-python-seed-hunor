@@ -39,9 +39,20 @@
             margin-top: 30px;
         }
 
+        label {
+            display: inline;
+            width: 100%;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"]{
+            width: 100%;
+        }
+
+
         #our_spaces > div {
             border: 1px solid lightgrey;
-            padding: 10px;
+            padding: 30px;
             margin: 10px auto;
             width: 50%;
             background-color: white;
@@ -64,8 +75,8 @@
     </div>
 
     <div id="header">
-        <h1>List a space</h1>
-        <p>Book a luxury BnBugs space</p>
+        <h1>Showcase Your Space</h1>
+        <p>Complete the details below to showcase your property and make it available for guest bookings</p>
     </div>
 
     <div id="our_spaces">
@@ -75,16 +86,16 @@
             <label for="name"><strong>Name:</strong></label><br>
             <input type="text" id="name" name="name" value=""><br><br><br>
 
-            <label for="description"><strong>Description:</strong></label><br>
+            <label for="description"><strong>Description:</strong></label>
             <input type="text" id="description" name="description" value=""><br><br><br>
             
-            <label for="price_per_night"><strong>Price Per Night (£):</strong></label><br>
+            <label for="price_per_night"><strong>Price Per Night (£):</strong></label>
             <input type="number" id="price_per_night"><br><br><br>
             
-            <label for="available_from"><strong>Available from (DD/MM/YYY):</strong></label><br>
+            <label for="available_from"><strong>Available from (DD/MM/YYY):</strong></label>
             <input type="date" name="available_from" id="available_from"><br><br><br>
 
-            <label for="available_to"><strong>Available to (DD/MM/YYYY):</strong></label><br>
+            <label for="available_to"><strong>Available to (DD/MM/YYYY):</strong></label>
             <input type="date" name="available_to_date" id="available_to"><br><br><br>
 
             <button type="submit">Submit</button><br><br><br>

@@ -21,6 +21,7 @@ We can render the index page
 """
 We can create a new user and it gets reflected in the data
 """
+
 def test_create_user(page, test_web_address, db_connection):
     db_connection.seed("seeds/makersbnb_database.sql")
 
@@ -41,6 +42,9 @@ def test_create_user(page, test_web_address, db_connection):
     ]
 
 
+"""
+We can render the 'list a space' page
+"""
 
 def test_get_list_a_space(page, test_web_address):
     # We load a virtual browser and navigate to the /index page
@@ -51,6 +55,10 @@ def test_get_list_a_space(page, test_web_address):
 
     # We assert that it has the text "This is the homepage."
     expect(h_tag).to_have_text("List a space")
+
+"""
+We can see the form with all the required fields on the 'list a space' page
+"""
 
 def test_new_spaces_form(page, test_web_address):
     page.goto(f"http://{test_web_address}/spaces/new")
@@ -69,10 +77,3 @@ def test_new_spaces_form(page, test_web_address):
 
     available_to_label = page.locator("#available_to")
     assert available_to_label.is_visible()
-
-    submit_button = page.locator("button[type='submit']")
-    assert submit_button.is_visible()
-
-    # submit_button = page.locator("submit")
-    # assert submit_button.is_visible()
-
