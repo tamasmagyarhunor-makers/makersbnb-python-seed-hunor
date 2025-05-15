@@ -6,7 +6,7 @@ def test_user_constructs():
     assert user.id == 1
     assert user.name == 'Johnnyboy'
     assert user.password == 'john123'
-    assert user.email == 'john@gmail.com'
+    assert user.email_address == 'john@gmail.com'
 
 def test_user_format():
     user = User(1,'Johnnyboy','john123','john@gmail.com')
