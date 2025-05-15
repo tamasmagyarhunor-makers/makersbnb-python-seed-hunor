@@ -1,10 +1,11 @@
 class Space:
-    def __init__(self, id, name, description, price_per_night, image_url, host_id):
+    def __init__(self, id, name, description, price_per_night, image_url, image_id, host_id):
         self.id = id
         self.name = name
         self.description = description
         self.price_per_night = price_per_night
         self.image_url = image_url
+        self.image_id = image_id
         self.host_id = host_id
 
     def __repr__(self):

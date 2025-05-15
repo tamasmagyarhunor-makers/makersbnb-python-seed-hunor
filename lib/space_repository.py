@@ -15,11 +15,13 @@ class SpaceRepository():
             JOIN users ON spaces.host_id = users.id')
         spaces = []
         for row in rows:
+            image_id = row['image_url'].split('/')[-1].split('.')[0]
             space = Space(row['id'],
                         row['name'],
                         row['description'],
                         row['price_per_night'],
                         row['image_url'],
+                        image_id,
                         row['host_id'])
             space.host_email = row['host_email']
             spaces.append(space)

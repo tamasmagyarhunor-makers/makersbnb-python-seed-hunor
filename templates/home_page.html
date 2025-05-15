@@ -155,7 +155,8 @@
         <div class="col-sm-6 col-lg-4 d-flex">
         <div class="card">
             {% if space.image_url %}
-            <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" />
+            <blockquote class="imgur-embed-pub" lang="en" data-id="{{ space.image_id }}" data-context="false" ><a href="{{ space.image_url }}"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+            <!-- <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" /> -->
             {% else %}
             <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top property-img" loading="lazy" />
             {% endif %}
