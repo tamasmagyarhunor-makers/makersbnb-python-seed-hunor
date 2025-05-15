@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash # use for password hashing
 
 # Create a new Flask app
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = os.urandom(24) #this creates a random secret key, needed for sessions
 
 #   ; open http://localhost:5001/index
 @app.route('/index', methods=['GET'])
