@@ -71,7 +71,7 @@ def login():
         user_repo = UserRepository(get_flask_database_connection(app))
         user = user_repo.find_by_email(request.form["user_name"])
         if user.password == request.form["password"]:
-            login_user(user, remember=True)
+            login_user(user)
         # Change /index when we know the name of the list of spaces
             return redirect('/index')
     
@@ -112,6 +112,7 @@ def get_request_space(space_id):
     return render_template('request_a_space.html', user = current_user, space = space, bookings = bookings)
 
 @app.route('/spaces/request', methods=['POST'])
+@login_required
 def post_request_space():
     space_id = request.form['space_id']
     requested_date = datetime.strptime(request.form['requested_date'], '%Y-%m-%d').date()
@@ -128,6 +129,7 @@ def post_request_space():
     return render_template('space_requested.html', user = current_user, space=space, requested_date_str = requested_date_str )
 
 @app.route('/requests', methods=['GET'])
+@login_required
 def get_requests():
     connection = get_flask_database_connection(app)
     booking_repo = BookingRepository(connection)
@@ -163,6 +165,7 @@ def collate_booking_details(booking):
     return booking_details
 
 @app.route('/requests/<id>', methods=['GET'])
+@login_required
 def get_request(id):
     connection = get_flask_database_connection(app)
     booking_repo = BookingRepository(connection)
@@ -188,6 +191,7 @@ def get_request(id):
     return render_template('view_request.html', id=id, page_mode=page_mode, other_requests=other_requests_with_details, space=space, booking=booking, requesting_user=requesting_user)
 
 @app.route('/requests/<id>/<action>', methods=['GET'])
+@login_required
 def get_user_request_update(id, action):
     connection = get_flask_database_connection(app)
     booking_repo = BookingRepository(connection)
