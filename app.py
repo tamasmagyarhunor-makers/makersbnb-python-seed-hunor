@@ -129,17 +129,15 @@ def post_request_space():
 
 @app.route('/requests', methods=['GET'])
 def get_requests():
-    user_id = current_user.id # TODO: user session stuff!!!
-
     connection = get_flask_database_connection(app)
     booking_repo = BookingRepository(connection)
 
-    bookings_made = booking_repo.find_for_user(user_id)
+    bookings_made = booking_repo.find_for_user(current_user.id)
     bookings_made_with_details = []
     for booking in bookings_made:
         bookings_made_with_details.append(collate_booking_details(booking))
 
-    bookings_received = booking_repo.find_for_users_spaces(user_id)
+    bookings_received = booking_repo.find_for_users_spaces(current_user.id)
     bookings_received_with_details = []
     for booking in bookings_received:
         bookings_received_with_details.append(collate_booking_details(booking))
