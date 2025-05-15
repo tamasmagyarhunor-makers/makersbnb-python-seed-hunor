@@ -20,6 +20,28 @@ def test_get_spaces(page, test_web_address, db_connection):
     ])
 
 """
+When user is not logged in, sign in buttons
+appear on screen
+"""
+def test_logged_out_appearance(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_seed.sql") #perhaps change later to spaces seed
+    page.goto(f"http://{test_web_address}/home_page")
+    h2_tags = page.locator("h2")
+    expect(h2_tags).to_have_text([
+        "The Barn",
+        "The Loft",
+        "The Hut",
+        "The Cottage",
+        "The Penthouse",
+        "The Beach Hut"
+    ])
+
+"""
+When user IS logged in, sign in buttons do not
+appear and are replaced with logout button
+"""
+
+"""
 When Space info is being rendered, host email address is pulled
 from user table
 """

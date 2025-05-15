@@ -25,6 +25,9 @@ def get_spaces():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
 
+    if "user_id" in session: #if the user is logged in
+        return redirect((url_for("logged_in_homepage"))) #redirect to home page for logged in users
+
     spaces = repository.all()
     return render_template("home_page.html", spaces=spaces)
 
