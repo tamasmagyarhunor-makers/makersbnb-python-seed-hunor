@@ -74,12 +74,14 @@ class SpaceRepository():
         booked_days_string = []
 
         booked_rows = self._connection.execute('SELECT * from bookings WHERE space_id = %s',[id])
-
+        print(booked_rows)
         for row in booked_rows:
             booked_range = Booking(row['id'],row['start_date'],row['end_date'],row['space_id'],row['user_id'])
+            print(booked_range)
             booked_days = booked_range.booked_days()
             for day in booked_days:
                 booked_days_string.append(day)
+                print(booked_days_string)
         return booked_days_string
     
     def booking_check(self,space_id,start_date,end_date):
@@ -96,14 +98,14 @@ class SpaceRepository():
             dayslist.append(current_datetime)
             current_datetime += datetime.timedelta(days=1)
             diff_days -= 1
-        print(dayslist)
+
         test_days = []
 
         for day in dayslist:
             day_string = day.strftime('%Y-%m-%d')
             test_days.append(day_string)
         
-        print(test_days)
+
 
         avail_days = self.available_days_by_id(space_id)
 
@@ -118,3 +120,17 @@ class SpaceRepository():
                 return 'already booked'
             
         return 'safe'
+
+    def get_available_unbooked_spaces(self,start_date,end_date):
+        available_spaces = []
+        rows = self._connection.execute('SELECT * from spaces')
+        for row in rows:
+            space = Space(row['id'],
+                        row['name'],
+                        row['description'],
+                        row['price_per_night'],
+                        row['host_id'])
+            if self.booking_check(space.id,start_date,end_date) == 'safe':
+                available_spaces.append(space)
+        
+        return available_spaces
