@@ -31,3 +31,7 @@ class BookingRepository:
     def find_for_user(self,user):
         rows = self._connection.execute('SELECT * FROM bookings WHERE user_id = %s', [ user ])
         return [ Booking(row['id'], row['user_id'], row['space_id'], row['booking_date'], row['status']) for row in rows ]
+
+    def find_for_users_spaces(self,user):
+        rows = self._connection.execute('SELECT * FROM bookings WHERE space_id IN (SELECT id FROM spaces WHERE user_id = %s)', [ user ])
+        return [ Booking(row['id'], row['user_id'], row['space_id'], row['booking_date'], row['status']) for row in rows ]

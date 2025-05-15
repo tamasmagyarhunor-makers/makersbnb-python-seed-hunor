@@ -11,8 +11,8 @@
     </head>
     <body>
         <h1>Request A Space</h1>
-        <h2>Placeholder: Name of space# {{ space_id }}</h2>
-        <p>Placeholder: description of space {{ space_id }}</p>
+        <h2>{{ space.space_name }}</h2>
+        <p>{{ space.spaces_description }}</p>
         {% if bookings | length > 0 %}
             <h3 class="bookings_status_title">This space is already booked for the following dates</h3>
             {% for booking in bookings %}
@@ -21,11 +21,11 @@
         {% endif %}
 
         <form action="/spaces/request" method="post">
-            <input type="hidden" name="space_id" value="{{ space_id }}">
+            <input type="hidden" name="space_id" value="{{ space.id }}">
             <input type="hidden" name="user_id" value="{{ user_id }}">
             <p>
                 <label for="requested_date">Request Space For:</label><br>
-                <input type="date" name="requested_date" id="requested_date" required><br>
+                <input type="date" name="requested_date" id="requested_date" value={{ space.available_from_date }} min={{ space.available_from_date }} max={{ space.available_to_date }} required><br>
             <p>
             <input type="submit" value="Request to Book">
             </p>
