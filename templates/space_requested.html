@@ -1,15 +1,21 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
     <head>
-        <title>MakersBnB</title>
-
-        <!--
-            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MakersBnB - View Requests</title>
         <link rel="stylesheet" href="/static/style.css" >
+        <style>
+            input[type="date"]{ width: 12em; } 
+        </style>
     </head>
     <body>
+        <div id="logo">
+            <a href="index.html">
+                <img src="/static/logo.png" alt="The BnBugs">
+            </a>
+        </div>
         <h1>Thank you!</h1>
         <p>Thank you for requesting to book <span class="space_name">{{ space.space_name }}</span> for <span class="booking_date">{{ requested_date_str }}</span>, check back to see if your request is accepted!</p>
         <p><a href="/spaces">View more listings</a></p>

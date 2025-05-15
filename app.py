@@ -210,7 +210,7 @@ def get_user_request_update(id):
         new_status = "Rejected"
     
     if action != None and space_user_id == current_user.id:
-            booking_repo.update_status(id, new_status)
+        booking_repo.update_status(id, new_status)
     
     return redirect("/requests")
 

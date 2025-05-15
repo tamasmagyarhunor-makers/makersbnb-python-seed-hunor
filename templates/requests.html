@@ -1,16 +1,19 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
     <head>
-        <title>MakersBnB</title>
-
-        <!--
-            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
-            If you're wondering how the CSS file below is being loaded.
-        -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MakersBnB - View Requests</title>
         <link rel="stylesheet" href="/static/style.css" >
     </head>
     <body>
-        <h1>Requests</h1>
+        <div id="logo">
+            <a href="index.html">
+                <img src="/static/logo.png" alt="The BnBugs">
+            </a>
+        </div>
+        <h1>View Your Requests</h1>
         <h2>Requests I've made</h2>
         {% if bookings_made | length > 0 %}
             {% for booking_made in bookings_made %}
