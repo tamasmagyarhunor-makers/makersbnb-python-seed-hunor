@@ -190,9 +190,9 @@ def get_request(id):
 
     return render_template('view_request.html', id=id, page_mode=page_mode, other_requests=other_requests_with_details, space=space, booking=booking, requesting_user=requesting_user)
 
-@app.route('/requests/<id>/<action>', methods=['GET'])
+@app.route('/requests/<id>', methods=['POST'])
 @login_required
-def get_user_request_update(id, action):
+def get_user_request_update(id):
     connection = get_flask_database_connection(app)
     booking_repo = BookingRepository(connection)
     space_repo = SpaceRepository(connection)
@@ -201,6 +201,8 @@ def get_user_request_update(id, action):
     space = space_repo.find(booking.space_id)
 
     space_user_id = space.user_id
+
+    action = request.form['action'] 
 
     if action == 'approve':
         new_status = "Booked"
@@ -211,7 +213,6 @@ def get_user_request_update(id, action):
             booking_repo.update_status(id, new_status)
     
     return redirect("/requests")
-
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

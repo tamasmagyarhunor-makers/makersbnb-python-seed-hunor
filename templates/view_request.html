@@ -22,9 +22,10 @@
                 <p>{{ request['space_name'] }}: <span class="booking_status">Date: {{ request['booking_date'] }}, Requester: {{ request['requesting_user_name'] }}, Status: {{ request['status'] }}</span> <a href="/requests/{{ request['id'] }}">View booking</a></p>
                 {% endfor %}
             {% endif %}
-
-            <a href="/requests/{{ id }}/approve">Approve</a><br>
-            <a href="/requests/{{ id }}/deny">Deny</a>
+            <form action="/requests/{{ id }}" method="POST">
+            <button type="submit" name="action" value="approve">Approve</button>
+            <button type="submit" name="action" value="deny">Deny</button>
+            </form>
 
         {% else %}
 
