@@ -28,6 +28,7 @@ id SERIAL PRIMARY KEY,
 name VARCHAR(255), 
 description VARCHAR(255), 
 price_per_night INTEGER, 
+image_url VARCHAR(255),
 host_id INTEGER, 
 
 constraint fk_host foreign key (host_id)
@@ -77,12 +78,12 @@ constraint fk_user foreign key (user_id)
 INSERT INTO users (name, password, email_address) VALUES ('Sasha Parkes', 'mypassword1234', 'sashaparkes@email.com');
 INSERT INTO users (name, password, email_address) VALUES ('James Dismore', 'mypassword54321', 'jamesdismore@email.com');
 
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Barn', 'Converted barn set in a rural location', 65, 1);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Loft', 'City centre loft space with great access to amenities', 95, 2);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Hut', 'Rustic shepherds hut with its own hot tub', 55, 2);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Cottage', 'Cosy cottage with riverside views', 120, 1);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Penthouse', 'Top floor luxury penthouse with breathtaking views', 160, 1);
-INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Beach Hut', 'Shoreline stay just footsteps from the seashore', 110, 2);
+INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Barn', 'Converted barn set in a rural location', 65, 'https://i.imgur.com/wzULRQT.jpeg', 1);
+INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Loft', 'City centre loft space with great access to amenities', 95, 'https://i.imgur.com/3MDJ9kR.jpeg', 2);
+INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Hut', 'Rustic shepherds hut with its own hot tub', 55, 'https://i.imgur.com/VwHlrhg.jpeg', 2);
+INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Cottage', 'Cosy cottage with riverside views', 120, 'https://i.imgur.com/1F0hDdX.jpeg', 1);
+INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Penthouse', 'Top floor luxury penthouse with breathtaking views', 160, 'https://i.imgur.com/hwgFaGe.jpeg', 1);
+INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Beach Hut', 'Shoreline stay just footsteps from the seashore', 110, 'https://i.imgur.com/EIHjI7u.jpeg', 2);
 
 INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2026-01-01',1);
 INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2026-01-01',2);
