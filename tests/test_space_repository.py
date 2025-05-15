@@ -73,4 +73,3 @@ def test_date_range_available_and_unbooked_by_space_id(db_connection):
     assert repository.booking_check(1,'2025-01-01','2025-01-05') == 'safe'
     assert repository.booking_check(1,'2025-01-01','2026-01-10') == 'not available'
     assert repository.booking_check(1,'2025-09-30','2025-10-01') == 'already booked'
-
