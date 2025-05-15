@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS availability_ranges;
 DROP SEQUENCE IF EXISTS availability_ranges_id_seq;
 DROP TABLE IF EXISTS bookings;
 DROP SEQUENCE IF EXISTS bookings_id_seq;
+DROP TABLE IF EXISTS booking_requests;
+DROP SEQUENCE IF EXISTS booking_requests_id_seq;
 DROP TABLE IF EXISTS spaces;
 DROP SEQUENCE IF EXISTS spaces_id_seq;
 DROP TABLE IF EXISTS users;
@@ -72,6 +74,26 @@ constraint fk_user foreign key (user_id)
     on delete cascade
 );
 
+CREATE SEQUENCE IF NOT EXISTS booking_requests_id_seq;
+CREATE TABLE  booking_requests (
+
+id SERIAL PRIMARY KEY, 
+start_date VARCHAR(255), 
+end_date VARCHAR(255), 
+space_id INTEGER,
+user_id INTEGER, 
+
+constraint fk_space foreign key (space_id)
+
+    references spaces(id)
+    on delete cascade,
+
+constraint fk_user foreign key (user_id)
+
+    references users(id)
+    on delete cascade
+);
+
 -- Finally, we add any records that are needed for the tests to run
 
 INSERT INTO users (name, password, email_address) VALUES ('Sasha Parkes', 'mypassword1234', 'sashaparkes@email.com');
@@ -91,4 +113,8 @@ INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-07-
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-10-01','2025-10-02',1,2);
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-11-01','2025-11-05',2,1);
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-01-01','2025-01-02',3,1);
-INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-07-04','2025-07-06',3,1);
+INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-01-04','2025-01-06',3,1);
+
+INSERT INTO booking_requests (start_date,end_date,space_id,user_id) VALUES ('2025-11-05','2025-11-06',1,2);
+INSERT INTO booking_requests (start_date,end_date,space_id,user_id) VALUES ('2025-01-10','2025-01-12',2,1);
+

@@ -1,8 +1,4 @@
 const calendarContainer = document.querySelector(".calendar-container");
-
-//#region Booking & Calendar Logic
-
-//#region Starting Variables
 const calendar = document.querySelector(".calendar");
 const currentMonthYear = document.getElementById("currentMonthYear");
 const prevMonthBtn = document.getElementById("prevMonthBtn");
@@ -21,23 +17,26 @@ let currentYear = today.getUTCFullYear();
 let selectingStart = true;
 let startDate = null;
 let endDate = null;
-//#endregion
 
+// Helper Functions
 function normalizeDate(date) {
   return date.toISOString().split("T")[0]; // Get YYYY-MM-DD format
 }
 
-function isDateInRange(date, rangeStart, rangeEnd) {
-  return normalizeDate(date) >= rangeStart && normalizeDate(date) <= rangeEnd;
-}
-
 function clearSelection() {
   document.querySelectorAll(".day").forEach((day) => {
-    day.classList.remove("selected", "afternoon", "morning", "full");
+    day.classList.remove("selected");
   });
 }
 
-//#region Main Calculations
+function updateHiddenInputs() {
+  const startDateInput = document.getElementById("startDateInput");
+  const endDateInput = document.getElementById("endDateInput");
+  if (startDateInput) startDateInput.value = startDate ? normalizeDate(startDate) : "";
+  if (endDateInput) endDateInput.value = endDate ? normalizeDate(endDate) : "";
+}
+
+// Main Calculations
 function updateCalendar() {
   calendar.innerHTML = "";
 
@@ -66,23 +65,11 @@ function updateCalendar() {
     dayDiv.appendChild(span);
 
     const dayDate = new Date(`${dateStr}T00:00:00Z`);
-
-    // Disable if before today
     if (dayDate < today) {
-      dayDiv.classList.add("disabled", "occupied");
+      dayDiv.classList.add("disabled");
+      dayDiv.classList.add("occupied"); // Mark as occupied
     }
-    // Disable if outside selectable range
-    else if (!isDateInRange(dayDate, selectableRange.start, selectableRange.end)) {
-      dayDiv.classList.add("disabled", "occupied");
-    }
-    // Disable if in occupiedDates
-    else if (occupiedDates.some(occ =>
-      normalizeDate(dayDate) >= occ.startDate && normalizeDate(dayDate) <= occ.endDate
-    )) {
-      dayDiv.classList.add("disabled", "occupied");
-    }
-    // Disable if before selected start date (when picking end date)
-    else if (startDate && !endDate && dayDate < startDate) {
+    if (startDate && !endDate && dayDate < startDate) {
       dayDiv.classList.add("disabled");
     }
 
@@ -92,17 +79,13 @@ function updateCalendar() {
 
   persistUserSelection(startDate, endDate, currentMonth, currentYear, lastDay);
 }
-//#endregion
 
 function handleDateSelection(dayDiv) {
   const selectedDate = new Date(`${dayDiv.dataset.date}T00:00:00Z`);
 
   if (selectingStart) {
-    if (
-      occupiedDates.find((x) => x.startDate == normalizeDate(selectedDate)) ||
-      !isDateInRange(selectedDate, selectableRange.start, selectableRange.end)
-    ) {
-      alert("Arrival date is not available.");
+    if (selectedDate < today) {
+      alert("Cannot select a date before today.");
       return;
     }
     startDate = selectedDate;
@@ -115,23 +98,11 @@ function handleDateSelection(dayDiv) {
       alert("End date must be after the start date.");
       return;
     }
-    // check if selection is overlapping
-    const noOverlaps = occupiedDates.every((occupiedDate) => {
-      const isOverlapping =
-        (normalizeDate(startDate) > occupiedDate.startDate &&
-          normalizeDate(startDate) < occupiedDate.endDate) ||
-        (occupiedDate.startDate > normalizeDate(startDate) &&
-          occupiedDate.startDate < normalizeDate(selectedDate));
-      return !isOverlapping;
-    });
-    if (!noOverlaps) {
-      alert("You are trying to book already booked dates.");
-      return;
-    }
     endDate = selectedDate;
     selectingStart = true;
   }
   updateCalendar();
+  updateHiddenInputs(); // Update hidden fields for form submission
 }
 
 function persistUserSelection(
@@ -174,7 +145,7 @@ function highlightRange(startDate, endDate) {
   });
 }
 
-//#region EventListeners
+// EventListeners
 prevMonthBtn.addEventListener("click", () => {
   currentMonth--;
   if (currentMonth < 0) {
@@ -197,80 +168,29 @@ updateCalendar();
 
 // Deselect selected dates if you click on the calendar container but NOT on a day
 calendarContainer.addEventListener("click", function (e) {
+  // Only clear if you click directly on the container (not a day or any child)
   if (e.target === calendarContainer) {
     startDate = null;
     endDate = null;
     selectingStart = true;
     clearSelection();
     updateCalendar();
+    updateHiddenInputs();
   }
 });
 
-// Modal open/close logic
-const openModalBtn = document.getElementById("openModalBtn");
-const bookingDialog = document.getElementById("bookingDialog");
-const closeDialogBtn = document.getElementById("closeDialog");
-
-if (openModalBtn && bookingDialog) {
-  openModalBtn.addEventListener("click", () => {
-    if (!startDate || !endDate) {
-      alert("Please select the arrival and departure dates.");
-      return;
-    }
-    // Format and display the selected dates in the dialog
-    const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
-    const startStr = startDate.toLocaleDateString(undefined, options);
-    const endStr = endDate.toLocaleDateString(undefined, options);
-
-    // Update selected dates
-    const selectedDatesDiv = document.getElementById("selectedDates");
-    if (selectedDatesDiv) {
-      selectedDatesDiv.textContent = `${startStr} - ${endStr}`;
-    }
-
-    // Calculate nights and price
-    const msPerDay = 24 * 60 * 60 * 1000;
-    const nights = Math.round((endDate - startDate) / msPerDay);
-    const total = nights * pricePerNight;
-
-    // Update price per night in dialog
-    const priceDiv = document.getElementById("price");
-    if (priceDiv) {
-      priceDiv.textContent = `£${pricePerNight} per night`;
-    }
-
-    // Update nights and total in summary
-    const nightsCountSpan = document.getElementById("nightsCount");
-    if (nightsCountSpan) {
-      nightsCountSpan.textContent = nights;
-    }
-    const totalPriceSpan = document.getElementById("totalPrice");
-    if (totalPriceSpan) {
-      totalPriceSpan.textContent = `£${total.toFixed(2)}`;
-    }
-
-    const startDateInput = document.getElementById("startDateInput");
-    const endDateInput = document.getElementById("endDateInput");
-    if (startDateInput) startDateInput.value = startDate ? startDate.toISOString().split("T")[0] : "";
-    if (endDateInput) endDateInput.value = endDate ? endDate.toISOString().split("T")[0] : "";
-
-    bookingDialog.showModal();
-  });
-}
-
-if (closeDialogBtn && bookingDialog) {
-  closeDialogBtn.addEventListener("click", () => {
-    bookingDialog.close();
-  });
-}
-
-if (bookingDialog) {
-  bookingDialog.addEventListener("click", function (e) {
-    if (e.target === bookingDialog) {
-      bookingDialog.close();
-    }
-  });
-}
-//#endregion
-
-//#endregion
+// Toggle calendar when "Search by Date" button is clicked
+document.addEventListener("DOMContentLoaded", function() {
+  const calendarSection = document.getElementById("calendarSection");
+  const selectDatesBtn = document.getElementById("selectDatesBtn");
+  if (calendarSection && selectDatesBtn) {
+    selectDatesBtn.addEventListener("click", function() {
+      if (calendarSection.style.display === "block") {
+        calendarSection.style.display = "none";
+      } else {
+        calendarSection.style.display = "block";
+        calendarSection.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }
+});

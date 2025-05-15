@@ -1,10 +1,5 @@
 /* Calendar Styles */
 .calendar-container {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
@@ -15,11 +10,7 @@
   box-shadow: 0 0 10px rgb(80, 77, 77);
   position: relative;
   z-index: 3;
-}
-.calendar-container.active {
-  max-height: 2000px;
-  opacity: 1;
-  pointer-events: auto;
+  /* Remove any hiding properties! */
 }
 
 .calendar-header {
@@ -74,7 +65,19 @@
   pointer-events: none;
   user-select: none;
 }
-.day.disabled {
+
+.day.occupied {
+  background-color: #dedbf2;   /* Light purple for occupied */
+  color: #888;
+  cursor: not-allowed;
+}
+
+.day.selected {
+  background-color: #a084e8;   /* Darker purple for user selection */
+  color: #fff;
+  border: 2px solid #4a00e0;
+}
+/* .day.disabled {
   pointer-events: none;
   opacity: 0.5;
 }
@@ -103,7 +106,7 @@
 .day.full {
   background-color: #dedbf2;
   z-index: 0;
-}
+} */
 
 /* Modal/Booking Form Styles */
 body.modal-open {
@@ -136,15 +139,10 @@ dialog {
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-dialog.show {
+dialog[open] {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
-}
-dialog.hide {
-  opacity: 0;
-  transform: translateY(-20px);
-  pointer-events: none;
 }
 .close-btn {
   position: absolute;
