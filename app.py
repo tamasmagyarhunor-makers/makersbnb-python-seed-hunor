@@ -73,15 +73,15 @@ def login():
         if user.password == request.form["password"]:
             login_user(user)
         # Change /index when we know the name of the list of spaces
-            return redirect('/index')
+            return redirect('/spaces')
     
     return render_template('login.html', title='Log In', form=form)
 
 @app.route("/logout")
 @login_required
 def logout():
-    user_repo = UserRepository(get_flask_database_connection(app))
-    user = user_repo.find_by_email(request.form["user_name"])
+    # user_repo = UserRepository(get_flask_database_connection(app))
+    # user = user_repo.find_by_email(request.form["user_name"])
     logout_user()
     return redirect('/login')
 

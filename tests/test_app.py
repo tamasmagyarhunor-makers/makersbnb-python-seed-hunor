@@ -123,8 +123,18 @@ def test_login_page_exists(page, test_web_address):
     password_field = page.locator("div.mb-3", has_text="password")
     assert password_field.is_visible()
 
-    # submit_button = page.locator("form[action='/login'] button[type='submit']")
-    # assert submit_button.is_visible()
+
+def test_login_redirects_to_spaces(page, test_web_address, db_connection):
+    db_connection.seed("seeds/makersbnb_database.sql")
+    page.goto(f"http://{test_web_address}/login")
+
+    page.fill("input[name=user_name]", "hannah@example.com")
+    page.fill("input[name=password]", "123456")
+    page.click("input[type=submit]")
+
+    title = page.locator("h1")
+    expect(title).to_have_text("Reserve Exquisite Accommodation")
+
     
 def test_request_a_space_no_existing_bookings(page, test_web_address, db_connection):
     db_connection.seed("seeds/makersbnb_database.sql")

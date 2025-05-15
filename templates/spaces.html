@@ -7,7 +7,7 @@
     <style>
         body {
         background-color: bisque;
-        border: 2px solid powderblue;
+        /* border: 2px solid powderblue; */
         padding: 30px;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         margin: 0;
@@ -32,6 +32,12 @@
             position: absolute;
             top: 30px;
             right: 40px;
+        }
+
+        #logout_button {
+            position: absolute;
+            top: 30px;
+            right: 150px;
         }
 
         #space_availability {
@@ -70,8 +76,14 @@
         </a>
     </div>
     
+    <div id="logout_button">
+        <a href="/logout">
+            <button type="submit">Logout</button>
+        </a>
+    </div>
+
     <div id="list_button">
-        <a href="list_a_space.html">
+        <a href="/spaces/new">
             <button type="submit">List a Space</button>
         </a>
     </div>
