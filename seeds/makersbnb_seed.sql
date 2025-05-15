@@ -15,7 +15,7 @@ DROP SEQUENCE IF EXISTS users_id_seq;
 
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
 
-CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), email_address VARCHAR(255));
+CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(255), password VARCHAR(255), email_address VARCHAR(255));
 
 -- Setting up the spaces table
 CREATE SEQUENCE IF NOT EXISTS spaces_id_seq;
@@ -35,8 +35,8 @@ constraint fk_host foreign key (host_id)
 
 -- Finally, we add any records that are needed for the tests to run
 
-INSERT INTO users (username, password, email_address) VALUES ('sashaparkes', 'mypassword1234', 'sashaparkes@email.com');
-INSERT INTO users (username, password, email_address) VALUES ('jamesdismore', 'mypassword54321', 'jamesdismore@email.com');
+INSERT INTO users (name, password, email_address) VALUES ('Sasha Parkes', 'mypassword1234', 'sashaparkes@email.com');
+INSERT INTO users (name, password, email_address) VALUES ('James Dismore', 'mypassword54321', 'jamesdismore@email.com');
 
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Barn', 'Converted barn set in a rural location', 65, 1);
 INSERT INTO spaces (name, description, price_per_night, host_id) VALUES ('The Loft', 'City centre loft space with great access to amenities', 95, 2);

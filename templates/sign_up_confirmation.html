@@ -2,57 +2,94 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakersBnb</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MakersBnb</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                    padding: 0;
+                    background-color: #f8f8f8;
+                }
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 10px 20px;
+                    background-color: white;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+                .sub-header {
+                    text-align: center;
+                    background-color: #f0f0f0;
+                    padding: 10px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+                .buttons {
+                    display: flex;
+                    gap: 10px;
+                }
+                .buttons button {
+                    padding: 8px 15px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+                .home_page {
+                    background-color: #F6526D;
+                    color: white;
+                }
+                
 
-        label {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            padding: 0;
-            background-color: #f8f8f8;
-        }
+                label {
+                    font-family: Arial, sans-serif;
+                    margin: 30px;
+                    padding: 0;
+                    background-color: #f8f8f8;
+                }
 
-        h1 {
-            text-align: center;
-        }
+                h1 {
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
 
-        h2 {
-            text-align: center;
-        }
+                h2 {
+                    text-align: center;
+                }
 
-        .body_text {
-            text-align: center;
-        }
+                .body_text {
+                    text-align: center;
+                }
 
 
 
-    </style>
-</head>
-<body>
+            </style>
+    </head>
+    <body>
 
-    <h1>MakersBnb</h1>
+        <div class="header">
+            <h1>MakersBnb</h1>
+        </div>
 
-    <h2>Sign Up Successful</h2>
-    
-    <p class="body_text"> 
+        <div class="sub-header">
+            <h2>Sign Up Successful</h2>
+        </div>
         
-        Thank you for signing up to MakersBnB. 
+        <p class="body_text"> 
+            
+            Thank you for signing up to MakersBnB. 
 
-        <br>
-        <br>
+            <br>
+            <br>
 
-        <a href="/">Back to homepage</a>
+            <button class="home_page" onclick= "window.location.href='/home_page'">Back to Home Page</button>
 
-        </p>
+            </p>
 
-</body>
+    </body>
 </html>
