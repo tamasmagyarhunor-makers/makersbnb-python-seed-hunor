@@ -20,6 +20,6 @@ class Space:
          self.space_name == other.space_name and
          self.spaces_description == other.spaces_description and
          self.price_per_night == other.price_per_night and
-        #  self.available_from_date == other.available_from_date and #date format requires further processing for eq match
-        #  self.available_to_date == other.available_to_date and #date format requires further processing for eq match
+         self.available_from_date == other.available_from_date and
+         self.available_to_date == other.available_to_date and
          self.user_id == other.user_id)

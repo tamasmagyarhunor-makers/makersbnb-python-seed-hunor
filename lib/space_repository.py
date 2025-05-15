@@ -15,16 +15,23 @@ class SpaceRepository:
                                         [space.space_name, space.spaces_description, space.price_per_night, space.available_from_date, space.available_to_date, space.user_id])
         return None
     
-    # def find(self, id):
-    #     rows = self._connection.execute('SELECT * FROM spaces WHERE id = %s', [ id ])
-    #     row = rows[0]
-    #     return Space(row['id'],row['space_name'],row['spaces_description'],row['price_per_night'],row['available_from_date'],row['available_to_date'],row['user_id'])
+    def find(self, id):
+        rows = self._connection.execute('SELECT * FROM spaces WHERE id = %s', [ id ])
+        row = rows[0]
+        return Space(row['id'],row['space_name'],row['spaces_description'],row['price_per_night'],row['available_from_date'],row['available_to_date'],row['user_id'])
 
-    # def find_by_name(self, space_name):
-    #     rows = self._connection.execute('SELECT * FROM spaces WHERE space_name = %s', [ space_name ])
-    #     row = rows[0]
-    #     return Space(row['id'],row['space_name'],row['spaces_description'],row['price_per_night'],row['available_from_date'],row['available_to_date'],row['user_id'])
+    def find_by_user(self, user_id):
+        rows = self._connection.execute('SELECT * FROM spaces WHERE user_id = %s', [ user_id ])
+        row = rows[0]
+        return [
+            Space(row['id'],row['space_name'],row['spaces_description'],row['price_per_night'],row['available_from_date'],row['available_to_date'],row['user_id']) for row in rows
+            ]
 
-    # def delete(self,id):
-    #     rows = self._connection.execute('DELETE FROM spaces WHERE id = %s', [ id ])
-    #     return None
+    def find_by_name(self, space_name):
+        rows = self._connection.execute('SELECT * FROM spaces WHERE space_name = %s', [ space_name ])
+        row = rows[0]
+        return Space(row['id'],row['space_name'],row['spaces_description'],row['price_per_night'],row['available_from_date'],row['available_to_date'],row['user_id'])
+
+    def delete(self,id):
+        rows = self._connection.execute('DELETE FROM spaces WHERE id = %s', [ id ])
+        return None
