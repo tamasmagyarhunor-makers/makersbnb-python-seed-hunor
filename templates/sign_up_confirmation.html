@@ -77,13 +77,13 @@
     <div class="confirmation-card">
         <h2>Sign Up Successful 🎉</h2>
         <p>Thank you for signing up to MakersBnB.</p>
-        <p class="redirect-msg">You will be taken to the homepage in <span id="countdown">10</span> seconds.</p>
-        <button class="btn btn-custom" onclick="window.location.href='/home_page'">Browse Properties</button>
+        <p class="redirect-msg">You will be taken to the homepage in <span id="countdown">5</span> seconds.</p>
+        <button class="btn btn-custom" onclick="window.location.href='/logged_in_homepage'">Browse Properties</button>
     </div>
 </section>
 
 <script>
-    let countdownNumber = 10;
+    let countdownNumber = 5;
     const countdownEl = document.getElementById('countdown');
 
     const countdownInterval = setInterval(() => {
@@ -91,7 +91,7 @@
         countdownEl.textContent = countdownNumber;
         if (countdownNumber <= 0) {
             clearInterval(countdownInterval);
-            window.location.href = '/home_page';
+            window.location.href = '/logged_in_homepage';
         }
     }, 1000);
 </script>

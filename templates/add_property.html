@@ -112,7 +112,7 @@
         <h1>MakersBnb</h1>
         <h2>Add a New Property Listing</h2>
 
-        <form action="/home_page" method="post" enctype="multipart/form-data">
+        <form action="/home" method="post" enctype="multipart/form-data">
             {% if errors %}
                 <p class="t-errors">
                     There were errors with your submission: {{ errors }}
@@ -148,7 +148,7 @@
             </div>
         </form>
         <div class="text-center mt-4">
-            <a href="/home_page" class="back-link">← Back to all property listings</a>
+            <a href="/home" class="back-link">← Back to all property listings</a>
         </div>
         
         <style>

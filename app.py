@@ -19,8 +19,8 @@ app.secret_key = os.urandom(24) #this creates a random secret key, needed for se
 def get_index():
     return render_template('index.html')
 
-# route to open the home page http://localhost:5001/home_page
-@app.route('/home_page', methods=['GET'])
+# route to open the home page http://localhost:5001/home
+@app.route('/home', methods=['GET'])
 def get_spaces():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
@@ -29,13 +29,14 @@ def get_spaces():
         return redirect((url_for("get_logged_in_homepage"))) #redirect to home page for logged in users
 
     spaces = repository.all()
-    return render_template("home_page.html", spaces=spaces)
+    return render_template("logged_in_homepage.html", spaces=spaces)
 
 @app.route('/logged_in_homepage', methods=['GET'])
 def get_logged_in_homepage():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     spaces = repository.all()
+    print(session['user_id'])
 
     if "user_id" not in session: #if the user is not logged in
         return redirect((url_for("login"))) #prompt them to login
@@ -56,7 +57,7 @@ def sign_up():
         if not email or not name or not password: # if these are invalid values (0, "", None)
             error = "Please fill in all the fields" # error message
             return render_template("sign_up.html", error=error)
-        
+
         all_users = repository.all()
         #if any of the email addresses in all_users match the given email
         if any([user.email_address == email for user in all_users]): 
@@ -64,10 +65,12 @@ def sign_up():
             return render_template("sign_up.html", error=error)
 
         #hashed_password = generate_password_hash(password)
-
-        repository.create(name, password, email) # creating new user
+        new_user = User(None, name, password, email)
+        repository.create(new_user)# creating new user
+        session['user_id'] = new_user.id
+        print(session['user_id'])
         return redirect(url_for('sign_up_successful')) # redirecting to sign up confirmation route below
-    
+
     return render_template("sign_up.html") # getting sign up page
 
 # route for showing sign up confirmation page
@@ -85,9 +88,9 @@ def login():
         email = request.form.get("email_address")
         password = request.form.get("password")
 
-        user = repository.find_by_email(email) #finding the user by their email
+        user = repository.find_by_email(email)#finding the user by their email
 
-        if user and user.password == password: #if a user exists and the password is the same...
+        if user and user.password == password:#if a user exists and the password is the same...
             session["user_id"] = user.id #a session is created with their user id
             return redirect(url_for("userhome")) #and the user is redirected to their user homepage
         elif not email or not password: #if either the email or password is incomplete
@@ -97,15 +100,18 @@ def login():
         else:
             error = "Invalid email or password" #if the email or the password is wrong
             return render_template("login.html", error=error)
-    
+
     return render_template("login.html") #GETS login page
 
 # route for user home (account page)
 @app.route('/userhome', methods=['GET'])
 def userhome():
     if "user_id" not in session: #if the user is not logged in
-        return redirect((url_for("login"))) #prompt them to login
-    return render_template("userhome.html") #otherwise send to user home
+        return redirect((url_for("login")))#prompt them to login
+    connection = get_flask_database_connection(app)
+    repository = SpaceRepository(connection)
+    spaces = repository.all()
+    return render_template("userhome.html", spaces=spaces) #otherwise send to user home
 
 # route for log out
 @app.route('/logout')
@@ -123,40 +129,36 @@ def debug_session():
 
 #_____________________________________
 
-@app.route('/home_page/<int:id>', methods=['GET'])
+@app.route('/home/<int:id>', methods=['GET'])
 def get_space(id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     space = repository.find_by_id(id)
     return render_template('show_space.html', space=space)
 
-@app.route('/home_page/add-space', methods=['GET'])
+@app.route('/home/add-space', methods=['GET'])
 def get_new_space():
     return render_template('add_property.html')
 
-@app.route('/home_page', methods=['POST'])
+@app.route('/home', methods=['POST'])
 def create_new_space():
     connection = get_flask_database_connection(app)
     space_repo = SpaceRepository(connection)
-    
+
     name = request.form['name']
     description = request.form['description']
     price = request.form['price_per_night']
-    host_id = 2 # TODO: Replace with session['user_id'] or something once login is implemented [fixme]
-    
+    host_id = session['user_id']
+
     new_space = Space(None, name, description, price, host_id)
-    
+
     if not new_space.is_valid():
         return render_template('add_property.html', space=new_space, errors=new_space.generate_errors()), 400
-    
+
     space_repo.create(new_space)
-    
-    return redirect(f'/home_page/{new_space.id}')
+
+    return redirect(f'/home/{new_space.id}')
 
 
-
-# These lines start the server if you run this file directly
-# They also start the server configured to use the test database
-# if started in test mode.
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
