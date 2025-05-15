@@ -1,7 +1,7 @@
 from lib.space import Space
 from lib.availability_range import AvailabilityRange
 from lib.booking import Booking
-import datetime
+import datetime, timedelta
 
 class SpaceRepository():
     def __init__(self, connection):
