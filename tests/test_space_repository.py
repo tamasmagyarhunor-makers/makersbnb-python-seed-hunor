@@ -78,5 +78,3 @@ def test_delete_space(db_connection):
     assert repository.all() == [
         Space(1, 'Bee Hive', 'A peaceful hexagonal room', 85, datetime.date(2025,7,1), datetime.date(2025,7,12), 2),
         Space(2, 'Ant farm', 'Bite-sized luxury pod', 77, datetime.date(2025,11,6), datetime.date(2025,11,20), 1)
-    ]
-

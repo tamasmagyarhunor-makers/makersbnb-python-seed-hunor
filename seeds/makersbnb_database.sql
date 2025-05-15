@@ -43,9 +43,9 @@ CREATE TABLE bookings (
 INSERT INTO users (user_name, email, phone) VALUES ('Bridget', 'bridget@example.com', '07402498078');
 INSERT INTO users (user_name, email, phone) VALUES ('Hannah', 'hannah@example.com', '07987654321');
 
-INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (1, 1, '20250601', 'Requested');
-INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20250701', 'Booked');
-INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20250801', 'Rejected');
+INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (1, 1, '20250705', 'Requested');
+INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20251110', 'Booked');
+INSERT INTO bookings (user_id, space_id, booking_date, status) VALUES (2, 2, '20251112', 'Rejected');
 
 INSERT INTO spaces(space_name, spaces_description, price_per_night, available_from_date, available_to_date, user_id) VALUES ('Bee Hive', 'A peaceful hexagonal room', 85, '2025-07-01', '2025-07-12', 2);
 INSERT INTO spaces(space_name, spaces_description, price_per_night, available_from_date, available_to_date, user_id) VALUES ('Ant farm', 'Bite-sized luxury pod', 77, '2025-11-06', '2025-11-20', 1);
