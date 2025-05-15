@@ -21,7 +21,7 @@ class UserRepository:
 
         return User(row['id'],row['name'],row['password'],row['email_address'])
     
-
+    #find by email function for log in page
     def find_by_email(self, email_address):
         rows = self._connection.execute('SELECT * from users WHERE email_address = %s',[email_address])
         
