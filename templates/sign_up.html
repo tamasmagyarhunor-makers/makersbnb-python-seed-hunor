@@ -1,122 +1,102 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MakersBnb Sign Up</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                padding: 0;
-                background-color: #f8f8f8;
-            }
-            .header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 20px;
-                background-color: white;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
-            .sub-header {
-                text-align: center;
-                background-color: #f0f0f0;
-                padding: 10px;
-                font-size: 18px;
-                font-weight: bold;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
-            .buttons {
-                display: flex;
-                gap: 10px;
-            }
-            .buttons button {
-                padding: 8px 15px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 14px;
-            }
-            .home_page {
-            background-color: #F6526D;
-            color: white;
-            }
-            label {
-                font-family: Arial, sans-serif;
-                margin: 30px;
-                padding: 0;
-                background-color: #f8f8f8;
-            }
+<head>
+    <meta charset="UTF-8" />
+    <title>MakersBnb - Sign Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f5f7fa;
+        color: #333;
+    }
 
-            h1 {
-            text-align: center;
-            margin-bottom: 20px; /* Adds space below the title */
-            }
+    .navbar {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
 
-            h2 {
-                text-align: center;
-            }
+    .form-section {
+        max-width: 500px;
+        margin: 4rem auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
 
+    .form-section h2 {
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
 
-        .message {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            padding: 0;
-            color: #ee4b2b;
-        }
+    .form-label {
+        font-weight: 600;
+    }
 
-        </style>
-    </head>
-    <body>
+    .form-control {
+        border-radius: 0.5rem;
+    }
 
-        <div class="header">
-            <h1>MakersBnb</h1>
-            <div class="buttons">
-                <button class="home_page" onclick= "window.location.href='/home_page'">Home</button>
-            </div>
+    .btn-custom {
+        background-color: #6c63ff;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .btn-custom:hover {
+        background-color: #574dcf;
+    }
+
+    .error-msg {
+        color: #e63946;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light px-4">
+    <a class="navbar-brand fw-bold" href="#">MakersBnb</a>
+    </nav>
+
+    <section class="form-section">
+    <h2>Sign Up</h2>
+    
+    {% if error %}
+        <p class="error-msg">{{ error }}</p>
+    {% endif %}
+
+    <form action="/sign_up" method="POST">
+        <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email_address" required>
         </div>
 
-        <div class="sub-header">
-            <h2>Sign Up</h2>
+        <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        
-        <form action="/sign_up" method="POST">
-            {% if error %}
-                <p style="color: red;">{{ error }}</p>
-            {% endif %}
 
-            <table>
-                <tr>
-                    <td align="right">
-                        <label>Email Address:</label>
-                    </td>
-                    <td align="left"><input type="text" name="email_address" /></td>
-                </tr>
-                <tr>
-                    <td align="right">
-                        <label>Name:</label>
-                    </td>
-                    <td align="left"><input type="text" name="name" /></td>
-                </tr>
-                <tr>
-                    <td align="right">
-                        <label>Password:</label>
-                    </td>
-                    <td align="left"><input type="text" name="password" /></td>
-                </tr>
-            </table>
+        <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+        </div>
 
-            
-                <!-- `type` is submit here, to indicate it is a button -->
-                <!-- `value` is used as the button's text -->
-            <input type="submit" value="Sign Up">
-            
+        <button type="submit" class="btn btn-custom">Sign Up</button>
+    </form>
+    </section>
 
-
-        </form>
-    </body>
-
+</body>
 </html>
