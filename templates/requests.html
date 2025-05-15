@@ -13,11 +13,11 @@
                 <img src="/static/logo.png" alt="The BnBugs">
             </a>
         </div>
-        <h1>View Your Requests</h1>
+        <h1>{{ user.user_name }}'s Requests</h1>
         <h2>Requests I've made</h2>
         {% if bookings_made | length > 0 %}
             {% for booking_made in bookings_made %}
-            <p>{{ booking_made['space_name'] }}: <span class="booking_status">Date: {{ booking_made['booking_date'] }}, Status: {{ booking_made['status'] }}</span> <a href="/spaces/request/{{ booking_made['space_id'] }}">View booking</a></p>
+            <p><span class="space_name">{{ booking_made['space_name'] }}:</span> <span class="booking_status">Date: {{ booking_made['booking_date'] }}, Status: {{ booking_made['status'] }}</span> <a href="/spaces/request/{{ booking_made['space_id'] }}">View booking</a></p>
             {% endfor %}
         {% else %}
             <p>You have no bookings</p>
@@ -26,7 +26,7 @@
         <h2>Requests I've received</h2>
         {% if bookings_received | length > 0 %}
             {% for booking_received in bookings_received %}
-            <p>{{ booking_received['space_name'] }}: <span class="booking_status">Date: {{ booking_received['booking_date'] }}, Status: {{ booking_received['status'] }}</span> <a href="/requests/{{ booking_received['id'] }}">View booking</a></p>
+            <p><span class="space_name">{{ booking_received['space_name'] }}:</span> <span class="booking_status">Date: {{ booking_received['booking_date'] }}, Status: {{ booking_received['status'] }}</span> <a href="/requests/{{ booking_received['id'] }}">View booking</a></p>
             {% endfor %}
         {% else %}
             <p>You have not received any bookings.</p>

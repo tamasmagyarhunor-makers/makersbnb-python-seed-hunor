@@ -21,6 +21,10 @@ h3 {
     font-size: 1.1em;
 }
 
+span.space_name {
+    font-weight: bold;
+}
+
 #logo { 
     float: left;
     height: 80px;
