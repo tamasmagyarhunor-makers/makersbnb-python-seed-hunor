@@ -1,6 +1,6 @@
-The Barn - https://imgur.com/a/aRME8sh
-The Loft - https://imgur.com/a/OiVgFYj
-The Hut - https://imgur.com/a/PBYfKgT 
-The Cottage - https://imgur.com/a/YKqKNdP 
-The Penthouse - https://imgur.com/a/nyASeEK
-The Beach Hut - https://imgur.com/a/RwyKpHF 
+The Barn - https://i.imgur.com/wzULRQT.jpeg
+The Loft - https://i.imgur.com/3MDJ9kR.jpeg
+The Hut - https://i.imgur.com/VwHlrhg.jpeg 
+The Cottage - https://i.imgur.com/1F0hDdX.jpeg 
+The Penthouse - https://i.imgur.com/hwgFaGe.jpeg
+The Beach Hut - https://i.imgur.com/EIHjI7u.jpeg 
