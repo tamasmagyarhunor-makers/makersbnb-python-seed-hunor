@@ -160,9 +160,9 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light px-4">
-    <a class="navbar-brand fw-bold" href="/home_page">MakersBnb</a>
+    <a class="navbar-brand fw-bold" href="/home">MakersBnb</a>
     <div class="ms-auto">
-        <a class="btn btn-custom" href="/home_page/add-space">+ Add Space</a>
+        <a class="btn btn-custom" href="/home/add-space">+ Add Space</a>
     </div>
     </nav>
 
@@ -186,7 +186,7 @@
                 <p class="card-text description" id="desc-{{ space.id }}">{{ space.description }}</p>
             </div>
             <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
-            <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
+            <p class="host_email"><a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
             <a href="/spaces/{{ space.id }}" class="btn btn-custom">View Details</a>
             </div>
             </div>

@@ -48,7 +48,7 @@ class SpaceRepository():
 
 
     def update(self, new_space):
-            self._connection.execute("UPDATE spaces SET name=%s, description=%s, price_per_night=%s, image_url=% WHERE id=%s",
+            self._connection.execute("UPDATE spaces SET name=%s, description=%s, price_per_night=%s, image_url=%s WHERE id=%s",
         [new_space.name,
         new_space.description,
         new_space.price_per_night, 

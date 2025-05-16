@@ -10,6 +10,8 @@ from flask import Flask, request, render_template, redirect, url_for, session
 from lib.booking_requests import BookingRequest
 from lib.booking_request_repository import BookingRequestRepository
 
+from lib.availability_range_repository import AvailabilityRangeRepository
+
 from lib.database_connection import get_flask_database_connection
 from werkzeug.security import generate_password_hash # use for password hashing
 
@@ -124,6 +126,7 @@ def debug_session():
 def edit_space(id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
+    space = repository.find_by_id(id)
 
     if "user_id" not in session:
         return redirect((url_for("login")))
@@ -132,7 +135,7 @@ def edit_space(id):
         name = request.form['name']
         description = request.form['description']
         price = request.form['price_per_night']
-        image_url = request.form['image_url']
+        image_url = space.image_url
         host_id = session["user_id"]
 
         updated_space = Space(id=id,
@@ -151,7 +154,7 @@ def edit_space(id):
 
 #_____________________________________
 
-@app.route('/home_page/<int:id>', methods=['GET'])
+@app.route('/home/<int:id>', methods=['GET'])
 def get_edited_space(id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
@@ -206,7 +209,7 @@ def create_new_space():
 
     space_repo.create(new_space)
     
-    return redirect(f'/home_page/{new_space.id}')
+    return redirect(f'/spaces/{new_space.id}')
 
 
 # Route to return a single space, including booked days, and populate calendar - SASHA
@@ -223,10 +226,17 @@ def get_space(space_id):
     available_days = space_repo.available_days_by_id(space_id) #uses available_days method to find host-selected available days for this space id
     occupied_dates = space_repo.booked_days_by_id(space_id) #as above but finds occupied days by checking bookings
 
+    if available_days:
+        selectable_start = available_days[0]
+        selectable_end = available_days[-1]
+    else:
+        selectable_start = "2025-01-01"  # Or a default value
+        selectable_end = "2025-12-12"  # Or a default value
+
     occupied_dates_dicts = [{"startDate": d, "endDate": d} for d in occupied_dates] #translates all individual occupied dates to dictionary format, to be passed to Javascript for the calendar
 
     # return statement brings all space details, plus the available range defined by first and last dates in 'available days' list, as well as a list of dicts for all occupied dates - all fed into calendar JS and marked on calendar
-    return render_template('show_space.html', space=space, selectable_start=available_days[0], selectable_end=available_days[-1], occupied_dates=occupied_dates_dicts) 
+    return render_template('show_space.html', space=space, selectable_start=selectable_start, selectable_end=selectable_end, occupied_dates=occupied_dates_dicts) 
 
 # Route to make a booking request - SASHA
 
