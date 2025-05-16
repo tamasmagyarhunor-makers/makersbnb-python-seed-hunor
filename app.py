@@ -142,9 +142,10 @@ def create_new_space():
     name = request.form['name']
     description = request.form['description']
     price = request.form['price_per_night']
+    image_url = request.form['imageUrl']
     host_id = 2 # TODO: Replace with session['user_id'] or something once login is implemented [fixme]
     
-    new_space = Space(None, name, description, price, host_id)
+    new_space = Space(None, name, description, price, image_url, host_id)
     
     if not new_space.is_valid():
         return render_template('add_property.html', space=new_space, errors=new_space.generate_errors()), 400
