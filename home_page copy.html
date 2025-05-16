@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-     <!-- Links for importing calendar module -->
+    <!-- Links for importing calendar module -->
     <link rel="stylesheet" href="{{ url_for('static', filename='calendar_homepage_style.css') }}">
     <!-- End of links for importing calendar module -->
     <style>
@@ -40,21 +40,12 @@
         color: #6c757d;
     }
 
-    .col-sm-6.d-flex,
-    .col-lg-4.d-flex {
-    display: flex;
-    align-items: stretch;
+    .property-grid {
+        padding: 3rem 1rem;
     }
 
-    .row.g-4 {
-    align-items: stretch;
-    }
-
-    .col-sm-6.d-flex > .card,
-    .col-lg-4.d-flex > .card {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
+    .col-sm-6, .col-lg-4 {
+        display: flex;
     }
 
     .card {
@@ -81,7 +72,7 @@
     }
 
     .card-body {
-        flex: 1 1 auto;
+      flex: 1 1 auto;
         display: flex;
         flex-direction: column;
         padding: 1rem 1.5rem;
@@ -126,6 +117,25 @@
         margin-top: 0.25rem;
     }
 
+    .select-dates-btn {
+        background-color: #6c63ff;
+        color: white;
+        font-weight: 600;
+        padding: 0.6rem 1.5rem;   /* More padding for a rectangle shape */
+        cursor: pointer;
+        margin-top: 0.25rem;
+        border: none;
+        border-radius: 0.5rem;    /* Less rounded for a rectangle */
+        display: inline-block;    /* Prevents full width */
+        font-size: 1.1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: background 0.2s;
+    }
+
+    .select-dates-btn:hover {
+        background-color: #574dcf;
+    }
+
     .host_email {
         font-size: 0.9rem;
         color: #6c757d;
@@ -145,34 +155,16 @@
     .btn-custom:hover {
         background-color: #574dcf;
     }
-        .select-dates-btn {
-        background-color: #6c63ff;
-        color: white;
-        font-weight: 600;
-        padding: 0.6rem 1.5rem;   /* More padding for a rectangle shape */
-        cursor: pointer;
-        margin-top: 0.25rem;
-        border: none;
-        border-radius: 0.5rem;    /* Less rounded for a rectangle */
-        display: inline-block;    /* Prevents full width */
-        font-size: 1.1rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        transition: background 0.2s;
-    }
-
-    .select-dates-btn:hover {
-        background-color: #574dcf;
     </style>
 </head>
 <script defer src="{{ url_for('static', filename='calendar_for_homepage.js') }}"></script>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light px-4">
-    <a class="navbar-brand fw-bold" href="{{ url_for('get_spaces')}}">MakersBnb</a>
+    <a class="navbar-brand fw-bold" href="#">MakersBnb</a>
     <div class="ms-auto">
-        <button id="userhome_button" class="btn btn-custom" onclick="window.location.href='/userhome'">Your Account</button>
-        <button class="btn btn-custom" onclick="window.location.href='/logout'">Logout</button>
-
+        <a class="btn btn-custom" href="/home_page/add-space">+ Add Space</a>
     </div>
     </nav>
 
@@ -205,7 +197,7 @@
         <div class="col-sm-6 col-lg-4 d-flex">
         <div class="card">
             {% if space.image_url %}
-            <img src="{{ space.image_url }}" referrerpolicy="no-referrer" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" />
+            <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" />
             {% else %}
             <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top property-img" loading="lazy" />
             {% endif %}
@@ -215,6 +207,7 @@
                 <p class="card-text description" id="desc-{{ space.id }}">{{ space.description }}</p>
             </div>
             <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
+            <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
             <a href="/spaces/{{ space.id }}" class="btn btn-custom">View Details</a>
             </div>
             </div>
