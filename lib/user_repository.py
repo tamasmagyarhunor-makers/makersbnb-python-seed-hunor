@@ -1,4 +1,5 @@
 from lib.user import User
+from lib.password_hashing_and_validation import *
 
 class UserRepository:
     def __init__(self,connection):
@@ -38,9 +39,13 @@ class UserRepository:
     
 
     def create(self, new_user):
+        print(new_user.password)
+        hashed_password = hash_password(new_user.password)
+        print(hashed_password)
+        string_hash = hashed_password.decode('utf-8')
         rows = self._connection.execute('INSERT INTO users (name,password,email_address) VALUES (%s,%s,%s) RETURNING id',
                                 [new_user.name,
-                                new_user.password,
+                                string_hash,
                                 new_user.email_address])
         row = rows[0]
         new_user.id = row['id']
@@ -55,7 +60,8 @@ class UserRepository:
 
         
         if key == 'password':
-            self._connection.execute("UPDATE users SET password = %s WHERE id = %s",[new_value,id])
+            hashed_password = hash_password(new_value)
+            self._connection.execute("UPDATE users SET password = %s WHERE id = %s",[hashed_password,id])
         if key == 'email_address':
             self._connection.execute("UPDATE users SET email_address = %s WHERE id = %s",[new_value,id])
 

@@ -15,6 +15,8 @@ from lib.availability_range_repository import AvailabilityRangeRepository
 from lib.database_connection import get_flask_database_connection
 from werkzeug.security import generate_password_hash # use for password hashing
 
+from lib.password_hashing_and_validation import *
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24) #this creates a random secret key, needed for sessions
@@ -88,8 +90,14 @@ def login():
         password = request.form.get("password")
 
         user = repository.find_by_email(email)
+        
+        if not user:
+            error = "Invalid email or password" 
+            return render_template("login.html", error=error)
+        
+        validation = check_password(password,user.password)
 
-        if user and user.password == password:
+        if user and validation:
             session["user_id"] = user.id
             return redirect(url_for("userhome"))
         elif not email or not password:
@@ -137,6 +145,7 @@ def edit_space(id):
         price = request.form['price_per_night']
         image_url = space.image_url
         host_id = session["user_id"]
+        image_url = request.form["image_url"]
 
         updated_space = Space(id=id,
                             name=name,
