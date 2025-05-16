@@ -24,7 +24,7 @@ def get_spaces():
         return redirect((url_for("get_logged_in_homepage")))
 
     spaces = repository.all()
-    return render_template("logged_in_homepage.html", spaces=spaces)
+    return render_template("home.html", spaces=spaces)
 
 @app.route('/logged_in_homepage', methods=['GET'])
 def get_logged_in_homepage():
