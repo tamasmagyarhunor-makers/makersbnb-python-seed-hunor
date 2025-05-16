@@ -125,6 +125,9 @@ def edit_space(id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
 
+    if "user_id" not in session:
+        return redirect((url_for("login")))
+
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
@@ -145,21 +148,32 @@ def edit_space(id):
     return render_template('edit_space.html', space=space)
 
 
-@app.route('/home/<int:id>', methods=['GET'])
+@app.route('/spaces/<int:id>', methods=['GET'])
 def get_space(id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
+
+    if "user_id" not in session:
+        return redirect((url_for("login")))
+    
     space = repository.find_by_id(id)
     return render_template('show_space.html', space=space)
 
 @app.route('/home/add-space', methods=['GET'])
 def get_new_space():
+
+    if "user_id" not in session:
+        return redirect((url_for("login")))
+    
     return render_template('add_property.html')
 
 @app.route('/home', methods=['POST'])
 def create_new_space():
     connection = get_flask_database_connection(app)
     space_repo = SpaceRepository(connection)
+
+    if "user_id" not in session:
+        return redirect((url_for("login")))
 
     name = request.form['name']
     description = request.form['description']
