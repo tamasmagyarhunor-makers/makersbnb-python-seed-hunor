@@ -162,6 +162,7 @@
 
     .select-dates-btn:hover {
         background-color: #574dcf;
+    }
     </style>
 </head>
 <script defer src="{{ url_for('static', filename='calendar_for_homepage.js') }}"></script>
@@ -188,16 +189,16 @@
     <input type="hidden" name="end_date" id="endDateInput">
     <div class="calendar-container" id="calendarSection" style="display:none">
     <div class="calendar-nav">
-      <button id="prevMonthBtn" type="button"><span>&#8656;</span></button>
-      <div id="currentMonthYear"></div>
-      <button id="nextMonthBtn" type="button"><span>&#8658;</span></button>
+        <button id="prevMonthBtn" type="button"><span>&#8656;</span></button>
+        <div id="currentMonthYear"></div>
+        <button id="nextMonthBtn" type="button"><span>&#8658;</span></button>
     </div>
     <div class="calendar-header">Book Your Stay</div>
     <div class="calendar"></div>
     <button class="btn btn-custom mt-3" id="calendarSearchBtn" type="submit">Search</button>
-  </div>
+    </div>
 </form>
-  <!-- #endregion -->
+    <!-- #endregion -->
 
     <section class="container property-grid">
     <div class="row g-4">
