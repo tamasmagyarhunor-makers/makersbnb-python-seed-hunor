@@ -112,7 +112,7 @@
         <h1>MakersBnb</h1>
         <h2>Add a New Property Listing</h2>
 
-        <form action="/home_page" method="post" enctype="multipart/form-data">
+        <form action="/home" method="post" enctype="multipart/form-data">
             {% if errors %}
                 <p class="t-errors">
                     There were errors with your submission: {{ errors }}
@@ -135,12 +135,12 @@
             </div>
 
             <div>
-                <label for="image">Property Image</label>
-                <input type="file" name="image" id="image" accept="image/*">
+                <label for="imageUrl">Property Image URL</label>
+                <input type="text" name="imageUrl" id="imageUrl" placeholder="Enter .jpeg or .jpg URL">
             </div>
 
             <div class="mb-3 text-center">
-                <img id="imagePreview" src="" alt="Image preview">
+                <img id="imagePreview" referrerpolicy="no-referrer" src="" alt="Image preview" style="display:none;">
             </div>
 
             <div class="text-center">
@@ -148,7 +148,7 @@
             </div>
         </form>
         <div class="text-center mt-4">
-            <a href="/home_page" class="back-link">← Back to all property listings</a>
+            <a href="/home" class="back-link">← Back to all property listings</a>
         </div>
         
         <style>
@@ -167,13 +167,13 @@
     </div>
 
     <script>
-        const imageInput = document.getElementById('image');
+        const imageInput = document.getElementById('imageUrl');
         const preview = document.getElementById('imagePreview');
 
-        imageInput.addEventListener('change', () => {
-            const file = imageInput.files[0];
-            if (file) {
-                preview.src = URL.createObjectURL(file);
+        imageInput.addEventListener('input', () => {
+            const url = imageInput.value.trim();
+            if (url.match(/\.(jpeg|jpg)$/)) {
+                preview.src = url;
                 preview.style.display = 'block';
             } else {
                 preview.src = '';

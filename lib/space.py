@@ -1,13 +1,15 @@
 class Space:
-    def __init__(self, id, name, description, price_per_night, host_id):
+    def __init__(self, id, name, description, price_per_night, image_url, host_id, image_id=None):
         self.id = id
         self.name = name
         self.description = description
         self.price_per_night = price_per_night
+        self.image_url = image_url
         self.host_id = host_id
+        # self.image_id = image_id
 
     def __repr__(self):
-        return f'Space({self.id}, {self.name}, {self.description}, £{self.price_per_night}/night, {self.host_id})'
+        return f'Space({self.id}, {self.name}, {self.description}, £{self.price_per_night}/night, {self.image_url}, {self.host_id})'
 
     def __eq__(self,other):
         if not isinstance(other, Space):

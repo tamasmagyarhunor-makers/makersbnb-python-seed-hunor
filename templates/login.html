@@ -86,14 +86,18 @@
     <nav class="navbar navbar-expand-lg navbar-light px-4">
     <a class="navbar-brand fw-bold" href="#">MakersBnb</a>
     </nav>
+    
 
     <section class="login-section">
     <div class="login-card">
         <h2>Welcome Back 👋</h2>
         <form action="/login" method="POST">
+            {% if error %}
+                <p id="error_message" style="color: red;">{{ error }}</p>
+            {% endif %}
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+            <input type="email" class="form-control" id="email_address" name="email_address" placeholder="you@example.com" required>
         </div>
         <div class="mb-4">
             <label for="password" class="form-label">Password</label>
