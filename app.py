@@ -31,7 +31,6 @@ def get_logged_in_homepage():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     spaces = repository.all()
-    # print(session['user_id'])
 
     if "user_id" not in session:
         return redirect((url_for("login")))
