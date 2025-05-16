@@ -155,33 +155,39 @@ def create_new_space():
     
     return redirect(f'/home_page/{new_space.id}')
 
-# Route to return a single space, including booked days, and populate calendar
+# Route to return a single space, including booked days, and populate calendar - SASHA
 @app.route('/spaces/<space_id>', methods=['GET'])
 def get_space(space_id):
     connection = get_flask_database_connection(app)
-    space_repo = SpaceRepository(connection)
-    space = space_repo.find_by_id(space_id)
-    available_days = space_repo.available_days_by_id(space_id)
-    occupied_dates = space_repo.booked_days_by_id(space_id)
-    occupied_dates_dicts = [{"startDate": d, "endDate": d} for d in occupied_dates]
-    return render_template('show_space.html', space=space, selectable_start=available_days[0], selectable_end=available_days[-1], occupied_dates=occupied_dates_dicts)
 
-# Route to make a booking request
-# Needs start date, end date, space id, user id
+    space_repo = SpaceRepository(connection)
+    space = space_repo.find_by_id(space_id) #finds individual space using space id
+
+    available_days = space_repo.available_days_by_id(space_id) #uses available_days method to find host-selected available days for this space id
+    occupied_dates = space_repo.booked_days_by_id(space_id) #as above but finds occupied days by checking bookings
+
+    occupied_dates_dicts = [{"startDate": d, "endDate": d} for d in occupied_dates] #translates all individual occupied dates to dictionary format, to be passed to Javascript for the calendar
+
+    # return statement brings all space details, plus the available range defined by first and last dates in 'available days' list, as well as a list of dicts for all occupied dates - all fed into calendar JS and marked on calendar
+    return render_template('show_space.html', space=space, selectable_start=available_days[0], selectable_end=available_days[-1], occupied_dates=occupied_dates_dicts) 
+
+# Route to make a booking request - SASHA
 
 @app.route('/spaces/<space_id>', methods=['POST'])
 def make_booking_request(space_id):
     connection = get_flask_database_connection(app)
     booking_request_repo = BookingRequestRepository(connection)
 
+    # NEEDS CHECKING THAT IT WORKS
     if "user_id" not in session: #if the user is not logged in
         return redirect((url_for("login"))) #prompt them to login
 
     # Get form data from calendar input
     start_date = request.form.get('start_date')
     end_date = request.form.get('end_date')
-    user_id = session.get('user_id')  # Use session user_id if logged in, else fallback to 1
+    user_id = session.get('user_id')  # Use session user_id for user id
 
+    # NEEDS SORTING
     # if not start_date or not end_date:
     #     error = "Please select both a start and end date."
     #     return redirect((url_for("logged_in_homepage")))
@@ -192,13 +198,14 @@ def make_booking_request(space_id):
     # Show confirmation page with booking details
     return render_template('booking_request_confirmation.html', booking_request=booking_request)
 
-# Route to return a list of properties based on selected dates
+# Route to return a list of properties based on selected dates - SASHA
 
 @app.route('/search_by_dates', methods=['POST'])
 def search_by_dates():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
 
+    # Takes date input from the calendar
     start_date = request.form.get('start_date')
     end_date = request.form.get('end_date')
 
@@ -206,8 +213,8 @@ def search_by_dates():
     #     error = "Please select both a start and end date."
     #     return redirect((url_for("logged_in_homepage")))
 
-    spaces = repository.get_available_unbooked_spaces(start_date, end_date)
-    return render_template("property_search.html", spaces=spaces, start_date=start_date, end_date=end_date)
+    spaces = repository.get_available_unbooked_spaces(start_date, end_date) # uses the get available unbooked spaces method to filter for spaces available between the start and end date
+    return render_template("property_search.html", spaces=spaces, start_date=start_date, end_date=end_date) # renders to HTML showing list of available properties
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

@@ -1,13 +1,15 @@
+//# finds the first 'calendar container' item within the styles file and returns ii
 const calendarContainer = document.querySelector(".calendar-container");
 
 //#region Booking & Calendar Logic
 
-//#region Starting Variables
+//#sets up variables - 'querySelector' items come from styles.css doc, 'getElementById' come from HTML using id tag
 const calendar = document.querySelector(".calendar");
 const currentMonthYear = document.getElementById("currentMonthYear");
 const prevMonthBtn = document.getElementById("prevMonthBtn");
 const nextMonthBtn = document.getElementById("nextMonthBtn");
 
+//# creates a date object representing today's date
 let today = new Date(
   Date.UTC(
     new Date().getUTCFullYear(),
@@ -15,14 +17,18 @@ let today = new Date(
     new Date().getUTCDate()
   )
 );
+//# Stores elements of today
 let currentMonth = today.getUTCMonth();
 let currentYear = today.getUTCFullYear();
 
+//# selectingStart to stores whether the user is selecting the start date (true) or the end date (false) - toggles depending which stage of the selection process they are in
+//# two variables store start and end date of the booking
 let selectingStart = true;
 let startDate = null;
 let endDate = null;
 //#endregion
 
+//# Converts a JS Date object into a string - so that it works with HTML
 function normalizeDate(date) {
   return date.toISOString().split("T")[0]; // Get YYYY-MM-DD format
 }
@@ -31,6 +37,7 @@ function isDateInRange(date, rangeStart, rangeEnd) {
   return normalizeDate(date) >= rangeStart && normalizeDate(date) <= rangeEnd;
 }
 
+//# removes all selection and status classes from every calendar day tile
 function clearSelection() {
   document.querySelectorAll(".day").forEach((day) => {
     day.classList.remove("selected", "afternoon", "morning", "full");
@@ -38,21 +45,26 @@ function clearSelection() {
 }
 
 //#region Main Calculations
+//#redraws the calendar for the current month and year
 function updateCalendar() {
   calendar.innerHTML = "";
 
+  //# calculates month boundaries
   const firstDay = new Date(Date.UTC(currentYear, currentMonth, 1));
   const lastDay = new Date(Date.UTC(currentYear, currentMonth + 1, 0));
   const daysInMonth = lastDay.getUTCDate();
 
+  //# displays current month and year at top of calendar
   currentMonthYear.textContent = `${firstDay.toLocaleString("default", {
     month: "long",
   })} ${currentYear}`;
 
+  //#disables previous month bytton if calendar on current month
   prevMonthBtn.disabled =
     currentYear == today.getUTCFullYear() &&
     currentMonth == today.getUTCMonth();
 
+    //# loop creating day tiles
   for (let i = 1; i <= daysInMonth; i++) {
     const dayDiv = document.createElement("div");
     dayDiv.className = "day";
@@ -86,14 +98,20 @@ function updateCalendar() {
       dayDiv.classList.add("disabled");
     }
 
+    //# listens for user clicking on a day, then applies the handle date selection function below
     dayDiv.addEventListener("click", () => handleDateSelection(dayDiv));
     calendar.appendChild(dayDiv);
   }
 
+  //# when the calendar is redrawn (e.g. after changing months) it checks for existing user date selections
+  //# if they exist, it plots them, to ensure they are not lost
   persistUserSelection(startDate, endDate, currentMonth, currentYear, lastDay);
 }
 //#endregion
 
+//# Handles what happens if a user clicks a date
+// #if selecting start date, checks if it's available, sets startdate var, and redraws
+//# if selecting end date, checks for overlaps, sets enddate var and redraws
 function handleDateSelection(dayDiv) {
   const selectedDate = new Date(`${dayDiv.dataset.date}T00:00:00Z`);
 
@@ -134,6 +152,10 @@ function handleDateSelection(dayDiv) {
   updateCalendar();
 }
 
+//# Below function is a helper function used for occupied dates, and for the dates the user is currently selecting
+//# When called with an object from OccupiedDates - it highlights booked / unavailable days
+//# When called with the users current selection - it highlights the user's current range
+
 function persistUserSelection(
   startDate,
   endDate,
@@ -153,6 +175,7 @@ function persistUserSelection(
   }
 }
 
+//# Highlights the occupied dates
 function highlightRange(startDate, endDate) {
   if (!startDate) return;
 
@@ -174,7 +197,7 @@ function highlightRange(startDate, endDate) {
   });
 }
 
-//#region EventListeners
+//#region EventListeners - scroll through months when user clicks the arrows
 prevMonthBtn.addEventListener("click", () => {
   currentMonth--;
   if (currentMonth < 0) {
@@ -249,6 +272,10 @@ if (openModalBtn && bookingDialog) {
       totalPriceSpan.textContent = `£${total.toFixed(2)}`;
     }
 
+    //# This section finds the hidden input fields for start and end date in the booking form (HTML)
+    //# It sets their values to the selected start and end date formatted as 'YYYY-MM-DD'
+    //# Then it opens the booking form so the user can review it and submit
+    //# important that this info is passed into the form correctly so it will move through the HTML, into Python code and into database
     const startDateInput = document.getElementById("startDateInput");
     const endDateInput = document.getElementById("endDateInput");
     if (startDateInput) startDateInput.value = startDate ? startDate.toISOString().split("T")[0] : "";
@@ -257,6 +284,8 @@ if (openModalBtn && bookingDialog) {
     bookingDialog.showModal();
   });
 }
+
+//# These functions allow you to click off the booking form and it will disappear
 
 if (closeDialogBtn && bookingDialog) {
   closeDialogBtn.addEventListener("click", () => {
