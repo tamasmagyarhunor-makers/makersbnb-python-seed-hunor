@@ -174,17 +174,20 @@ def make_booking_request(space_id):
     connection = get_flask_database_connection(app)
     booking_request_repo = BookingRequestRepository(connection)
 
-    # Get form data
+    if "user_id" not in session: #if the user is not logged in
+        return redirect((url_for("login"))) #prompt them to login
+
+    # Get form data from calendar input
     start_date = request.form.get('start_date')
     end_date = request.form.get('end_date')
-    user_id = session.get('user_id', 1)  # Use session user_id if logged in, else fallback to 1
+    user_id = session.get('user_id')  # Use session user_id if logged in, else fallback to 1
+
+    # if not start_date or not end_date:
+    #     error = "Please select both a start and end date."
+    #     return redirect((url_for("logged_in_homepage")))
 
     # Add booking request to the database
     booking_request = booking_request_repo.add_booking_request(start_date, end_date, space_id, user_id)
-
-    # If booking_request is a string, it's an error message from booking_check
-    if isinstance(booking_request, str):
-        return render_template('booking_request_confirmation.html', error=booking_request)
 
     # Show confirmation page with booking details
     return render_template('booking_request_confirmation.html', booking_request=booking_request)
@@ -199,9 +202,9 @@ def search_by_dates():
     start_date = request.form.get('start_date')
     end_date = request.form.get('end_date')
 
-    if not start_date or not end_date:
-        error = "Please select both a start and end date."
-        return redirect(url_for('get_homepage', error=error))
+    # if not start_date or not end_date:
+    #     error = "Please select both a start and end date."
+    #     return redirect((url_for("logged_in_homepage")))
 
     spaces = repository.get_available_unbooked_spaces(start_date, end_date)
     return render_template("property_search.html", spaces=spaces, start_date=start_date, end_date=end_date)
