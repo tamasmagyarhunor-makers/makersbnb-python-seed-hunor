@@ -105,7 +105,6 @@ def userhome():
         return redirect((url_for("login")))
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
-    # Filter spaces by the logged-in user
     user_spaces = [space for space in repository.all() if space.host_id == session["user_id"]]
     return render_template("userhome.html", spaces=user_spaces, has_properties=bool(user_spaces))
 
