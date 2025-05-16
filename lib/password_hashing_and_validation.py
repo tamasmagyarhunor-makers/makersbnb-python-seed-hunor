@@ -10,7 +10,7 @@ import bcrypt
 
 def hash_password(password):
     salt = '$2b$12$n1GzTQLs1ukQAslENaCMbu'.encode('utf-8')
-
+    salt = bcrypt.gensalt()
     byte_password = password.encode('utf-8')
 
     hashed = bcrypt.hashpw(byte_password, salt)
