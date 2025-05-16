@@ -130,12 +130,14 @@ def edit_space(id):
         name = request.form['name']
         description = request.form['description']
         price = request.form['price_per_night']
+        image_url = request.form['image_url']
         host_id = session["user_id"]
 
         updated_space = Space(id=id,
                             name=name,
                             description=description,
                             price_per_night=price,
+                            image_url=image_url,
                             host_id=host_id)
 
         repository.update(updated_space)
@@ -148,7 +150,7 @@ def edit_space(id):
 #_____________________________________
 
 @app.route('/home_page/<int:id>', methods=['GET'])
-def get_space(id):
+def get_edited_space(id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
 
@@ -156,12 +158,14 @@ def get_space(id):
         name = request.form['name']
         description = request.form['description']
         price = request.form['price_per_night']
+        image_url = request.form['image_Url']
         host_id = session["user_id"]
 
         updated_space = Space(id=id,
                             name=name,
                             description=description,
                             price_per_night=price,
+                            image_url=image_url,
                             host_id=host_id)
 
         repository.update(updated_space)
@@ -183,7 +187,7 @@ def create_new_space():
     name = request.form['name']
     description = request.form['description']
     price = request.form['price_per_night']
-    image_url = request.form['imageUrl']
+    image_url = request.form['image_url']
     host_id = session['user_id']
 
     new_space = Space(None, name, description, price, image_url, host_id)
