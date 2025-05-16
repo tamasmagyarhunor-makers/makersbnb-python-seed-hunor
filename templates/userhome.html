@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Your Account - MakersBnb</title>
+        <title>Your Account - MakersBnb</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -24,20 +24,29 @@
         padding: 3rem 1rem;
     }
 
-    .col-sm-6, .col-lg-4 {
+    .col-sm-6.d-flex,
+    .col-lg-4.d-flex {
         display: flex;
+        align-items: stretch;
+    }
+
+    .row.g-4 {
+        align-items: stretch;
+    }
+
+    .col-sm-6.d-flex > .card,
+    .col-lg-4.d-flex > .card {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
     }
 
     .card {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
         border: none;
         border-radius: 1rem;
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+        transition: transform 0.3s, box-shadow 0.3s;
     }
-
     .card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 24px rgba(0,0,0,0.12);
@@ -51,85 +60,85 @@
     }
 
     .card-body {
+        flex: 1 1 auto;
         display: flex;
         flex-direction: column;
         padding: 1rem 1.5rem;
     }
 
     .card-title {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #2e2e2e;
-            margin-bottom: 0.5rem;
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
     }
 
     .host_email {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
     }
 
     .btn-custom {
-            background-color: #6c63ff;
-            color: white;
-            border-radius: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            transition: background 0.3s ease;
-            align-self: flex-start;
-            margin-top: auto;
+        margin-top: auto;
+        background-color: #6c63ff;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        transition: background 0.3s ease;
+        align-self: flex-start;
     }
-
     .btn-custom:hover {
-            background-color: #574dcf;
+        background-color: #574dcf;
     }
 
     .header-title {
-                text-align: center;
-                padding: 3rem 1rem 1rem;
+        text-align: center;
+        padding: 3rem 1rem 1rem;
     }
-            </style>
+    </style>
 </head>
 <body>
 
-            <nav class="navbar navbar-expand-lg navbar-light px-4">
-    <a class="navbar-brand fw-bold" href="#">MakersBnb</a>
-    <div class="ms-auto">
-                <button class="btn btn-custom" onclick="window.location.href='/home/add-space'">+ Add Space</button>
-                <button id="home_button" class="btn btn-custom" onclick="window.location.href='/home'">Home</button>
-                <button class="btn btn-custom" onclick="window.location.href='/logout'">Logout</button>
+    <nav class="navbar navbar-expand-lg navbar-light px-4">
+        <a class="navbar-brand fw-bold" href="#">MakersBnb</a>
+        <div class="ms-auto">
+        <button class="btn btn-custom" onclick="window.location.href='/home/add-space'">+ Add Space</button>
+        <button class="btn btn-custom" onclick="window.location.href='/home'">Home</button>
+        <button class="btn btn-custom" onclick="window.location.href='/logout'">Logout</button>
+        </div>
+    </nav>
+
+    <div class="header-title">
+        <h1>Your Listings</h1>
+        <p class="text-muted">These are the spaces you've listed as a host.</p>
     </div>
-            </nav>
 
-            <div class="header-title">
-    <h1>Your Listings</h1>
-    <p class="text-muted">These are the spaces you've listed as a host.</p>
-            </div>
-
-    <section class="container property-grid">
+<section class="container property-grid">
     <div class="row g-4">
         {% for space in spaces %}
         {% if space.host_id == session['user_id'] %}
-        <div class="col-sm-6 col-lg-4 d-flex">
-            <a href="/userhome/{{ space.id }}/edit">
-                <div class="card">
+            <div class="col-sm-6 col-lg-4 d-flex">
+            <div class="card">
                 {% if space.image_url %}
-                    <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" />
+                <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top" loading="lazy" />
                 {% else %}
-                    <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top property-img" loading="lazy" />
+                <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top" loading="lazy" />
                 {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ space.name }}</h5>
-                    <p class="card-text">{{ space.description }}</p>
-                    <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
-                    <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
-                    <a href="/spaces/{{ space.id }}" class="btn btn-custom">View Details</a>
+                <h5 class="card-title">{{ space.name }}</h5>
+                <p class="card-text">{{ space.description }}</p>
+                <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
+                <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
+                <div class="d-flex justify-content-between gap-2 mt-3">
+                    <a href="/userhome/{{ space.id }}/edit" class="btn btn-custom flex-fill">Edit Listing</a>
+                    <a href="/spaces/{{ space.id }}" class="btn btn-custom flex-fill">View Details</a>
                 </div>
-            </a>
+                </div>
             </div>
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
-    </div>
     </section>
 
 </body>
