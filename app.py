@@ -188,9 +188,9 @@ def make_booking_request(space_id):
     user_id = session.get('user_id')  # Use session user_id for user id
 
     # NEEDS SORTING
-    # if not start_date or not end_date:
-    #     error = "Please select both a start and end date."
-    #     return redirect((url_for("logged_in_homepage")))
+    if not start_date or not end_date:
+        error = "Please select both a start and end date."
+        return redirect((url_for("logged_in_homepage")))
 
     # Add booking request to the database
     booking_request = booking_request_repo.add_booking_request(start_date, end_date, space_id, user_id)
@@ -209,9 +209,9 @@ def search_by_dates():
     start_date = request.form.get('start_date')
     end_date = request.form.get('end_date')
 
-    # if not start_date or not end_date:
-    #     error = "Please select both a start and end date."
-    #     return redirect((url_for("logged_in_homepage")))
+    if not start_date or not end_date:
+        error = "Please select both a start and end date."
+        return redirect((url_for("get_logged_in_homepage")))
 
     spaces = repository.get_available_unbooked_spaces(start_date, end_date) # uses the get available unbooked spaces method to filter for spaces available between the start and end date
     return render_template("property_search.html", spaces=spaces, start_date=start_date, end_date=end_date) # renders to HTML showing list of available properties
