@@ -46,21 +46,14 @@ class SpaceRepository():
         new_space.id = row['id']
         return new_space
 
-    def update(self, id, key, new_value):
-        if key == 'name':
-            self._connection.execute("UPDATE spaces SET name = %s WHERE id = %s",[new_value,id])
-        if key == 'description':
-            self._connection.execute("UPDATE spaces SET description = %s WHERE id = %s",[new_value,id])
-        if key == 'price_per_night':
-            self._connection.execute("UPDATE spaces SET price_per_night = %s WHERE id = %s",[new_value,id])
-        if key == 'image_url':
-            self._connection.execute("UPDATE spaces SET image_url = %s WHERE id = %s",[new_value,id])
-        if key == 'host_id':
-            self._connection.execute("UPDATE spaces SET host_id = %s WHERE id = %s",[new_value,id])
 
-        else:
-            return 'Invalid Key'
-        
+    def update(self, new_space):
+            self._connection.execute("UPDATE spaces SET name=%s, description=%s, price_per_night=%s, image_url=% WHERE id=%s",
+        [new_space.name,
+        new_space.description,
+        new_space.price_per_night, 
+        new_space.image_url,
+        new_space.id])
 
     def delete(self,id):
         self._connection.execute('DELETE FROM spaces WHERE id = %s',[id])

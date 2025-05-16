@@ -37,8 +37,14 @@ class UserRepository:
         return User(row['id'],row['name'],row['password'],row['email_address'])
     
 
-    def create(self,name,password,email_address):
-        self._connection.execute('INSERT INTO users (name,password,email_address) VALUES (%s,%s,%s)',[name,password,email_address])
+    def create(self, new_user):
+        rows = self._connection.execute('INSERT INTO users (name,password,email_address) VALUES (%s,%s,%s) RETURNING id',
+                                [new_user.name,
+                                new_user.password,
+                                new_user.email_address])
+        row = rows[0]
+        new_user.id = row['id']
+        return new_user
 
 
     def delete(self, id):
