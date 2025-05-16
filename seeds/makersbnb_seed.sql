@@ -110,7 +110,7 @@ INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALU
 
 INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2026-01-01',1);
 INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2026-01-01',2);
-INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-01-01','2025-01-07',3);
+INSERT INTO availability_ranges (start_date,end_date,space_id) VALUES ('2025-07-01','2025-07-07',3);
 
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-10-01','2025-10-02',1,2);
 INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-11-01','2025-11-05',2,1);
@@ -119,3 +119,4 @@ INSERT INTO bookings (start_date,end_date,space_id,user_id) VALUES ('2025-01-04'
 
 INSERT INTO booking_requests (start_date,end_date,space_id,user_id) VALUES ('2025-11-05','2025-11-06',1,2);
 INSERT INTO booking_requests (start_date,end_date,space_id,user_id) VALUES ('2025-01-10','2025-01-12',2,1);
+
