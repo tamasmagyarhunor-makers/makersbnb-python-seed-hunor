@@ -110,19 +110,21 @@
         {% for space in spaces %}
         {% if space.host_id == session['user_id'] %}
         <div class="col-sm-6 col-lg-4 d-flex">
-            <div class="card">
-            {% if space.image_url %}
-                <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" />
-            {% else %}
-                <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top property-img" loading="lazy" />
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ space.name }}</h5>
-                <p class="card-text">{{ space.description }}</p>
-                <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
-                <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
-                <a href="/spaces/{{ space.id }}" class="btn btn-custom">View Details</a>
-            </div>
+            <a href="/userhome/{{ space.id }}/edit">
+                <div class="card">
+                {% if space.image_url %}
+                    <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top property-img" loading="lazy" />
+                {% else %}
+                    <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top property-img" loading="lazy" />
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ space.name }}</h5>
+                    <p class="card-text">{{ space.description }}</p>
+                    <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
+                    <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
+                    <a href="/spaces/{{ space.id }}" class="btn btn-custom">View Details</a>
+                </div>
+            </a>
             </div>
         </div>
         {% endif %}
