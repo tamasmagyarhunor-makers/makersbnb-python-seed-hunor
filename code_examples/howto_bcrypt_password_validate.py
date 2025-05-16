@@ -2,7 +2,7 @@ import bcrypt
 
 # How to hash a password
 
-plain_password = 'mypassword1234'
+plain_password = 'mypassword54321'
 print(plain_password)
 
 byte_password = plain_password.encode('utf-8')

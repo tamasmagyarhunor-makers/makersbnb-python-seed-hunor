@@ -2,13 +2,15 @@ import bcrypt
 
 # Test Salt
 
-salt = '$2b$12$n1GzTQLs1ukQAslENaCMbu'.encode('utf-8')
+
 
 # Production Salt
 
 # salt = bcrypt.gensalt()
 
 def hash_password(password):
+    salt = '$2b$12$n1GzTQLs1ukQAslENaCMbu'.encode('utf-8')
+
     byte_password = password.encode('utf-8')
 
     hashed = bcrypt.hashpw(byte_password, salt)

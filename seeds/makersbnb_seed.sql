@@ -96,9 +96,10 @@ constraint fk_user foreign key (user_id)
 );
 
 -- Finally, we add any records that are needed for the tests to run
-
-INSERT INTO users (name, password, email_address) VALUES ('Sasha Parkes', 'mypassword1234', 'sashaparkes@email.com');
-INSERT INTO users (name, password, email_address) VALUES ('James Dismore', 'mypassword54321', 'jamesdismore@email.com');
+--sasha pw mypassword1234
+--james pw mypassword54321
+INSERT INTO users (name, password, email_address) VALUES ('Sasha Parkes', '$2b$12$n1GzTQLs1ukQAslENaCMbuyuVUUksFHM4heM9TJYVn.KDBjzMzVCi', 'sashaparkes@email.com');
+INSERT INTO users (name, password, email_address) VALUES ('James Dismore', '$2b$12$n1GzTQLs1ukQAslENaCMbueDrNfx62MwGqIQQbu9v9uxZbsjBp2T.', 'jamesdismore@email.com');
 
 INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Barn', 'Converted barn set in a rural location', 65, 'https://i.imgur.com/wzULRQT.jpeg', 1);
 INSERT INTO spaces (name, description, price_per_night, image_url, host_id) VALUES ('The Loft', 'City centre loft space with great access to amenities', 95, 'https://i.imgur.com/3MDJ9kR.jpeg', 2);
