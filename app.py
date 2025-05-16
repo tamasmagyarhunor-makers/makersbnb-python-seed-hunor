@@ -27,14 +27,13 @@ def get_spaces():
         return redirect((url_for("get_logged_in_homepage")))
 
     spaces = repository.all()
-    return render_template("logged_in_homepage.html", spaces=spaces)
+    return render_template("home.html", spaces=spaces)
 
 @app.route('/logged_in_homepage', methods=['GET'])
 def get_logged_in_homepage():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
     spaces = repository.all()
-    print(session['user_id'])
 
     if "user_id" not in session:
         return redirect((url_for("login")))
@@ -108,8 +107,8 @@ def userhome():
         return redirect((url_for("login")))
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
-    spaces = repository.all()
-    return render_template("userhome.html", spaces=spaces)
+    user_spaces = [space for space in repository.all() if space.host_id == session["user_id"]]
+    return render_template("userhome.html", spaces=user_spaces, has_properties=bool(user_spaces))
 
 # route for log out
 @app.route('/logout')
@@ -125,6 +124,9 @@ def debug_session():
 def edit_space(id):
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
+
+    if "user_id" not in session:
+        return redirect((url_for("login")))
 
     if request.method == 'POST':
         name = request.form['name']
@@ -177,12 +179,19 @@ def get_edited_space(id):
 
 @app.route('/home/add-space', methods=['GET'])
 def get_new_space():
+
+    if "user_id" not in session:
+        return redirect((url_for("login")))
+    
     return render_template('add_property.html')
 
 @app.route('/home', methods=['POST'])
 def create_new_space():
     connection = get_flask_database_connection(app)
     space_repo = SpaceRepository(connection)
+
+    if "user_id" not in session:
+        return redirect((url_for("login")))
 
     name = request.form['name']
     description = request.form['description']
@@ -204,6 +213,9 @@ def create_new_space():
 @app.route('/spaces/<space_id>', methods=['GET'])
 def get_space(space_id):
     connection = get_flask_database_connection(app)
+    
+    if "user_id" not in session:
+        return redirect((url_for("login")))
 
     space_repo = SpaceRepository(connection)
     space = space_repo.find_by_id(space_id) #finds individual space using space id
