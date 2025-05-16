@@ -1,0 +1,191 @@
+/* Calendar Styles */
+.calendar-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  background-color: white;
+  padding: 20px 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgb(80, 77, 77);
+  position: relative;
+  z-index: 3;
+  /* Remove any hiding properties! */
+}
+
+.calendar-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.calendar-nav button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 50%;
+  background-color: #cfc9f6;
+}
+.calendar-nav button:hover {
+  background-color: #dedbf2;
+}
+.calendar-nav button span {
+  font-size: 30px;
+  font-weight: bolder;
+}
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.day {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 5px;
+  background-color: #eaeaea;
+  cursor: pointer;
+  overflow: hidden;
+}
+.day span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}
+
+.day.occupied {
+  background-color: #dedbf2;   /* Light purple for occupied */
+  color: #888;
+  cursor: not-allowed;
+}
+
+.day.selected {
+  background-color: #a084e8;   /* Darker purple for user selection */
+  color: #fff;
+  border: 2px solid #4a00e0;
+}
+/* .day.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.day.afternoon::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
+  background-color: #dedbf2;
+  z-index: 1;
+}
+.day.morning::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+  background-color: #dedbf2;
+  z-index: 1;
+}
+.day.full {
+  background-color: #dedbf2;
+  z-index: 0;
+} */
+
+/* Modal/Booking Form Styles */
+body.modal-open {
+  overflow: hidden !important;
+}
+
+.open-modal-btn {
+  background: #4a00e0;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 2rem 0;
+}
+.open-modal-btn:hover {
+  background: #3a00b3;
+}
+
+dialog {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+dialog[open] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+.date-price,
+.price-summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.booking-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.booking-form input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.submit-btn {
+  background: #4a00e0;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+}
+.submit-btn:hover {
+  background: #3a00b3;
+}
