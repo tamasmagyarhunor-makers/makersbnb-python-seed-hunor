@@ -24,4 +24,5 @@ class AvailabilityRangeRepository():
                                 [start_date,
                                 end_date,
                                 space_id])
-        
+    
+    

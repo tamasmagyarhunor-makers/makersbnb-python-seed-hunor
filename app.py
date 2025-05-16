@@ -146,6 +146,8 @@ def edit_space(id):
         image_url = space.image_url
         host_id = session["user_id"]
         image_url = request.form["image_url"]
+        start_date = request.form["availability_start_date"]
+        end_date = request.form["availability_end_date"]
 
         updated_space = Space(id=id,
                             name=name,
@@ -155,6 +157,10 @@ def edit_space(id):
                             host_id=host_id)
 
         repository.update(updated_space)
+
+        availabilityrepository = AvailabilityRangeRepository(connection)
+        # # Dates need to be turned into correct format
+        availabilityrepository.add_range(start_date,end_date,updated_space.id)
 
         return redirect(url_for('userhome'))
 
