@@ -115,29 +115,33 @@
 
 <section class="container property-grid">
     <div class="row g-4">
-        {% for space in spaces %}
-        {% if space.host_id == session['user_id'] %}
-            <div class="col-sm-6 col-lg-4 d-flex">
-            <div class="card">
-                {% if space.image_url %}
-                <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top" loading="lazy" />
-                {% else %}
-                <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top" loading="lazy" />
-                {% endif %}
-                <div class="card-body">
-                <h5 class="card-title">{{ space.name }}</h5>
-                <p class="card-text">{{ space.description }}</p>
-                <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
-                <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
-                <div class="d-flex justify-content-between gap-2 mt-3">
-                    <a href="/userhome/{{ space.id }}/edit" class="btn btn-custom flex-fill">Edit Listing</a>
-                    <a href="/spaces/{{ space.id }}" class="btn btn-custom flex-fill">View Details</a>
+        {% if has_properties %}
+            {% for space in spaces %}
+                <div class="col-sm-6 col-lg-4 d-flex">
+                    <div class="card">
+                        {% if space.image_url %}
+                        <img src="{{ space.image_url }}" alt="Image of {{ space.name }}" class="card-img-top" loading="lazy" />
+                        {% else %}
+                        <img src="{{ url_for('static', filename='house_sample_image.jpg') }}" alt="Sample Property Image" class="card-img-top" loading="lazy" />
+                        {% endif %}
+                        <div class="card-body">
+                        <h5 class="card-title">{{ space.name }}</h5>
+                        <p class="card-text">{{ space.description }}</p>
+                        <p class="card-text fw-semibold">£{{ space.price_per_night }} <small class="text-muted">per night</small></p>
+                        <p class="host_email">Contact: <a href="mailto:{{ space.host_email }}">{{ space.host_email }}</a></p>
+                        <div class="d-flex justify-content-between gap-2 mt-3">
+                            <a href="/userhome/{{ space.id }}/edit" class="btn btn-custom flex-fill">Edit Listing</a>
+                            <a href="/spaces/{{ space.id }}" class="btn btn-custom flex-fill">View Details</a>
+                        </div>
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center mt-4">You've not listed anything yet, 
+                    why don't you <a href="{{ url_for('get_new_space') }}">add a property now?</a>
+                </p>
             {% endif %}
-            {% endfor %}
         </div>
     </section>
 
