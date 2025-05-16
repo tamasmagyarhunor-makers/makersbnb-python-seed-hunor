@@ -59,9 +59,36 @@
     .back-link:hover {
       color: #574dcf;
     }
+    .submit-btn {
+      background-color: #6c63ff;
+      color: white;
+      font-weight: 600;
+      padding: 0.6rem 1.5rem;   /* More padding for a rectangle shape */
+      cursor: pointer;
+      margin: 0.25rem auto 0 auto; /* Top, right/left (auto), bottom, left (auto) */
+      border: none;
+      border-radius: 0.5rem;    /* Less rounded for a rectangle */
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: background 0.2s;
+      width: 200px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .submit-btn:hover {
+      background-color: #574dcf;
+    }
   </style>
 </head>
 <body>
+
+      <nav class="navbar navbar-expand-lg navbar-light px-4">
+    <a class="navbar-brand fw-bold" href="/home_page">MakersBnb</a>
+    <div class="ms-auto">
+        <a class="btn btn-custom" href="/home_page/add-space">+ Add Space</a>
+    </div>
+    </nav>
 
   <div class="property-card">
     {% if space.image_url %}
@@ -90,7 +117,7 @@
   <!-- #endregion -->
 
   <!-- Book Selected button and dialog moved OUTSIDE the calendar-container-->
-  <button id="openModalBtn" type="button">Book Selected</button>
+  <button id="openModalBtn" class="btn submit-btn" type="button">Book Selected</button>
 
   <dialog id="bookingDialog">
     <button class="close-btn" id="closeDialog">&times;</button>
@@ -107,7 +134,7 @@
           <div class="nights"><span id="nightsCount"></span> Nights</div>
           <div class="total">Total <span id="totalPrice"></span></div>
         </div>
-        <button class="submit-btn" type="submit">
+        <button class="btn submit-btn" type="submit">
           Send booking request
         </button>
       </form>
