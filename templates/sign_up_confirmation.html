@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MakersBnb - Sign Up Successful</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .btn-custom {
+            background-color: #6c63ff;
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            transition: background 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #574dcf;
+        }
+        .confirmation-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 80px);
+            padding: 2rem;
+        }
+        .confirmation-card {
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 2.5rem 3rem;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+        .confirmation-card h2 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        .confirmation-card p {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            color: #555;
+        }
+
+        .redirect-msg {
+        font-size: 1.1rem;
+        color: #6c63ff; /* That purple-blue vibe you love */
+        font-weight: 600;
+        margin-top: 1rem;
+        font-style: italic;
+        letter-spacing: 0.03em;
+        text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light px-4">
+    <a class="navbar-brand fw-bold" href="{{ url_for('get_spaces')}}">MakersBnb</a>
+</nav>
+
+<section class="confirmation-section">
+    <div class="confirmation-card">
+        <h2>Sign Up Successful 🎉</h2>
+        <p>Thank you for signing up to MakersBnB.</p>
+        <p class="redirect-msg">You will be taken to the homepage in <span id="countdown">5</span> seconds.</p>
+        <button class="btn btn-custom" onclick="window.location.href='/logged_in_homepage'">Browse Properties</button>
+    </div>
+</section>
+
+<script>
+    let countdownNumber = 5;
+    const countdownEl = document.getElementById('countdown');
+
+    const countdownInterval = setInterval(() => {
+        countdownNumber--;
+        countdownEl.textContent = countdownNumber;
+        if (countdownNumber <= 0) {
+            clearInterval(countdownInterval);
+            window.location.href = '/logged_in_homepage';
+        }
+    }, 1000);
+</script>
+</body>
+</html>
