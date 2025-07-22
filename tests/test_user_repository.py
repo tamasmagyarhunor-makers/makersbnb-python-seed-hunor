@@ -25,7 +25,7 @@ def test_get_single_record(db_connection):
     repository = UserRepository(db_connection)
 
     user = repository.find(1)
-    assert user == User(1, "Alice", "alcie@example.com", "password1")
+    assert user == User(1, "Alice", "alice@example.com", "password1")
 
 """
 When we call UserRepository#create
@@ -35,10 +35,14 @@ def test_create_record(db_connection):
     db_connection.seed("seeds/makers_bnb.sql")
     repository = UserRepository(db_connection)
     created_user = repository.create(User(None, "Charlie", "charlie@example.com", "password3"))
-    assert created_user == User
+    assert created_user == User(3, "Charlie", "charlie@example.com", "password3")
 
+    result = repository.all()
+    assert len(result) == 3
+    assert result[2] == User(3, "Charlie", "charlie@example.com", "password3") 
 
 """
-When we call UserRepository#delete
-We remove a record from the database.
+When we call UserRepository#find_by_email
+We get a user with that email adress
+
 """
