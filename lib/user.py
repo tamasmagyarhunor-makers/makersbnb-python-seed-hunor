@@ -16,5 +16,5 @@ class User:
     def is_valid(self):
         pass
 
-    def generate_erros(self):
+    def generate_errors(self):
         pass
