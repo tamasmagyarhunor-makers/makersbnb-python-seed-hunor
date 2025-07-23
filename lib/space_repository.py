@@ -6,7 +6,7 @@ class SpaceRepository():
         self._connection = connection
 
     def all(self):
-        rows = self._connection.execute('SELECT * FROM spaces;')
+        rows = self._connection.execute('SELECT * FROM spaces')
         spaces = []
         for row in rows:
             item = Space(row["id"], row["name"], row["description"], row['price_per_night'], row['user_id'])

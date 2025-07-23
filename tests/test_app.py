@@ -26,6 +26,18 @@ def test_get_spaces(db_connection, test_web_address, page):
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("All Spaces")
 
+def test_listings(db_connection, test_web_address, page):
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/spaces")
+    first_listing = page.locator(".listing_1")
+    heading = first_listing.locator("h5")
+    description = first_listing.locator("p")
+    expect(heading).to_have_text("Cozy london flat")
+    expect(description).to_have_text("A beautiful 1-bedroom flat in central london")
+    div_tag = page.locator("div")
+    expect(div_tag).to_have_count(3)
+
+
     # assert response.status_code == 200
     # assert "<h1>All Spaces</h1>" in html
     # assert "Cozy london flat" in html
