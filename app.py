@@ -4,6 +4,7 @@ from lib.database_connection import get_flask_database_connection
 from dotenv import load_dotenv
 from lib.user import *
 from lib.user_repository import *
+from lib.forms import *
 
 # Load environment variables from .env file 
 load_dotenv()
@@ -52,38 +53,75 @@ def show_user(id):
     user = repository.find(id)
     return render_template('users/show.html', user=user)
 
+
+
 """
-post a new user
+User Registration - Main way to create new users
 """
-# GET /users/new
-# Returns a form to create a new book
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    
+    if form.validate_on_submit():
+        try:
+            connection = get_flask_database_connection(app)
+            repository = UserRepository(connection)
+
+            # Get the fields from the form
+            name = form.name.data
+            email = form.email.data
+            password = form.password.data
+
+            # Create a user object
+            user = User(None, name, email, password)
+            
+            # Save user to database
+            user = repository.create(user)
+            
+            # Redirect to the user's profile page
+            return redirect(f"/users/{user.id}")
+            
+        except Exception as e:
+            # Handle database errors gracefully
+            return render_template('auth/register.html', form=form, error=f"Registration failed: {e}")
+    
+    # If GET request or form validation failed, show the form
+    return render_template('auth/register.html', form=form)
+
+"""
+User Login if existing
+"""
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        try:
+            connection = get_flask_database_connection(app)
+            repository = UserRepository(connection)
+
+            # Try to find user by email
+            user = repository.find_by_email(form.email.data)
+            
+            if user and user.password == form.password.data:
+                # Login successful - redirect to user profile
+                return redirect(f"/users/{user.id}")
+            else:
+                # Login failed
+                return render_template('auth/login.html', form=form, error="Invalid email or password")
+                
+        except Exception as e:
+            return render_template('auth/login.html', form=form, error=f"Login failed: {e}")
+    
+    # If GET request or form validation failed, show the form
+    return render_template('auth/login.html', form=form)
+
+"""
+Redirect old user creation route to new registration
+"""
 @app.route('/users/new', methods=['GET'])
 def get_new_user():
-    return render_template('users/new.html')
-
-@app.route('/users', methods=['POST'])
-def create_user():
-    # Set up the database connection and repository
-    connection = get_flask_database_connection(app)
-    repository = UserRepository(connection)
-
-    # Get the fields from the request form
-    name = request.form['name']
-    email = request.form['email']
-    password = request.form['password']
-
-    # Create a user object
-    user = User(None, name, email, password)
-
-    # # Check for validity and if not valid, show the form again with errors
-    # if not user.is_valid():
-    #     return render_template('users/new.html', user=user, errors=user.generate_errors()), 400
-
-    # Save the book to the database
-    user = repository.create(user)
-
-    # Redirect to the book's show route to the user can see it
-    return redirect(f"/users/{user.id}")
+    return redirect('/register')
 
 
 # These lines start the server if you run this file directly

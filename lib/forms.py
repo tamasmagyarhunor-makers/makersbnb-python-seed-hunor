@@ -8,6 +8,13 @@ class RegistrationForm(FlaskForm):
     Flask-WTF automatically handles CSRF (Cross-Site Request Forgery) protection and validation - keeping forms secure
     """
 
+
+    name = StringField(
+        'Full Name',
+        validators=[DataRequired(message="Name is required")],
+        render_kw={"placeholder": "Enter your full name"}
+    )
+
     # Email field with validation
     email = StringField(
         'Email Address', # Label that appears on the form
@@ -40,3 +47,30 @@ class RegistrationForm(FlaskForm):
 
     # Submit button
     submit = SubmitField('Create Account')
+
+class LoginForm(FlaskForm):
+    """
+    Login form for existing users
+    """
+    
+    # Email field
+    email = StringField(
+        'Email Address',
+        validators=[
+            DataRequired(message="Email is required"),
+            Email(message="Please enter a valid email address")
+        ],
+        render_kw={"placeholder": "Enter your email address"}
+    )
+
+    # Password field
+    password = PasswordField(
+        'Password',
+        validators=[
+            DataRequired(message="Password is required")
+        ],
+        render_kw={"placeholder": "Enter your password"}
+    )
+
+    # Submit button
+    submit = SubmitField('Sign In')

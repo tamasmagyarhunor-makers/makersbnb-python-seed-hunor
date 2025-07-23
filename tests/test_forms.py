@@ -21,6 +21,7 @@ Test that RegistrationForm validates correctly with valid data
 def test_registration_form_valid_data():
     # create form data (simulating user exp when interacting with a web form)
     form_data = {
+        "name": "John Doe",  
         "email": "test@example.com",
         "password": "password123",
         "confirm_password": "password123",
@@ -35,6 +36,7 @@ def test_registration_form_valid_data():
     assert form.validate() == True
     
     # Check that we can access the data
+    assert form.name.data == 'John Doe'
     assert form.email.data == 'test@example.com'
     assert form.password.data == 'password123'
 
@@ -43,6 +45,7 @@ Test that RegistrationForm rejects invalid email
 """
 def test_registration_form_invalid_email():
     form_data = {
+        'name': 'John Doe',
         'email': 'not-an-email',  # Invalid email format
         'password': 'password123',
         'confirm_password': 'password123',
@@ -63,6 +66,7 @@ Test that RegistrationForm rejects mismatched passwords
 """
 def test_registration_form_password_mismatch():
     form_data = {
+        'name': 'John Doe',
         'email': 'test@example.com',
         'password': 'password123',
         'confirm_password': 'different_password',  # Passwords don't match
@@ -76,4 +80,25 @@ def test_registration_form_password_mismatch():
     
     # Should have an error on the confirm_password field
     assert 'Passwords must match' in form.confirm_password.errors
+
+"""
+Test that RegistrationForm rejects missing name
+"""
+
+def test_registration_form_missing_name():
+    form_data = {
+        'name': '',  # Empty name
+        'email': 'test@example.com',
+        'password': 'password123',
+        'confirm_password': 'password123',
+    }
+    
+    form = RegistrationForm(data=form_data)
+    form.csrf_token.data = form.csrf_token.current_token
+    
+    # Form should be invalid
+    assert form.validate() == False
+    
+    # Should have an error on the name field
+    assert 'Name is required' in form.name.errors
 

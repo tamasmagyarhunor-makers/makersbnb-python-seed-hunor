@@ -1,6 +1,5 @@
 from playwright.sync_api import Page, expect
 
-# Tests for your routes go here
 
 """
 We can render the index page
@@ -63,30 +62,142 @@ def test_get_user(db_connection, page, test_web_address):
 
 
 """
-When we create a new user
-We see it in the users index
+When we register a new user (create a new user)
+We see their profile page
 """
-def test_create_user(db_connection, page, test_web_address):
+def test_register_user(db_connection, page, test_web_address):
     db_connection.seed("seeds/makers_bnb.sql")
-    page.goto(f"http://{test_web_address}/users")
+    
+    # Navigate directly to the registration page
+    page.goto(f"http://{test_web_address}/register")
 
-    # This time we click the link with the text 'Add a new user'
-    page.click("text=Add a new user")
-
-    # Then we fill out the field with the name attribute 'name'
-    page.fill("input[name='name']", "Charlie")
-
-    # And the field with the name attribute 'email'
+    # Fill out the registration form
+    page.fill("input[name='name']", "Charlie Brown")
     page.fill("input[name='email']", "charlie@example.com")
+    page.fill("input[name='password']", "password123")
+    page.fill("input[name='confirm_password']", "password123")
 
-    # Finally we click the button with the text 'Create User'
-    page.click("text=Create User")
+    # Submit the form
+    page.click("input[type='submit']")
 
-    # Just as before, the virtual browser acts just like a normal browser and
-    # goes to the next page without us having to tell it to.
-
+    # Check we're redirected to the user's profile
     title_element = page.locator(".t-name")
-    expect(title_element).to_have_text("Name: Charlie")
+    expect(title_element).to_have_text("Name: Charlie Brown")
 
-    author_element = page.locator(".t-email")
-    expect(author_element).to_have_text("Email: charlie@example.com")
+    email_element = page.locator(".t-email")
+    expect(email_element).to_have_text("Email: charlie@example.com")
+
+"""
+We can render the login page
+"""
+def test_get_login_page(page, test_web_address):
+    # Navigate to the login page
+    page.goto(f"http://{test_web_address}/login")
+
+    # Check that we can see the login form
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+    # Check that form fields are present
+    expect(page.locator("input[name='email']")).to_be_visible()
+    expect(page.locator("input[name='password']")).to_be_visible()
+    expect(page.locator("input[type='submit']")).to_be_visible()
+
+
+"""
+When we login with valid credentials
+We are redirected to the user's profile page
+"""
+def test_login_valid_user(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+    
+    # Navigate to the login page
+    page.goto(f"http://{test_web_address}/login")
+
+    # Fill out the login form with valid credentials (from seed data)
+    page.fill("input[name='email']", "alice@example.com")
+    page.fill("input[name='password']", "password1")
+
+    # Submit the form
+    page.click("input[type='submit']")
+
+    # Should be redirected to Alice's profile page
+    title_element = page.locator(".t-name")
+    expect(title_element).to_have_text("Name: Alice")
+
+    email_element = page.locator(".t-email")
+    expect(email_element).to_have_text("Email: alice@example.com")
+
+
+"""
+When we login with invalid email
+We see an error message
+"""
+def test_login_invalid_email(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+    
+    # Navigate to the login page
+    page.goto(f"http://{test_web_address}/login")
+
+    # Fill out the login form with non-existent email
+    page.fill("input[name='email']", "nonexistent@example.com")
+    page.fill("input[name='password']", "password1")
+
+    # Submit the form
+    page.click("input[type='submit']")
+
+    # Should stay on login page and show error
+    expect(page.locator("h1")).to_have_text("Sign In")
+    
+    # Should show error message
+    error_text = page.locator("text=Invalid email or password")
+    expect(error_text).to_be_visible()
+
+
+"""
+When we login with wrong password
+We see an error message
+"""
+def test_login_wrong_password(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+    
+    # Navigate to the login page
+    page.goto(f"http://{test_web_address}/login")
+
+    # Fill out the login form with wrong password
+    page.fill("input[name='email']", "alice@example.com")
+    page.fill("input[name='password']", "wrongpassword")
+
+    # Submit the form
+    page.click("input[type='submit']")
+
+    # Should stay on login page and show error
+    expect(page.locator("h1")).to_have_text("Sign In")
+    
+    # Should show error message
+    error_text = page.locator("text=Invalid email or password")
+    expect(error_text).to_be_visible()
+
+
+"""
+Login form shows validation errors for invalid email format
+"""
+def test_login_invalid_email_format(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+    
+    # Navigate to the login page
+    page.goto(f"http://{test_web_address}/login")
+
+    # Fill out the form with invalid email format
+    page.fill("input[name='email']", "not-an-email")
+    page.fill("input[name='password']", "password123")
+
+    # Submit the form
+    page.click("input[type='submit']")
+
+    # Should stay on login page and show validation error
+    expect(page.locator("h1")).to_have_text("Sign In")
+    
+    # Should show email validation error
+    error_text = page.locator("text=Please enter a valid email address")
+    expect(error_text).to_be_visible()

@@ -14,8 +14,8 @@ class UserRepository:
     
     def find(self, user_id):
         rows = self._connection.execute('SELECT * from users WHERE id = %s', [user_id])
-        # if len(rows) == 0: can be added later for validation as we code out the rest of the project
-        #     return None
+        if len(rows) == 0:
+            return None
         row = rows[0]
         return User(row["id"], row["name"], row["email"], row["password"])
     
@@ -24,3 +24,10 @@ class UserRepository:
         row = rows[0]
         user.id = row["id"]
         return user
+    
+    def find_by_email(self, email):
+        rows = self._connection.execute('SELECT * from users WHERE email = %s', [email])
+        if len(rows) == 0:
+            return None
+        row = rows[0]
+        return User(row["id"], row["name"], row["email"], row["password"])
