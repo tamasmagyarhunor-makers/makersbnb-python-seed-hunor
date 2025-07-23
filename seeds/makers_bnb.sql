@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS spaces;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS bookings;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -17,6 +18,22 @@ CREATE TABLE spaces (
     CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE bookings (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER,
+    space_id INTEGER,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    CONSTRAINT fk_users
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_spaces
+        FOREIGN KEY (space_id)
+        REFERENCES spaces(id)
+        ON DELETE CASCADE   
+);
+
 
 -- Sample seed data
 INSERT INTO users (name, email, password) VALUES
@@ -28,3 +45,8 @@ INSERT INTO spaces (user_id, name, description, price_per_night) VALUES
 (1, 'Cozy london flat', 'A beautiful 1-bedroom flat in central london', 85.00),
 (1, 'Garden studio', 'Peaceful studio with private garden access', 65.00),
 (2, 'Modern Apartment', 'Stylish 2-bedroom apartment near the tube', 120.00);
+
+
+INSERT INTO bookings (user_id, space_id, start_date, end_date) VALUES
+(1, 3, '2025-01-01', '2025-01-05'),
+(2, 1, '2025-09-10', '2025-09-15');
