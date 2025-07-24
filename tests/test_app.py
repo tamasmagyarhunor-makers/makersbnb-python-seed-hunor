@@ -1,5 +1,5 @@
 from playwright.sync_api import Page, expect
-import pytest  # Add this import if not already there
+import pytest  
 
 
 @pytest.fixture
@@ -204,26 +204,6 @@ def test_login_invalid_email_format(db_connection, page, test_web_address):
 When I logout
 the user is logged out and redirected to login page 
 """
-def test_logout_redirects_to_login(db_connection, page, test_web_address):
-    db_connection.seed("seeds/makers_bnb.sql")
-
-    # Step 1: Log in first
-    page.goto(f"http://{test_web_address}/login")
-    page.fill("input[name='email']", "alice@example.com")
-    page.fill("input[name='password']", "password1")
-    page.click("input[type='submit']")
-
-    # Step 2: Go to /logout
-    page.goto(f"http://{test_web_address}/logout")
-
-    # Step 3: You should be redirected to the login page
-    heading = page.locator("h1")
-    expect(heading).to_have_text("Sign In")
-
-    # Optionally check form is visible again
-    expect(page.locator("input[name='email']")).to_be_visible()
-    expect(page.locator("input[name='password']")).to_be_visible()
-
 def test_logout_redirects_to_login(db_connection, page, test_web_address):
     db_connection.seed("seeds/makers_bnb.sql")
 
