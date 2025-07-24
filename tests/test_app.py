@@ -225,14 +225,20 @@ def test_listings(db_connection, test_web_address, page):
     div_tag = page.locator("div")
     expect(div_tag).to_have_count(3)
 
-
-    # assert response.status_code == 200
-    # assert "<h1>All Spaces</h1>" in html
-    # assert "Cozy london flat" in html
-    # assert "£85.0" in html
-
 def test_create_space(db_connection, test_web_address, page):
     db_connection.seed("seeds/makers_bnb.sql")
     page.goto(f"http://{test_web_address}/spaces/new")
+    # Fill out the form with invalid email format
+    page.fill("input[name='name']", "Not Cozy")
+    page.fill("input[name='description']", "Description")
+    page.fill("input[name='price_per_night']", "30000.00")
+    page.fill("input[name='user_id']", "2")
     
+    # Submit the form
+    page.click("input[type='submit']")
     
+    new_listing = page.locator(".listing_4")
+    heading = new_listing.locator("h5")
+    description = new_listing.locator("p")
+    expect(heading).to_have_text("Not Cozy")
+    expect(description).to_have_text("Description")

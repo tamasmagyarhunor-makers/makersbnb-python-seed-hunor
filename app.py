@@ -146,6 +146,7 @@ def get_new_spaces():
             form.user_id.data)
 
             repository.create(space)
+            return redirect('/spaces')
     
     # If GET request or form validation failed, show the form
     return render_template('spaces/new.html', form=form)

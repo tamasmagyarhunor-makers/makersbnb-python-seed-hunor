@@ -109,4 +109,5 @@ class SpaceForm(FlaskForm):
         ],
         render_kw={"placeholder": "Enter user id of the space" })
 
-    
+    # Submit button
+    submit = SubmitField('Add Space')
