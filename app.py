@@ -31,6 +31,13 @@ if not app.config['SECRET_KEY']:
 # Try it:
 #   ; open http://localhost:5001/index
 
+
+# new code below
+
+"""
+Adds requirement for user to be logged in
+To access certain pages
+"""
 def login_required(route_function):
     @wraps(route_function)
     def wrapper(*args, **kwargs):
@@ -43,8 +50,6 @@ def login_required(route_function):
 def get_index():
     return render_template('index.html')
 
-
-# new code below
 """
 get all users
 """
@@ -58,6 +63,7 @@ def get_users():
         return render_template('users/index.html', users=users)
     except Exception as e:
         return f"Database error: {e}"
+    
 """
 get a single user by id
 """
@@ -68,7 +74,6 @@ def show_user(id):
     repository = UserRepository(connection)
     user = repository.find(id)
     return render_template('users/show.html', user=user)
-
 
 
 """

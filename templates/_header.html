@@ -1,0 +1,13 @@
+<header>
+    <nav>
+        <a href="/index">Home</a> |
+        <a href="{{ url_for('get_spaces') }}">Spaces</a>
+        {% if session.get('user_id') %}
+            <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </nav>
+</header>
