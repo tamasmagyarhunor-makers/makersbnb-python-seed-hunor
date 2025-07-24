@@ -15,5 +15,8 @@ class Availability:
     def __repr__(self):
         return f"Availability({self.id}, {self.space_id}, {self.available_from}, {self.available_to})"
     
+    def is_valid(self):
+        return self.space_id is not None and self.available_from is not None and self.available_to is not None
+    
     def is_date_in_range(self, booking_start_date, booking_end_date):
         return self.available_from <= booking_start_date and self.available_to >= booking_end_date

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Create Availability</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>New Availability</h1>
+
+    <!-- This creates a form that will submit to POST /spaces/availability -->
+    <form action="/spaces/availability" method="post">
+
+      {% if errors %}
+        <p class="t-errors">
+          There were errors with your submission: {{ errors }}
+        </p>
+      {% endif %}
+
+      <p>
+        <label for="space_id">Space ID</label>
+        <input type="text" name="space_id" id="space_id">
+      </p>
+
+      <p>
+        <label for="available_from">Available From</label>
+        <input type="date" name="available_from" id="available_from">
+      </p>
+
+      <p>
+        <label for="available_to">Available To</label>
+        <input type="date" name="available_to" id="available_to">
+      </p>
+
+      <p>
+        <input type="submit" value="Create Availability">
+      </p>
+    </form>
+  </body>
+</html>

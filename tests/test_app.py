@@ -49,21 +49,16 @@ def test_create_availability(db_connection, page, test_web_address):
     page.fill("input[name='available_from']", "2025-10-10")
     page.fill("input[name='available_to']", "2025-11-11")
 
-
-    # Finally we click the button with the text 'Create Book'
     page.click("text=Create Availability")
-
-    # Just as before, the virtual browser acts just like a normal browser and
-    # goes to the next page without us having to tell it to.
 
     space_id_element = page.locator(".t-space-id")
     expect(space_id_element).to_have_text("Space ID: 2")
 
-    from_element = page.locator(".t-available-from")
-    expect(from_element).to_have_text("Available from: 2025-10-10")
+    available_from_element = page.locator(".t-available-from")
+    expect(available_from_element).to_have_text("Available from: 2025-10-10")
 
-    to_element = page.locator(".t-available-to")
-    expect(to_element).to_have_text("Available to: 2025-11-11")
+    available_to_element = page.locator(".t-available-to")
+    expect(available_to_element).to_have_text("Available to: 2025-11-11")
 
 
     

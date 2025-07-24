@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Availability</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <p class="t-space-id">Space ID: {{ availability.space_id }}</p>
+    <p class="t-available-from">Available from: {{ availability.available_from }}</p>
+    <p class="t-available-to">Available to: {{ availability.available_to }}</p>
+
+
+
+    <!-- This is a link to another page. -->
+    <!-- The browser will send `GET /books/new` when the user clicks this -->
+    <a href="/spaces/availability">Back to all availability</a>
+  </body>
+</html>

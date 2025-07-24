@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, render_template, redirect
+from datetime import datetime
 from lib.database_connection import get_flask_database_connection
 from dotenv import load_dotenv
 from lib.user import *
@@ -7,6 +8,8 @@ from lib.user_repository import *
 from lib.forms import *
 from lib.space_repository import SpaceRepository
 from lib.space import Space
+from lib.availability import *
+from lib.availability_repository import *
 # Load environment variables from .env file 
 load_dotenv()
 
@@ -47,14 +50,20 @@ def get_all_availabilities():
         return f"Database error: {e}"
 
 """
-get availability by space_id
+get availability by availability_id
 """
-@app.route('/spaces/availability/<int:space_id>', methods=['GET'])
-def show_availability(space_id):
+@app.route('/spaces/availability/<int:id>', methods=['GET'])
+def show_availability_by_availability_id(id):
     connection = get_flask_database_connection(app)
     repository = AvailabilityRepository(connection)
-    availability = repository.find(space_id)
-    return render_template('/spaces/availability/show.html', availability=availability)
+    availabilities = repository.find_by_id(id)
+    availability = availabilities[0]
+    return render_template('spaces/availability/show.html', availability=availability)
+
+"""
+get availability by space_id
+"""
+
 
 """
 create a new availability"""
@@ -68,27 +77,19 @@ def get_new_availability():
 # Creates a new availability
 @app.route('/spaces/availability', methods=['POST'])
 def create_availability():
-    # Set up the database connection and repository
     connection = get_flask_database_connection(app)
     repository = AvailabilityRepository(connection)
 
-    # Get the fields from the request form
-    space_id = request.form['space_id']
-    available_from = request.form['available_from']
-    available_to = request.form['available_to']
+    space_id = int(request.form['space_id'])
+    # parse ISO 'YYYY-MM-DD' into date
+    available_from = datetime.strptime(request.form['available_from'], '%Y-%m-%d').date()
+    available_to   = datetime.strptime(request.form['available_to'],   '%Y-%m-%d').date()
 
-
-    # Create a book object
     availability = Availability(None, space_id, available_from, available_to)
-
-    # Check for validity and if not valid, show the form again with errors
     if not availability.is_valid():
-        return render_template('/spaces/availability/new.html', availability=availability, errors=availability.generate_errors()), 400
+        return render_template('spaces/availability/new.html', availability=availability, errors=availability.generate_errors()), 400
 
-    # Save the book to the database
     availability = repository.create(availability)
-
-    # Redirect to the book's show route to the user can see it
     return redirect(f"/spaces/availability/{availability.id}")
 
 
