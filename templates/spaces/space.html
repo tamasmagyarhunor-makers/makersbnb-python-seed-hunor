@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+            Head to https://github.com/makersacademy/web-applications-in-python/blob/main/pills/loading_css_or_static_files.md
+            If you're wondering how the CSS file below is being loaded.
+        -->
+        <title>Spaces</title>
+        <link rel="stylesheet" href="/static/style.css" >
+    </head>
+    <body>
+        <h1>All Spaces</h1>  
+        <a href="/spaces/new">Add a new space</a>
+        {% for space in spaces %}
+            <div class="listing_{{space.id}}">
+                <h5>
+                    {{space.name}}
+                </h5>
+                <p>
+                    {{space.description}}
+                </p>
+            </div>
+        {% endfor %}
+        <a href="/index">Back to homepage</a>
+    </body>
+</html>
