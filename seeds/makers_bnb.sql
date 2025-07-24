@@ -24,7 +24,7 @@ INSERT INTO users (name, email, password) VALUES
 ('Bob', 'bob@example.com', 'password2');
 
 
-INSERT INTO spaces (user_id, name, description, price_per_night) VALUES
-(1, 'Cozy london flat', 'A beautiful 1-bedroom flat in central london', 85.00),
-(1, 'Garden studio', 'Peaceful studio with private garden access', 65.00),
-(2, 'Modern Apartment', 'Stylish 2-bedroom apartment near the tube', 120.00);
+INSERT INTO spaces (name, description, price_per_night, user_id) VALUES
+('Cozy london flat', 'A beautiful 1-bedroom flat in central london', 85.00, 1),
+('Garden studio', 'Peaceful studio with private garden access', 65.00, 1),
+('Modern Apartment', 'Stylish 2-bedroom apartment near the tube', 120.00, 2);
