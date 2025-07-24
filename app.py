@@ -5,9 +5,12 @@ from dotenv import load_dotenv
 from lib.user import *
 from lib.user_repository import *
 from lib.forms import *
-
+from lib.space_repository import SpaceRepository
 # Load environment variables from .env file 
 load_dotenv()
+
+
+
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -27,7 +30,6 @@ if not app.config['SECRET_KEY']:
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
-
 
 
 # new code below
@@ -122,6 +124,12 @@ Redirect old user creation route to new registration
 @app.route('/users/new', methods=['GET'])
 def get_new_user():
     return redirect('/register')
+
+@app.route('/spaces', methods=['GET'])
+def get_spaces():
+    space_repository = SpaceRepository(get_flask_database_connection(app))
+    spaces = space_repository.all()
+    return render_template("spaces/space.html", spaces=spaces)
 
 
 # These lines start the server if you run this file directly

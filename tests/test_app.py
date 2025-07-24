@@ -16,6 +16,7 @@ def test_get_index(page, test_web_address):
 
 
 
+
 """
 Get all the users
 """
@@ -201,3 +202,32 @@ def test_login_invalid_email_format(db_connection, page, test_web_address):
     # Should show email validation error
     error_text = page.locator("text=Please enter a valid email address")
     expect(error_text).to_be_visible()
+
+"""
+When I call GET /spaces
+I get a list of all the spaces
+"""
+
+def test_get_spaces(db_connection, test_web_address, page):
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/spaces")
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("All Spaces")
+
+def test_listings(db_connection, test_web_address, page):
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/spaces")
+    first_listing = page.locator(".listing_1")
+    heading = first_listing.locator("h5")
+    description = first_listing.locator("p")
+    expect(heading).to_have_text("Cozy london flat")
+    expect(description).to_have_text("A beautiful 1-bedroom flat in central london")
+    div_tag = page.locator("div")
+    expect(div_tag).to_have_count(3)
+
+
+    # assert response.status_code == 200
+    # assert "<h1>All Spaces</h1>" in html
+    # assert "Cozy london flat" in html
+    # assert "£85.0" in html
+
