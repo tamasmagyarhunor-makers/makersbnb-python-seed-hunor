@@ -204,6 +204,79 @@ def test_login_invalid_email_format(db_connection, page, test_web_address):
     expect(error_text).to_be_visible()
 
 """
+When I logout
+the user is logged out and redirected to login page 
+"""
+def test_logout_redirects_to_login(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+
+    # Step 1: Log in first
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email']", "alice@example.com")
+    page.fill("input[name='password']", "password1")
+    page.click("input[type='submit']")
+
+    # Step 2: Go to /logout
+    page.goto(f"http://{test_web_address}/logout")
+
+    # Step 3: You should be redirected to the login page
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+    # Optionally check form is visible again
+    expect(page.locator("input[name='email']")).to_be_visible()
+    expect(page.locator("input[name='password']")).to_be_visible()
+
+def test_logout_redirects_to_login(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+
+    # Step 1: Log in first
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email']", "alice@example.com")
+    page.fill("input[name='password']", "password1")
+    page.click("input[type='submit']")
+
+    # Step 2: Go to /logout
+    page.goto(f"http://{test_web_address}/logout")
+
+    # Step 3: You should be redirected to the login page
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+    # Optionally check form is visible again
+    expect(page.locator("input[name='email']")).to_be_visible()
+    expect(page.locator("input[name='password']")).to_be_visible()
+
+"""
+A login is required to visit a user's profile
+"""
+def test_protected_profile_requires_login(page, test_web_address):
+    # Try to visit a user's profile without logging in
+    page.goto(f"http://{test_web_address}/users/1")
+
+    # You should get redirected to the login page
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+"""
+When I try to access a user profile without logging in
+I am redirected to the login page
+"""
+def test_login_required_for_user_profile(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+    
+    # Try to directly access the protected user profile
+    page.goto(f"http://{test_web_address}/users/1")
+
+    # Expect to be redirected to the login page
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+    # assert email/password inputs are visible
+    expect(page.locator("input[name='email']")).to_be_visible()
+    expect(page.locator("input[name='password']")).to_be_visible()
+
+"""
 When I call GET /spaces
 I get a list of all the spaces
 """
