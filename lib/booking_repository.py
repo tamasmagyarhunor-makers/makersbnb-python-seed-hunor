@@ -13,14 +13,14 @@ class BookingRepository:
         bookings = []
 
         for row in rows:
-            item = Booking(row['id'], row['user_id'], row['space_id'], row['start_date'], row['end_date'])
+            item = Booking(row['id'], row['user_id'], row['space_id'], row['start_date'], row['end_date'], row['status'])
             bookings.append(item)
         return bookings
     
     def make_booking(self, new_booking):
         self._connection.execute(
-            'INSERT INTO bookings (user_id, space_id, start_date, end_date) VALUES (%s, %s, %s, %s)',
-            [new_booking.user_id, new_booking.space_id, new_booking.start_date, new_booking.end_date]
+            'INSERT INTO bookings (user_id, space_id, start_date, end_date, status) VALUES (%s, %s, %s, %s, %s)',
+            [new_booking.user_id, new_booking.space_id, new_booking.start_date, new_booking.end_date, new_booking.status]
         )
 
 
@@ -30,6 +30,6 @@ class BookingRepository:
         if not rows:
             return None
         row = rows[0]
-        return Booking(row['id'], row['user_id'], row['space_id'], row['start_date'], row['end_date'])
+        return Booking(row['id'], row['user_id'], row['space_id'], row['start_date'], row['end_date'], row['status'])
 
 

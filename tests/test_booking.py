@@ -10,21 +10,24 @@ def test_booking_initialisation():
     assert booking.space_id == 3
     assert booking.start_date == datetime.date(2025, 1, 1)
     assert booking.end_date == datetime.date(2025, 1, 10)
+    assert booking.status == 'pending'
 
 def test_identical_bookings_are_equal():
-    first_booking = Booking(1, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10))
-    second_booking = Booking(1, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10))
+    first_booking = Booking(1, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10), 'pending')
+    second_booking = Booking(1, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10), 'pending')    
     assert first_booking == second_booking
     
-    different_booking = Booking(10, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10))
+    different_status_booking = Booking(1, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10), 'confirmed')
+    assert first_booking != different_status_booking
+
+    different_booking = Booking(10, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10), 'pending')
     assert first_booking != different_booking
 
 def test_booking_string_representation():
-    booking = Booking(1, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10))
-    expected = "Booking(1, 2, 3, 2025-01-01, 2025-01-10)"
-    
-    assert repr(booking) == expected
+    booking = Booking(1, 2, 3, datetime.date(2025, 1, 1), datetime.date(2025, 1, 10), 'pending')
+    expected = "Booking(1, 2, 3, 2025-01-01, 2025-01-10, 'pending')"
+
+    assert str(booking) == expected
 
 
 
-    
