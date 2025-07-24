@@ -1,4 +1,4 @@
-from lib.forms import RegistrationForm
+from lib.forms import RegistrationForm, SpaceForm
 import pytest
 from app import app
 
@@ -102,3 +102,25 @@ def test_registration_form_missing_name():
     # Should have an error on the name field
     assert 'Name is required' in form.name.errors
 
+def test_new_space_form():
+    # create space form data (simulating user exp when interacting with a web form)
+    form_data = {
+        "name": "Cozy london flat",  
+        "description": "A beautiful 1-bedroom flat in central london",
+        "price_per_night": 85.00,
+        "user_id": 1,
+    }
+    # Create the form with our test data
+    form = SpaceForm(data=form_data)
+    
+    # CSRF enabled by default in FLask-WTF - to avoid unit test errors - Manually setting a valid CSRF token as not testing CSRF functionality in form_data
+    form.csrf_token.data = form.csrf_token.current_token
+    
+    # The form should be valid
+    assert form.validate() == True
+    
+    # Check that we can access the data
+    assert form.name.data == "Cozy london flat"
+    assert form.description.data == "A beautiful 1-bedroom flat in central london"
+    assert form.price_per_night.data == 85.00
+    assert form.user_id.data == 1

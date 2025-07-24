@@ -231,3 +231,8 @@ def test_listings(db_connection, test_web_address, page):
     # assert "Cozy london flat" in html
     # assert "£85.0" in html
 
+def test_create_space(db_connection, test_web_address, page):
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/spaces/new")
+    
+    
