@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, DecimalField, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 class RegistrationForm(FlaskForm):
@@ -74,3 +74,40 @@ class LoginForm(FlaskForm):
 
     # Submit button
     submit = SubmitField('Sign In')
+
+class SpaceForm(FlaskForm):
+    name = StringField(
+        'Name',
+        validators=[
+            DataRequired(message="Name is required"),
+            Length(max=60)
+        ], 
+        render_kw={"placeholder": "Enter the name of the space" })
+
+    description = StringField(
+        'Description',
+        validators=[
+            DataRequired(message="Description is required"),
+            Length(max=255)
+        ], 
+        render_kw={"placeholder": "Enter the description of the space" })
+
+    
+    price_per_night = DecimalField(
+        'Price per night',
+        validators=[
+            DataRequired(message="Price per night"),
+            
+        ], 
+        render_kw={"placeholder": "Enter price per night of the space" })
+
+# this can be removed when user field is implemented
+    user_id = IntegerField(
+        'User ID',
+        validators=[
+            DataRequired(message="User ID"),
+        ],
+        render_kw={"placeholder": "Enter user id of the space" })
+
+    # Submit button
+    submit = SubmitField('Add Space')

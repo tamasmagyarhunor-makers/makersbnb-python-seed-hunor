@@ -10,6 +10,7 @@
     </head>
     <body>
         <h1>All Spaces</h1>  
+        <a href="/spaces/new">Add a new space</a>
         {% for space in spaces %}
             <div class="listing_{{space.id}}">
                 <h5>
@@ -20,5 +21,6 @@
                 </p>
             </div>
         {% endfor %}
+        <a href="/index">Back to homepage</a>
     </body>
 </html>
