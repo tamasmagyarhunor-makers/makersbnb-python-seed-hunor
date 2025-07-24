@@ -63,6 +63,16 @@ def show_availability_by_availability_id(id):
 """
 get availability by space_id
 """
+@app.route('/spaces/<int:space_id>/availability', methods=['GET'])
+def show_availability_by_space(space_id):
+    connection = get_flask_database_connection(app)
+    repo   = AvailabilityRepository(connection)
+    availabilities = repo.find(space_id)  
+    return render_template(
+        'spaces/availability/space_availability.html',
+        space_id=space_id,
+        availabilities=availabilities
+    )
 
 
 """

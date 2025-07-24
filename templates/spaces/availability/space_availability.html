@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Availability for Space {{ space_id }}</title>
+</head>
+<body>
+  <h1>Availability for Space {{ space_id }}</h1>
+
+  <ul>
+  {% for a in availabilities %}
+    <li>
+      {{ a.available_from }} to {{ a.available_to }}
+    </li>
+  {% else %}
+    <li>No availability found for this space.</li>
+  {% endfor %}
+  </ul>
+
+  <a href="/spaces/availability/new?space_id={{ space_id }}">
+    Add availability for this space
+  </a>
+  <br>
+  <a href="/spaces">Back to all spaces</a>
+</body>
+</html>
