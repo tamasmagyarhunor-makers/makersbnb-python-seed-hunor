@@ -32,6 +32,66 @@ if not app.config['SECRET_KEY']:
 def get_index():
     return render_template('index.html')
 
+#new code below
+"""
+get all availabilities
+"""
+@app.route('/spaces/availability', methods=['GET'])
+def get_all_availabilities():
+    try:
+        connection = get_flask_database_connection(app)
+        repository = AvailabilityRepository(connection)
+        availability = repository.all()
+        return render_template('/spaces/availability/index.html', availabilities=availability)
+    except Exception as e:
+        return f"Database error: {e}"
+
+"""
+get availability by space_id
+"""
+@app.route('/spaces/availability/<int:space_id>', methods=['GET'])
+def show_availability(space_id):
+    connection = get_flask_database_connection(app)
+    repository = AvailabilityRepository(connection)
+    availability = repository.find(space_id)
+    return render_template('/spaces/availability/show.html', availability=availability)
+
+"""
+create a new availability"""
+# GET /availability/new
+# Returns a form to create a new availability
+@app.route('/spaces/availability/new', methods=['GET'])
+def get_new_availability():
+    return render_template('/spaces/availability/new.html')
+
+# POST /availability
+# Creates a new availability
+@app.route('/spaces/availability', methods=['POST'])
+def create_availability():
+    # Set up the database connection and repository
+    connection = get_flask_database_connection(app)
+    repository = AvailabilityRepository(connection)
+
+    # Get the fields from the request form
+    space_id = request.form['space_id']
+    available_from = request.form['available_from']
+    available_to = request.form['available_to']
+
+
+    # Create a book object
+    availability = Availability(None, space_id, available_from, available_to)
+
+    # Check for validity and if not valid, show the form again with errors
+    if not availability.is_valid():
+        return render_template('/spaces/availability/new.html', availability=availability, errors=availability.generate_errors()), 400
+
+    # Save the book to the database
+    availability = repository.create(availability)
+
+    # Redirect to the book's show route to the user can see it
+    return redirect(f"/spaces/availability/{availability.id}")
+
+
 
 # new code below
 """

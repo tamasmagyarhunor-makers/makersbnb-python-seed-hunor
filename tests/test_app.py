@@ -1,6 +1,72 @@
 from playwright.sync_api import Page, expect
 
+"""
+We can render the index page
+"""
+def test_get_index(page, test_web_address):
+    # We load a virtual browser and navigate to the /index page
+    page.goto(f"http://{test_web_address}/index")
 
+    # We look at the <p> tag
+    p_tag = page.locator("p")
+
+    # We assert that it has the text "This is the homepage."
+    expect(p_tag).to_have_text("This is the homepage.")
+
+
+"""
+Get all the availabilities
+"""
+def test_get_availabilities(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+
+    # We load a virtual browser and navigate to the /books page
+    page.goto(f"http://{test_web_address}/spaces/availability")
+
+    # We look at all the <li> tags
+    list_items = page.locator("li")
+
+    # We assert that it has the avais in it
+    expect(list_items).to_have_text([
+        "Space 1: 2025-07-24 to 2025-08-24",
+        "Space 1: 2025-09-30 to 2025-12-20",
+        "Space 2: 2025-07-24 to 2025-09-30",
+        "Space 3: 2025-07-24 to 2025-12-31"
+    ])
+
+"""
+When we create a new availability
+We see it in the availability index
+"""
+def test_create_availability(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/spaces/availability")
+
+    # add a new availability
+    page.click("text=Add a new availability")
+
+    page.fill("input[name='space_id']", "2")
+    page.fill("input[name='available_from']", "2025-10-10")
+    page.fill("input[name='available_to']", "2025-11-11")
+
+
+    # Finally we click the button with the text 'Create Book'
+    page.click("text=Create Availability")
+
+    # Just as before, the virtual browser acts just like a normal browser and
+    # goes to the next page without us having to tell it to.
+
+    space_id_element = page.locator(".t-space-id")
+    expect(space_id_element).to_have_text("Space ID: 2")
+
+    from_element = page.locator(".t-available-from")
+    expect(from_element).to_have_text("Available from: 2025-10-10")
+
+    to_element = page.locator(".t-available-to")
+    expect(to_element).to_have_text("Available to: 2025-11-11")
+
+
+    
 """
 We can render the index page
 """
