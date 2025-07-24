@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - MakersBnB</title>
+</head>
+<body>
+    <h1>Sign In</h1>
+    
+    <!-- Show any server errors -->
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    
+    <!-- Show form validation errors -->
+    {% if form.errors %}
+        <p style="color: red;">Please fix these errors:</p>
+        <ul>
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Login Form -->
+    <form method="POST" action="/login">
+        {{ form.hidden_tag() }}
+        
+        <p>
+            {{ form.email.label }}
+            {{ form.email }}
+        </p>
+        
+        <p>
+            {{ form.password.label }}
+            {{ form.password }}
+        </p>
+        
+        <p>
+            {{ form.submit }}
+        </p>
+    </form>
+    
+    <p>
+        Don't have an account? <a href="/register">Create one here</a>
+    </p>
+    
+    <p>
+        <a href="/users">View all users</a> | 
+        <a href="/index">Back to homepage</a>
+    </p>
+</body>
+</html>
