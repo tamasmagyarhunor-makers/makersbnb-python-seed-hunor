@@ -149,7 +149,7 @@ def get_new_user():
     return redirect('/register')
 
 @app.route('/spaces', methods=['GET'])
-# @login_required
+@login_required
 def get_spaces():
     space_repository = SpaceRepository(get_flask_database_connection(app))
     spaces = space_repository.all()
