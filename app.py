@@ -7,6 +7,7 @@ from lib.user import *
 from lib.user_repository import *
 from lib.forms import *
 from lib.space_repository import SpaceRepository
+from lib.space import Space
 
 # Load environment variables from .env file 
 load_dotenv()
@@ -153,12 +154,38 @@ Redirect old user creation route to new registration
 def get_new_user():
     return redirect('/register')
 
+"""
+Spaces routes
+"""
+
 @app.route('/spaces', methods=['GET'])
-# @login_required
+@login_required
 def get_spaces():
     space_repository = SpaceRepository(get_flask_database_connection(app))
     spaces = space_repository.all()
     return render_template("spaces/space.html", spaces=spaces)
+
+@app.route('/spaces/new', methods=['GET', 'POST'])
+def get_new_spaces():
+    form = SpaceForm()
+    
+    if form.validate_on_submit():
+            connection = get_flask_database_connection(app)
+            repository = SpaceRepository(connection)
+
+            space = Space(None, form.name.data, 
+            form.description.data, 
+            form.price_per_night.data, 
+            form.user_id.data)
+
+            repository.create(space)
+            return redirect('/spaces')
+    
+    # If GET request or form validation failed, show the form
+    return render_template('spaces/new.html', form=form)
+
+
+
 
 
 # These lines start the server if you run this file directly

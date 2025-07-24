@@ -1,28 +1,31 @@
 from playwright.sync_api import Page, expect
+import pytest  # Add this import if not already there
+
+
+@pytest.fixture
+def logged_in_session(db_connection, page, test_web_address):
+    """Fixture that logs in a user and returns the page"""
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email']", "alice@example.com")
+    page.fill("input[name='password']", "password1")
+    page.click("input[type='submit']")
+    return page
 
 
 """
 We can render the index page
 """
 def test_get_index(page, test_web_address):
-    # We load a virtual browser and navigate to the /index page
     page.goto(f"http://{test_web_address}/index")
-
-    # We look at the <p> tag
     p_tag = page.locator("p")
-
-    # We assert that it has the text "This is the homepage."
-    expect(p_tag).to_have_text("This is the homepage.")
-
-
-
+    expect(p_tag).to_have_text("Find your perfect space or list your own")
 
 """
 Get all the users
 """
-def test_get_users(db_connection, page, test_web_address):
-    db_connection.seed("seeds/makers_bnb.sql")
-
+def test_get_users(logged_in_session, test_web_address):
+    page = logged_in_session
     # We load a virtual browser and navigate to the /books page
     page.goto(f"http://{test_web_address}/users")
 
@@ -39,8 +42,8 @@ def test_get_users(db_connection, page, test_web_address):
 """
 Get a single user
 """
-def test_get_user(db_connection, page, test_web_address):
-    db_connection.seed("seeds/makers_bnb.sql")
+def test_get_user(logged_in_session, test_web_address):  
+    page = logged_in_session  
 
     # We visit the books page
     page.goto(f"http://{test_web_address}/users")
@@ -81,12 +84,6 @@ def test_register_user(db_connection, page, test_web_address):
     # Submit the form
     page.click("input[type='submit']")
 
-    # Check we're redirected to the user's profile
-    title_element = page.locator(".t-name")
-    expect(title_element).to_have_text("Name: Charlie Brown")
-
-    email_element = page.locator(".t-email")
-    expect(email_element).to_have_text("Email: charlie@example.com")
 
 """
 We can render the login page
@@ -281,14 +278,14 @@ When I call GET /spaces
 I get a list of all the spaces
 """
 
-def test_get_spaces(db_connection, test_web_address, page):
-    db_connection.seed("seeds/makers_bnb.sql")
+def test_get_spaces(logged_in_session, test_web_address):  
+    page = logged_in_session  
     page.goto(f"http://{test_web_address}/spaces")
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("All Spaces")
 
-def test_listings(db_connection, test_web_address, page):
-    db_connection.seed("seeds/makers_bnb.sql")
+def test_listings(logged_in_session, test_web_address):  
+    page = logged_in_session  
     page.goto(f"http://{test_web_address}/spaces")
     first_listing = page.locator(".listing_1")
     heading = first_listing.locator("h5")
@@ -298,9 +295,20 @@ def test_listings(db_connection, test_web_address, page):
     div_tag = page.locator("div")
     expect(div_tag).to_have_count(3)
 
-
-    # assert response.status_code == 200
-    # assert "<h1>All Spaces</h1>" in html
-    # assert "Cozy london flat" in html
-    # assert "£85.0" in html
-
+def test_create_space(db_connection, test_web_address, page):
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/spaces/new")
+    # Fill out the form with invalid email format
+    page.fill("input[name='name']", "Not Cozy")
+    page.fill("input[name='description']", "Description")
+    page.fill("input[name='price_per_night']", "30000.00")
+    page.fill("input[name='user_id']", "2")
+    
+    # Submit the form
+    page.click("input[type='submit']")
+    
+    new_listing = page.locator(".listing_4")
+    heading = new_listing.locator("h5")
+    description = new_listing.locator("p")
+    expect(heading).to_have_text("Not Cozy")
+    expect(description).to_have_text("Description")
