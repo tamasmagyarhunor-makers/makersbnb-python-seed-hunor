@@ -25,6 +25,7 @@ CREATE TABLE bookings (
     space_id INTEGER,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
+    status TEXT DEFAULT 'pending',
     CONSTRAINT fk_users
         FOREIGN KEY (user_id)
         REFERENCES users(id)
@@ -48,6 +49,6 @@ INSERT INTO spaces (user_id, name, description, price_per_night) VALUES
 (2, 'Modern Apartment', 'Stylish 2-bedroom apartment near the tube', 120.00);
 
 
-INSERT INTO bookings (user_id, space_id, start_date, end_date) VALUES
-(1, 3, '2025-01-01', '2025-01-05'),
-(2, 1, '2025-09-10', '2025-09-15');
+INSERT INTO bookings (user_id, space_id, start_date, end_date, status) VALUES
+(1, 3, '2025-01-01', '2025-01-05', 'confirmed'),
+(2, 1, '2025-09-10', '2025-09-15', 'confirmed');
