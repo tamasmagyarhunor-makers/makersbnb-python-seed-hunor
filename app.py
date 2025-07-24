@@ -125,6 +125,10 @@ Redirect old user creation route to new registration
 def get_new_user():
     return redirect('/register')
 
+"""
+Spaces routes
+"""
+
 @app.route('/spaces', methods=['GET'])
 def get_spaces():
     space_repository = SpaceRepository(get_flask_database_connection(app))
