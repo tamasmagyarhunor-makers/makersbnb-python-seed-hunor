@@ -1,6 +1,7 @@
+DROP TABLE IF EXISTS bookings; -- tests were failing as this line was below users. As it has fk dependencies it has to be dropped first
 DROP TABLE IF EXISTS spaces;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS bookings;
+
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
