@@ -173,13 +173,13 @@ def get_new_user():
 Spaces routes
 """
 @app.route('/spaces', methods=['GET'])
-@login_required
 def get_spaces():
     space_repository = SpaceRepository(get_flask_database_connection(app))
     spaces = space_repository.all()
     return render_template("spaces/space.html", spaces=spaces)
 
 @app.route('/spaces/new', methods=['GET', 'POST'])
+@login_required
 def get_new_spaces():
     form = SpaceForm()
     
@@ -187,10 +187,12 @@ def get_new_spaces():
             connection = get_flask_database_connection(app)
             repository = SpaceRepository(connection)
 
+            user_id = session.get("user.id")
+
             space = Space(None, form.name.data, 
             form.description.data, 
             form.price_per_night.data, 
-            form.user_id.data)
+            user_id)
 
             repository.create(space)
             return redirect('/spaces')
@@ -212,7 +214,7 @@ def get_all_availabilities():
     except Exception as e:
         return f"Database error: {e}"
 
-      
+
 """
 get availability by availability_id
 """
@@ -224,7 +226,7 @@ def show_availability_by_availability_id(id):
     availability = availabilities[0]
     return render_template('spaces/availability/show.html', availability=availability)
 
-  
+
 """
 get availability by space_id
 """

@@ -329,27 +329,27 @@ def test_listings(logged_in_session, test_web_address):
     page = logged_in_session  
     page.goto(f"http://{test_web_address}/spaces")
     first_listing = page.locator(".listing_1")
-    heading = first_listing.locator("h5")
+    heading = first_listing.locator("h4")
     description = first_listing.locator("p")
     expect(heading).to_have_text("Cozy london flat")
     expect(description).to_have_text("A beautiful 1-bedroom flat in central london")
     div_tag = page.locator("div")
     expect(div_tag).to_have_count(3)
 
-def test_create_space(db_connection, test_web_address, page):
+def test_create_space(db_connection, test_web_address, logged_in_session):
     db_connection.seed("seeds/makers_bnb.sql")
+    page = logged_in_session
     page.goto(f"http://{test_web_address}/spaces/new")
     # Fill out the form with invalid email format
     page.fill("input[name='name']", "Not Cozy")
     page.fill("input[name='description']", "Description")
     page.fill("input[name='price_per_night']", "30000.00")
-    page.fill("input[name='user_id']", "2")
     
     # Submit the form
     page.click("input[type='submit']")
     
     new_listing = page.locator(".listing_4")
-    heading = new_listing.locator("h5")
+    heading = new_listing.locator("h4")
     description = new_listing.locator("p")
     expect(heading).to_have_text("Not Cozy")
     expect(description).to_have_text("Description")
