@@ -1,6 +1,8 @@
 import os
 from flask import Flask, request, render_template, redirect, session, url_for
 from functools import wraps
+from datetime import datetime
+
 from lib.database_connection import get_flask_database_connection
 from dotenv import load_dotenv
 from lib.user import *
@@ -8,11 +10,12 @@ from lib.user_repository import *
 from lib.forms import *
 from lib.space_repository import SpaceRepository
 from lib.space import Space
+from lib.availability import *
+from lib.availability_repository import *
+
 
 # Load environment variables from .env file 
 load_dotenv()
-
-
 
 
 # Create a new Flask app
@@ -55,6 +58,7 @@ def index():
 def get_index():
     return render_template('index.html')
 
+
 """
 get all users
 """
@@ -68,6 +72,7 @@ def get_users():
         return render_template('users/index.html', users=users)
     except Exception as e:
         return f"Database error: {e}"
+    
     
 """
 get a single user by id
@@ -116,6 +121,7 @@ def register():
     # If GET request or form validation failed, show the form
     return render_template('auth/register.html', form=form)
 
+  
 """
 User Login if existing
 """
@@ -145,6 +151,7 @@ def login():
     # If GET request or form validation failed, show the form
     return render_template('auth/login.html', form=form)
 
+  
 """
 Log user logout and redirect to login
 """
@@ -153,6 +160,7 @@ def logout():
     session.clear()
     return redirect('/login')
 
+  
 """
 Redirect old user creation route to new registration
 """
@@ -160,10 +168,10 @@ Redirect old user creation route to new registration
 def get_new_user():
     return redirect('/register')
 
+  
 """
 Spaces routes
 """
-
 @app.route('/spaces', methods=['GET'])
 @login_required
 def get_spaces():
@@ -191,7 +199,76 @@ def get_new_spaces():
     return render_template('spaces/new.html', form=form)
 
 
+"""
+get all availabilities
+"""
+@app.route('/spaces/availability', methods=['GET'])
+def get_all_availabilities():
+    try:
+        connection = get_flask_database_connection(app)
+        repository = AvailabilityRepository(connection)
+        availability = repository.all()
+        return render_template('/spaces/availability/index.html', availabilities=availability)
+    except Exception as e:
+        return f"Database error: {e}"
 
+      
+"""
+get availability by availability_id
+"""
+@app.route('/spaces/availability/<int:id>', methods=['GET'])
+def show_availability_by_availability_id(id):
+    connection = get_flask_database_connection(app)
+    repository = AvailabilityRepository(connection)
+    availabilities = repository.find_by_id(id)
+    availability = availabilities[0]
+    return render_template('spaces/availability/show.html', availability=availability)
+
+  
+"""
+get availability by space_id
+"""
+@app.route('/spaces/<int:space_id>/availability', methods=['GET'])
+def show_availability_by_space(space_id):
+    connection = get_flask_database_connection(app)
+    repo   = AvailabilityRepository(connection)
+    availabilities = repo.find(space_id)  
+    return render_template(
+        'spaces/availability/space_availability.html',
+        space_id=space_id,
+        availabilities=availabilities
+    )
+
+
+"""
+create a new availability
+"""
+# GET /availability/new
+# Returns a form to create a new availability
+@app.route('/spaces/availability/new', methods=['GET'])
+def get_new_availability():
+    return render_template('/spaces/availability/new.html')
+
+# POST /availability
+# Creates a new availability
+@app.route('/spaces/availability', methods=['POST'])
+def create_availability():
+    connection = get_flask_database_connection(app)
+    repository = AvailabilityRepository(connection)
+
+    space_id = int(request.form['space_id'])
+    # parse ISO 'YYYY-MM-DD' into date
+    available_from = datetime.strptime(request.form['available_from'], '%Y-%m-%d').date()
+    available_to   = datetime.strptime(request.form['available_to'],   '%Y-%m-%d').date()
+
+    availability = Availability(None, space_id, available_from, available_to)
+    if not availability.is_valid():
+        return render_template('spaces/availability/new.html', availability=availability, errors=availability.generate_errors()), 400
+
+    availability = repository.create(availability)
+    return redirect(f"/spaces/availability/{availability.id}")
+
+  
 
 
 # These lines start the server if you run this file directly

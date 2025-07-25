@@ -15,11 +15,11 @@
         {% for space in spaces %}
             <div class="listing_{{space.id}}">
                 <h5>
-                    {{space.name}}
+                    <a href="/spaces/{{ space.id }}/availability">
+                        {{ space.name }}
+                    </a>
                 </h5>
-                <p>
-                    {{space.description}}
-                </p>
+                <p>{{ space.description }}</p>
             </div>
         {% endfor %}
         <a href="/index">Back to homepage</a>
