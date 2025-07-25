@@ -76,7 +76,7 @@ class LoginForm(FlaskForm):
 
 class SpaceForm(FlaskForm):
     name = StringField(
-        'Name',
+        'Name:',
         validators=[
             DataRequired(message="Name is required"),
             Length(max=60)
@@ -84,7 +84,7 @@ class SpaceForm(FlaskForm):
         render_kw={"placeholder": "Enter the name of the space" })
 
     description = StringField(
-        'Description',
+        'Description:',
         validators=[
             DataRequired(message="Description is required"),
             Length(max=255)
@@ -93,7 +93,7 @@ class SpaceForm(FlaskForm):
 
     
     price_per_night = DecimalField(
-        'Price per night',
+        'Price (per night):',
         validators=[
             DataRequired(message="Price per night"),
             
