@@ -47,6 +47,10 @@ def login_required(route_function):
         return route_function(*args, **kwargs)
     return wrapper
     
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/index', methods=['GET'])
 def get_index():
     return render_template('index.html')
@@ -100,11 +104,13 @@ def register():
             # Save user to database
             user = repository.create(user)
             
+            # Log the user in automatically
+            session["user_id"] = user.id 
+
             # Redirect to the user's profile page
             return redirect(f"/users/{user.id}")
             
         except Exception as e:
-            # Handle database errors gracefully
             return render_template('auth/register.html', form=form, error=f"Registration failed: {e}")
     
     # If GET request or form validation failed, show the form
