@@ -8,7 +8,6 @@ class RegistrationForm(FlaskForm):
     Flask-WTF automatically handles CSRF (Cross-Site Request Forgery) protection and validation - keeping forms secure
     """
 
-
     name = StringField(
         'Full Name',
         validators=[DataRequired(message="Name is required")],
@@ -77,7 +76,7 @@ class LoginForm(FlaskForm):
 
 class SpaceForm(FlaskForm):
     name = StringField(
-        'Name',
+        'Name:',
         validators=[
             DataRequired(message="Name is required"),
             Length(max=60)
@@ -85,7 +84,7 @@ class SpaceForm(FlaskForm):
         render_kw={"placeholder": "Enter the name of the space" })
 
     description = StringField(
-        'Description',
+        'Description:',
         validators=[
             DataRequired(message="Description is required"),
             Length(max=255)
@@ -94,20 +93,12 @@ class SpaceForm(FlaskForm):
 
     
     price_per_night = DecimalField(
-        'Price per night',
+        'Price (per night):',
         validators=[
             DataRequired(message="Price per night"),
             
         ], 
         render_kw={"placeholder": "Enter price per night of the space" })
-
-# this can be removed when user field is implemented
-    user_id = IntegerField(
-        'User ID',
-        validators=[
-            DataRequired(message="User ID"),
-        ],
-        render_kw={"placeholder": "Enter user id of the space" })
 
     # Submit button
     submit = SubmitField('Add Space')

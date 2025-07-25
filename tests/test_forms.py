@@ -108,7 +108,6 @@ def test_new_space_form():
         "name": "Cozy london flat",  
         "description": "A beautiful 1-bedroom flat in central london",
         "price_per_night": 85.00,
-        "user_id": 1,
     }
     # Create the form with our test data
     form = SpaceForm(data=form_data)
@@ -123,4 +122,3 @@ def test_new_space_form():
     assert form.name.data == "Cozy london flat"
     assert form.description.data == "A beautiful 1-bedroom flat in central london"
     assert form.price_per_night.data == 85.00
-    assert form.user_id.data == 1
