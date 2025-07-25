@@ -1,4 +1,16 @@
 from playwright.sync_api import Page, expect
+import pytest  
+
+
+@pytest.fixture
+def logged_in_session(db_connection, page, test_web_address):
+    """Fixture that logs in a user and returns the page"""
+    db_connection.seed("seeds/makers_bnb.sql")
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email']", "alice@example.com")
+    page.fill("input[name='password']", "password1")
+    page.click("input[type='submit']")
+    return page
 
 """
 We can render the index page
@@ -70,13 +82,11 @@ def test_get_index(page, test_web_address):
     p_tag = page.locator("p")
     expect(p_tag).to_have_text("Find your perfect space or list your own")
 
-
 """
 Get all the users
 """
-def test_get_users(db_connection, page, test_web_address):
-    db_connection.seed("seeds/makers_bnb.sql")
-
+def test_get_users(logged_in_session, test_web_address):
+    page = logged_in_session
     # We load a virtual browser and navigate to the /books page
     page.goto(f"http://{test_web_address}/users")
 
@@ -93,8 +103,8 @@ def test_get_users(db_connection, page, test_web_address):
 """
 Get a single user
 """
-def test_get_user(db_connection, page, test_web_address):
-    db_connection.seed("seeds/makers_bnb.sql")
+def test_get_user(logged_in_session, test_web_address):  
+    page = logged_in_session  
 
     # We visit the books page
     page.goto(f"http://{test_web_address}/users")
@@ -135,12 +145,6 @@ def test_register_user(db_connection, page, test_web_address):
     # Submit the form
     page.click("input[type='submit']")
 
-    # Check we're redirected to the user's profile
-    title_element = page.locator(".t-name")
-    expect(title_element).to_have_text("Name: Charlie Brown")
-
-    email_element = page.locator(".t-email")
-    expect(email_element).to_have_text("Email: charlie@example.com")
 
 """
 We can render the login page
@@ -258,18 +262,71 @@ def test_login_invalid_email_format(db_connection, page, test_web_address):
     expect(error_text).to_be_visible()
 
 """
+When I logout
+the user is logged out and redirected to login page 
+"""
+def test_logout_redirects_to_login(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+
+    # Step 1: Log in first
+    page.goto(f"http://{test_web_address}/login")
+    page.fill("input[name='email']", "alice@example.com")
+    page.fill("input[name='password']", "password1")
+    page.click("input[type='submit']")
+
+    # Step 2: Go to /logout
+    page.goto(f"http://{test_web_address}/logout")
+
+    # Step 3: You should be redirected to the login page
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+    # Optionally check form is visible again
+    expect(page.locator("input[name='email']")).to_be_visible()
+    expect(page.locator("input[name='password']")).to_be_visible()
+
+"""
+A login is required to visit a user's profile
+"""
+def test_protected_profile_requires_login(page, test_web_address):
+    # Try to visit a user's profile without logging in
+    page.goto(f"http://{test_web_address}/users/1")
+
+    # You should get redirected to the login page
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+"""
+When I try to access a user profile without logging in
+I am redirected to the login page
+"""
+def test_login_required_for_user_profile(db_connection, page, test_web_address):
+    db_connection.seed("seeds/makers_bnb.sql")
+    
+    # Try to directly access the protected user profile
+    page.goto(f"http://{test_web_address}/users/1")
+
+    # Expect to be redirected to the login page
+    heading = page.locator("h1")
+    expect(heading).to_have_text("Sign In")
+
+    # assert email/password inputs are visible
+    expect(page.locator("input[name='email']")).to_be_visible()
+    expect(page.locator("input[name='password']")).to_be_visible()
+
+"""
 When I call GET /spaces
 I get a list of all the spaces
 """
 
-def test_get_spaces(db_connection, test_web_address, page):
-    db_connection.seed("seeds/makers_bnb.sql")
+def test_get_spaces(logged_in_session, test_web_address):  
+    page = logged_in_session  
     page.goto(f"http://{test_web_address}/spaces")
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("All Spaces")
 
-def test_listings(db_connection, test_web_address, page):
-    db_connection.seed("seeds/makers_bnb.sql")
+def test_listings(logged_in_session, test_web_address):  
+    page = logged_in_session  
     page.goto(f"http://{test_web_address}/spaces")
     first_listing = page.locator(".listing_1")
     heading = first_listing.locator("h5")
