@@ -19,3 +19,11 @@ class SpaceRepository():
             [space.name, space.description, space.price_per_night, space.user_id]
         )
 
+    def find(self, id):
+        rows = self._connection.execute('SELECT * FROM spaces WHERE id = %s', [id])
+        spaces = []
+        for row in rows:
+            item = Space(row["id"], row["name"], row["description"], row['price_per_night'], row['user_id'])
+            spaces.append(item)
+        return spaces[0]
+
