@@ -253,9 +253,9 @@ def get_new_availability():
     connection = get_flask_database_connection(app)
     repository = SpaceRepository(connection)
 
-    space_id = space_id = int(request.args['space_id'])
+    space_id = request.args['space_id']
     user_id = session.get("user.id")
-    space = repository.find(space_id)
+    space = repository.find(int(space_id))
 
     if user_id == space.user_id:
         return render_template('/spaces/availability/new.html', space_id=space_id)
@@ -269,6 +269,7 @@ def create_availability():
     repository = AvailabilityRepository(connection)
 
     space_id = int(request.form['space_id'])
+    print(space_id)
     # parse ISO 'YYYY-MM-DD' into date
     available_from = datetime.strptime(request.form['available_from'], '%Y-%m-%d').date()
     available_to   = datetime.strptime(request.form['available_to'],   '%Y-%m-%d').date()
